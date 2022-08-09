@@ -1,0 +1,53 @@
+.container{
+  display: grid;
+  grid-template-rows: 1fr 2fr 1fr;
+}
+.header{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 3fr 1.5fr;
+  justify-content: space-between;
+  align-items: center;
+}
+.profilebox_container{
+  display: flex;
+  flex-direction: row;
+}
+.profilebox__container{
+  max-width: 60px;
+  max-height: 60px;
+  border-radius: 10px;
+  border: 3px solid var(--ion-color-primary);
+  background-color: rgba(95, 158, 160, 0.692);
+}
+.upperbox__container{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-family: "BlackOpsOne-Regular";
+  /* justify-content: space-around; */
+}
+
+.rankbox__container,.lifesbox__container{
+  display: flex;
+  width: 90%;
+  justify-content: space-around;
+  align-items: flex-end;
+  padding: 6px;
+  border-radius: 10px;
+  border: 3px solid var(--ion-color-primary);
+}
+.upperbox__icon{
+  font-size: 1.3em;
+}
+.main__title{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.main__title h1{
+  font-size: 2em;
+}
+.main__title ion-button{
+  color: white;
+}
