@@ -1,9 +1,5 @@
 import {
   IonApp,
-  IonCol,
-  IonContent,
-  IonGrid,
-  IonRow,
   setupIonicReact,
 } from "@ionic/react";
 
@@ -26,19 +22,14 @@ import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 import "./styles/home.css"
-import Header from "./components/Header";
-import MainTitle from "./components/MainTitle";
+import Routes from "./Routes";
+
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
-    <IonContent class="ion-padding" className="main__content">
-      <div className="container">
-        <Header/>
-        <MainTitle/>
-      </div>
-    </IonContent>
+    <Routes/>
   </IonApp>
 );
 

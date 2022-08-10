@@ -8,7 +8,7 @@ type Props = {};
 const Header = (props: Props) => {
   return (
     <div className="header">
-      <div className="profilebox__container">
+      <div className="profilebox__container" id="open-profile-modal" onClick={()=>console.log('aaa')} >
         <IonImg src="/assets/avatars/zombie_fa_5.png" />
       </div>
       <div className="upperbox__container">

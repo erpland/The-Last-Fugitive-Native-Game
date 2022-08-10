@@ -235,7 +235,9 @@ http://ionicframework.com/docs/theming/ */
     rgba(80, 76, 143, 1) 0%,
     rgba(45, 43, 79, 1) 100%
   );
+  max-height: 100vh;
 }
+
 ion-button {
   font-family: "BlackOpsOne-Regular";
 }

@@ -1,6 +1,8 @@
+
 .container{
   display: grid;
-  grid-template-rows: 1fr 2fr 1fr;
+  grid-template-rows: 20vmin 60vmin 20vmin;
+  color: white;
 }
 .header{
   width: 100%;
@@ -14,8 +16,8 @@
   flex-direction: row;
 }
 .profilebox__container{
-  max-width: 60px;
-  max-height: 60px;
+  max-width: 15vmin;
+  max-height: 15vmin;
   border-radius: 10px;
   border: 3px solid var(--ion-color-primary);
   background-color: rgba(95, 158, 160, 0.692);
@@ -32,22 +34,58 @@
   width: 90%;
   justify-content: space-around;
   align-items: flex-end;
-  padding: 6px;
+  padding: 1.5vmin;
   border-radius: 10px;
   border: 3px solid var(--ion-color-primary);
+  font-size: 3.5vmin;
 }
 .upperbox__icon{
-  font-size: 1.3em;
+  font-size: 5vmin;
 }
 .main__title{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: max-content;
+  gap: 2vmin;
+  justify-self: center;
+  text-shadow: 2px 2px #555;
 }
 .main__title h1{
-  font-size: 2em;
+  font-size: 10vmin;
+}
+.main__hero{
+  position: absolute;
+}
+.main__hero img{
+  object-fit: contain;
 }
 .main__title ion-button{
   color: white;
+}
+.main__footer{
+  width: 80%;
+  justify-self: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 5vmin;
+}
+
+ion-modal#profile-modal {
+  --height: 70%;
+  --width:50%;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+ion-modal#profile-modal::part(backdrop) {
+  background: rgba(209, 213, 219);
+  opacity: 1;
+}
+
+ion-modal#profile-modal ion-toolbar {
+  --background: rgb(14 116 144);
+  --color: white;
 }
