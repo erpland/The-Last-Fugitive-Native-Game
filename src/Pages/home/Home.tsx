@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { IonPage,IonContent } from "@ionic/react";
-import Header from "../components/Home/Header";
-import MainTitle from "../components/Home/MainTitle";
-import Footer from "../components/Home/Footer";
-import ProfileModal from "../components/Home/ProfileModal";
-
+import Header from "./components/Header";
+import MainTitle from "./components/MainTitle";
+import Footer from "./components/Footer";
+import ProfileModal from "./components/ProfileModal";
+import './styles/home.scss'
+import LevelsModal from "./components/LevelsModal";
 type Props = {};
 
 const Home: React.FC = (props: Props) => {
-  const [profileModal, setProfileModal] = useState(false)
   return (
     <IonPage>
       <IonContent
@@ -16,6 +16,7 @@ const Home: React.FC = (props: Props) => {
         className="main__content"
       >
         <ProfileModal/>
+        <LevelsModal/>
         <div className="container">
           <Header/>
           <MainTitle />

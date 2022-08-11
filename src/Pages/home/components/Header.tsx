@@ -13,7 +13,7 @@ const Header = (props: Props) => {
       </div>
       <div className="upperbox__container">
         <div className="rankbox__container">
-          <IonIcon icon={star} className="upperbox__icon" color={"warning"} />
+          <IonIcon icon={star} color={"warning"} />
           <span>300</span>
         </div>
         <div className="lifesbox__container">

@@ -2,8 +2,8 @@ import React from 'react'
 import { IonReactRouter } from '@ionic/react-router';
 import { Route } from 'react-router-dom';
 import { IonRouterOutlet } from '@ionic/react';
-import Home from './Pages/Home';
-import Game from './Pages/Game';
+import Home from './Pages/home/Home';
+import Game from './Pages/game/Game';
 
 type Props = {}
 
