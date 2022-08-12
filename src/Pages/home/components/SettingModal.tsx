@@ -2,13 +2,13 @@ import {
   IonButton,
   IonHeader,
   IonIcon,
-  IonInput,
-  IonItem,
   IonModal,
+  IonRange,
   IonTitle,
+  IonToggle,
   IonToolbar,
 } from "@ionic/react";
-import {logoFacebook,logoGoogle} from "ionicons/icons";
+import { volumeMute, volumeHigh } from "ionicons/icons";
 import React, { useRef } from "react";
 
 type Props = {};
@@ -19,12 +19,34 @@ const SettingsModal: React.FC = (props: Props) => {
     <IonModal id="settings-modal" ref={modal} trigger="open-settings-modal">
       <IonHeader>
         <IonToolbar>
-          <IonTitle>settings</IonTitle>
+          <IonTitle>Settings</IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <div className="settings-modal__body">
+        <div className="settings-modal__range">
+          <span>Sounds</span>
+        <IonRange>
+          <IonIcon slot="start" icon={volumeMute}></IonIcon>
+          <IonIcon slot="end" icon={volumeHigh}></IonIcon>
+        </IonRange>
         </div>
+        <div className="settings-modal__range">
+          <span>Music</span>
+        <IonRange>
+          <IonIcon slot="start" icon={volumeMute}></IonIcon>
+          <IonIcon slot="end" icon={volumeHigh}></IonIcon>
+        </IonRange>
+        </div>
+        <div className="settings-modal__toggle">
+          <span>Notifications</span>
+          <IonToggle/>
+        </div>
+        <div className="settings-modal__buttons">
+          <IonButton fill="outline" style={{color:"white"}}>Cancel</IonButton>
+          <IonButton color="primary">Save</IonButton>
+        </div>
+      </div>
     </IonModal>
   );
 };

@@ -7,7 +7,7 @@ const Footer = (props: Props) => {
   return <div className="main__footer">
     <IonIcon icon={shareSocial}/>
     <IonIcon  icon={thumbsUp}/>
-    <IonIcon icon={settings}/>
+    <IonIcon icon={settings} id="open-settings-modal"/>
   </div>;
 };
 

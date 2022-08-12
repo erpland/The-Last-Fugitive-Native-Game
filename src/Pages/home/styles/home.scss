@@ -100,7 +100,8 @@ ion-modal {
 }
 
 ion-modal#profile-modal,
-ion-modal#connect-modal {
+ion-modal#connect-modal,
+ion-modal#settings-modal {
   --height: max-contnet;
   --width: 40%;
 }
@@ -164,6 +165,34 @@ ion-modal#connect-modal {
     ion-icon{
       padding: 5px;
     }
+  }
+}
+.settings-modal__body{
+  display: grid;
+  padding: 20px;
+  gap: 10px;
+  color: white;
+  // justify-content:;
+  
+  .settings-modal__range{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .settings-modal__toggle{
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    justify-items: space-around;
+  }
+  .settings-modal__buttons{
+    justify-self: center;
+    width: 80%;
+    display: flex;
+    justify-content: space-evenly;
+    color: white;
   }
 }
 ion-modal#levels-modal {
