@@ -8,6 +8,7 @@ import './styles/home.scss'
 import LevelsModal from "./components/LevelsModal";
 import ConnectModal from "./components/ConnectModal";
 import SettingsModal from "./components/SettingModal";
+import FinishModal from "./components/FinishModal";
 type Props = {};
 
 const Home: React.FC = (props: Props) => {
@@ -17,6 +18,7 @@ const Home: React.FC = (props: Props) => {
         class="ion-padding-start ion-padding-end"
         className="main__content"
       >
+        <FinishModal isWon={true} moves={8} score={5} stars={2}/>
         <SettingsModal/>
         <ConnectModal/>
         <ProfileModal/>

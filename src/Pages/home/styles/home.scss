@@ -1,6 +1,7 @@
 $icons-size__small: 5vmin;
 $icons-size__medium: 8vmin;
 $icons-size__large: 10vmin;
+$icons-size__xl: 15vmin;
 $text_small: 3.5vmin;
 $text_headline: 10vmin;
 $dark_color: #24263f;
@@ -101,10 +102,12 @@ ion-modal {
 
 ion-modal#profile-modal,
 ion-modal#connect-modal,
-ion-modal#settings-modal {
+ion-modal#settings-modal,
+ion-modal#finish-modal {
   --height: max-contnet;
   --width: 40%;
 }
+
 .profile-modal__body {
   padding: 20px 0;
   width: 100%;
@@ -136,58 +139,58 @@ ion-modal#settings-modal {
   grid-template-rows: 3fr 1fr auto;
   justify-content: center;
   align-items: center;
-  form{
+  form {
     gap: 3vmin;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
   }
-  .connect-modal__divider{
+  .connect-modal__divider {
     color: white;
     border-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    .hr{
+    .hr {
       border-top: 1px solid white;
       padding: 2px;
       width: 100%;
     }
   }
-  .connect-modal__icons{
+  .connect-modal__icons {
     justify-self: center;
     color: white;
     font-size: $icons-size__medium;
     display: flex;
     width: 90%;
     justify-content: space-around;
-    ion-icon{
+    ion-icon {
       padding: 5px;
     }
   }
 }
-.settings-modal__body{
+.settings-modal__body {
   display: grid;
   padding: 20px;
   gap: 10px;
   color: white;
   // justify-content:;
-  
-  .settings-modal__range{
+
+  .settings-modal__range {
     display: grid;
     grid-template-columns: 1fr 3fr;
     width: 100%;
     justify-content: space-around;
     align-items: center;
   }
-  .settings-modal__toggle{
+  .settings-modal__toggle {
     justify-self: center;
     display: flex;
     align-items: center;
     justify-items: space-around;
   }
-  .settings-modal__buttons{
+  .settings-modal__buttons {
     justify-self: center;
     width: 80%;
     display: flex;
@@ -239,5 +242,38 @@ ion-modal#levels-modal {
         }
       }
     }
+  }
+}
+
+.finish-modal__body {
+  display: grid;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  padding: 20px;
+  gap: 3vmin;
+  .finish-modal__icons {
+    display: flex;
+    font-size: $icons-size__xl;
+    ion-icon {
+      padding: 1vmin;
+    }
+  }
+  h2{
+    text-align: center;
+    font-size: $icons-size__medium;
+  }
+  .text-container{
+    font-size: $icons-size__small;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+  }
+  .finish-modal__button-container{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    
   }
 }
