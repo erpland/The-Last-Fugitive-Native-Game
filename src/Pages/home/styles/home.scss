@@ -1,5 +1,6 @@
 $icons-size__small: 5vmin;
 $icons-size__medium: 8vmin;
+$icons-size__large: 10vmin;
 $text_small: 3.5vmin;
 $text_headline: 10vmin;
 $dark_color: #24263f;
@@ -67,7 +68,7 @@ $background_modal: #383756;
   .main__hero {
     position: absolute;
     left: 50%;
-    
+
     img {
       object-fit: contain;
     }
@@ -93,36 +94,75 @@ ion-modal {
   ion-header {
     text-align: center;
   }
-  ion-title{
+  ion-title {
     font-size: 5vmin;
   }
 }
 
-ion-modal#profile-modal {
+ion-modal#profile-modal,
+ion-modal#connect-modal {
   --height: max-contnet;
   --width: 40%;
+}
+.profile-modal__body {
+  padding: 20px 0;
+  width: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+  height: 100%;
+  gap: 3vmin;
 
-  .profile-modal__body {
-    padding: 20px 0;
-    width: 100%;
-    display: grid;
-    grid-template-rows: auto 1fr 1fr;
-    justify-items: center;
-    align-items: center;
-    height: 100%;
+  img {
+    max-width: 30vmin;
+    border-radius: 10px;
+    border: 3px solid var(--ion-color-primary);
+    background-color: rgba(95, 158, 160, 0.692);
+  }
+  div {
+    width: 80%;
+    display: flex;
+    justify-content: space-evenly;
+    color: white;
+  }
+}
+.connect-modal__body {
+  padding: 20px 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 3fr 1fr auto;
+  justify-content: center;
+  align-items: center;
+  form{
     gap: 3vmin;
-    
-    img {
-      max-width: 30vmin;
-      border-radius: 10px;
-      border: 3px solid var(--ion-color-primary);
-      background-color: rgba(95, 158, 160, 0.692);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .connect-modal__divider{
+    color: white;
+    border-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .hr{
+      border-top: 1px solid white;
+      padding: 2px;
+      width: 100%;
     }
-    div {
-      width: 80%;
-      display: flex;
-      justify-content: space-evenly;
-      color: white;
+  }
+  .connect-modal__icons{
+    justify-self: center;
+    color: white;
+    font-size: $icons-size__medium;
+    display: flex;
+    width: 90%;
+    justify-content: space-around;
+    ion-icon{
+      padding: 5px;
     }
   }
 }
@@ -130,7 +170,7 @@ ion-modal#levels-modal {
   --width: 60%;
   --height: 80%;
   padding: 10px;
-  
+
   .levels-modal__body {
     overflow-y: visible;
     display: grid;
@@ -152,21 +192,20 @@ ion-modal#levels-modal {
       border: 3px solid var(--ion-color-primary);
       border-radius: 10px;
       font-size: $icons-size__small;
-      
-      
+
       .level-box__stars {
         position: absolute;
         top: 0;
         background: none;
         display: flex;
         transform: translate(0, -60%);
-        ion-icon{
+        ion-icon {
           padding: 3px;
         }
       }
       .level-box__box {
         color: white;
-        ion-icon{
+        ion-icon {
           font-size: $icons-size__medium;
         }
       }
