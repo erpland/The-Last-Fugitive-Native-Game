@@ -94,9 +94,11 @@ ion-modal {
   }
   ion-header {
     text-align: center;
+    // width: 100%;
   }
-  ion-title {
+  span {
     font-size: 5vmin;
+    vertical-align: middle;
   }
 }
 

@@ -19,7 +19,8 @@ const ConnectModal: React.FC = (props: Props) => {
     <IonModal id="connect-modal" ref={modal} trigger="open-connect-modal">
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Connect</IonTitle>
+          {/* <IonTitle>Connect</IonTitle> */}
+          <span>Connect</span>
         </IonToolbar>
       </IonHeader>
 
