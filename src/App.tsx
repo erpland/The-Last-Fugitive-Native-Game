@@ -23,7 +23,6 @@ import { StatusBar } from "@capacitor/status-bar";
 import Routes from "./Routes";
 import { useEffect } from "react";
 import { AndroidFullScreen } from "@awesome-cordova-plugins/android-full-screen";
-import { fetchUserByid, registerUser,loginUser,getAllLevels,getAllHints } from "./Database/database";
 
 setupIonicReact();
 
@@ -41,26 +40,6 @@ const App: React.FC = () => {
     };
     hideStatusBar();
     fullScreen();
-  }, []);
-
-  useEffect(() => {
-    // const levels = async () => {
-    //   const levelList = await getAllLevels();
-    //   console.log(levelList);
-    // };
-    // levels();
-
-    // const hints = async () => {
-    //   const hintList = await getAllHints();
-    //   console.log(hintList);
-    // };
-    // hints();
-
-
-    // const getUser = async ()=>{
-    //   console.log(await fetchUserByid("62b88b2750a3ed8acc734465"))
-    // }
-    // getUser()
   }, []);
 
   return (

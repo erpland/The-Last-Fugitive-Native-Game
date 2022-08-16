@@ -12,6 +12,18 @@ http://ionicframework.com/docs/theming/ */
     url("../fonts/SpecialElite-Regular.ttf") format("truetype");
   font-weight: bold;
 }
+@font-face{
+  font-family: "roboto";
+  src:local("Robot-Regular"),
+  url("../fonts/Roboto/Roboto-Regular.ttf") format("truetype");
+  font-weight:normal;
+}
+@font-face{
+  font-family: "roboto";
+  src:local("Robot-bold"),
+  url("../fonts/Roboto/Roboto-Bold.ttf") format("truetype");
+  font-weight:bold;
+}
 /** Ionic CSS Variables **/
 :root {
   --ion-font-family: "SpecialElite-Regular";
@@ -249,3 +261,8 @@ http://ionicframework.com/docs/theming/ */
 ion-button {
   font-family: "BlackOpsOne-Regular";
 }
+/* ion-modal{
+  --border-color:var(--ion-color-warning);
+  --border-width:3px;
+  --border-style:solid;
+} */

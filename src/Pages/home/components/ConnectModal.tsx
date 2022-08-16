@@ -1,3 +1,4 @@
+import React, { useRef } from "react";
 import {
   IonButton,
   IonHeader,
@@ -5,11 +6,9 @@ import {
   IonInput,
   IonItem,
   IonModal,
-  IonTitle,
   IonToolbar,
 } from "@ionic/react";
 import {logoFacebook,logoGoogle} from "ionicons/icons";
-import React, { useRef } from "react";
 
 type Props = {};
 
@@ -19,7 +18,6 @@ const ConnectModal: React.FC = (props: Props) => {
     <IonModal id="connect-modal" ref={modal} trigger="open-connect-modal">
       <IonHeader>
         <IonToolbar>
-          {/* <IonTitle>Connect</IonTitle> */}
           <span>Connect</span>
         </IonToolbar>
       </IonHeader>
