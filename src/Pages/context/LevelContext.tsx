@@ -1,16 +1,17 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 import {LevelContextType, LevelType} from '../../Types/levelTypes'
 
 export const LevelContext = createContext<LevelContextType | null>(null);
 
 const LevelContextProvider:React.FC<React.ReactNode> = ({children}) => {
-  const [allLevels, setAllLevels] = useState<LevelType[] | null>(null)
-  const [currentLevel,setCurrentLevel] = useState<LevelType | null>(null)
+  const [allLevels, setAllLevels] = useState<LevelType[] | []>([])
+  const [currentLevel,setCurrentLevel] = useState<LevelType | {}>({})
   return (
-    <LevelContext.Provider value={{allLevels,currentLevel}}>
+    <LevelContext.Provider value={{allLevels, setAllLevels, currentLevel,setCurrentLevel}}>
       {children}
     </LevelContext.Provider>
   )
 }
 
 export default LevelContextProvider
+export const useLevelContext = () => useContext(LevelContext) as LevelContextType

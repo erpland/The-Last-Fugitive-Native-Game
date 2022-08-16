@@ -1,54 +1,64 @@
-import { IonButton, IonInput, IonItem,useIonLoading  } from "@ionic/react";
-import React, { SetStateAction, useState, useContext } from "react";
-import { UserLoginType, UserContextType } from "../../../Types/userTypes";
-import { UserContext } from "../../context/UserContext";
-import { loginUser } from "../../../Database/database";
+import React, { SetStateAction, useState, useRef } from "react";
+import { IonButton, IonInput, IonItem } from "@ionic/react";
+import { InputKeyUpEvent } from "../../../Types/ionicTypes";
+import { UserLoginType } from "../../../Types/userTypes";
+import { useUserContext } from "../../context/UserContext";
+import { getAllLevels, loginUser } from "../../../Database/database";
 import { useIonRouter } from "@ionic/react";
+import { useLevelContext } from "../../context/LevelContext";
 type Props = {
   setisLoginComponent: React.Dispatch<SetStateAction<boolean>>;
-  modal:any
+  openLoader: ({})=>void;
+  closeLoader: ()=>void;
+  closeModal: ()=>void;
 };
 
 const Login: React.FC<Props> = (props) => {
   const router = useIonRouter();
-  const [present, dismiss] = useIonLoading();
   const [user, setUser] = useState<UserLoginType>({
     email: "",
     password: "",
   });
-  const { setCurrentUser } = useContext(
-    UserContext
-  ) as UserContextType;
-  
-  const validateEmail = (e: any) => {
-    let email = e.target.value;
-    setUser({ ...user, email });
+  const formRef = useRef<HTMLIonItemElement>(null);
+
+  const { setCurrentUser } = useUserContext();
+  const { setAllLevels, setCurrentLevel } = useLevelContext();
+
+  const displayPassword = (isPasswordFocus: boolean) => {
+    const display = isPasswordFocus ? "display:none;" : "display:unset;";
+    if (formRef.current) {
+      formRef.current.setAttribute('style',display)
+    }
   };
-  
-  const validatePassword = (e: any) => {
-    let password = e.target.value;
-    setUser({ ...user, password });
+
+  const passwordBlurHandler = (e:React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      (e.target as HTMLElement).blur();
+    }
   };
-  
-  const login = async (e: any) => {
+
+  const login = async (e: React.FormEvent) => {
     e.preventDefault();
-    present({
-      message: 'logging in...',
-      duration: 2500
-    })
+
+    props.openLoader({
+      message: "Logging In...",
+    });
     const loggedUser = await loginUser(user);
-    console.log("logged in:",loggedUser);
-    if (loggedUser) {
-      await setCurrentUser(loggedUser);
+    const allLevels = await getAllLevels();
+    props.closeLoader();
+    if (loggedUser && allLevels) {
+      setCurrentUser(loggedUser);
+      setAllLevels(allLevels);
+      setCurrentLevel(loggedUser.current_level);
       router.push("/home");
-      props.modal.current?.dismiss();
+      props.closeModal();
     }
   };
   return (
     <form className="login-container" onSubmit={login}>
-      <IonItem lines={"none"}>
+      <IonItem lines={"none"} ref={formRef}>
         <IonInput
-          onIonChange={validateEmail}
+          onIonChange={(e) => setUser({ ...user, email: e.detail.value! })}
           required
           color={"white"}
           placeholder="Email"
@@ -59,10 +69,13 @@ const Login: React.FC<Props> = (props) => {
       </IonItem>
       <IonItem lines={"none"}>
         <IonInput
-          onIonChange={validatePassword}
+          onIonChange={(e) => setUser({ ...user, password: e.detail.value! })}
           required
           color={"white"}
           placeholder="Password"
+          onIonFocus={() => displayPassword(true)}
+          onIonBlur={() => displayPassword(false)}
+          onKeyUp={(e)=>passwordBlurHandler(e)}
           autocomplete="new-password"
           type="password"
         ></IonInput>

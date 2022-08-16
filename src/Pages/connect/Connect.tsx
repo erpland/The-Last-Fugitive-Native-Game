@@ -2,17 +2,17 @@ import { IonButton, IonContent, IonPage } from "@ionic/react";
 import React from "react";
 import { IonIcon } from "@ionic/react";
 import { logoFacebook, wallet, gift, cloudDownload } from "ionicons/icons";
-import LoginModal from "./LoginModal";
+import LoginModal from "./components/LoginModal";
 import "./styles/connect.scss";
 
 type Props = {};
 
 const Connect: React.FC = (props: Props) => {
+  
   return (
     <IonPage>
-      <IonContent>
+      <IonContent className="main__content">
         <LoginModal />
-
         <div className="connect-container">
           <div className="connect__headlines">
             <h1>Log in To Get Benfits</h1>

@@ -37,12 +37,8 @@ export interface PlayDatesType{
   end_date:Date;
 }
 export interface UserContextType{
-  currentUser:any;
-  setCurrentUser:any
-  // setCurrentUser:React.Dispatch<React.SetStateAction<UserType | null>>
-  // currentUser:any;
-  // setCurrentUser:any;
-
+  currentUser:UserType | {};
+  setCurrentUser:React.Dispatch<React.SetStateAction<UserType | {}>> 
 }
 
 

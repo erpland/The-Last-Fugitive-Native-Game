@@ -6,20 +6,21 @@ import {
   IonRadio,
   IonRadioGroup,
 } from "@ionic/react";
-import { UserSignupType, UserContextType } from "../../../Types/userTypes";
-import React, { SetStateAction, useState, useContext } from "react";
-import { registerUser } from "../../../Database/database";
-import { UserContext } from "../../context/UserContext";
-import { useIonRouter ,useIonLoading} from "@ionic/react";
+import { UserSignupType } from "../../../Types/userTypes";
+import React, { SetStateAction, useState } from "react";
+import { getAllLevels, registerUser } from "../../../Database/database";
+import { useUserContext } from "../../context/UserContext";
+import { useIonRouter} from "@ionic/react";
+import { useLevelContext } from "../../context/LevelContext";
 type Props = {
   setisLoginComponent: React.Dispatch<SetStateAction<boolean>>;
-  modal:any
+  openLoader: ({}) => void;
+  closeLoader: ()=>void;
+  closeModal: ()=>void;
 };
 
 const Register: React.FC<Props> = (props) => {
   const router = useIonRouter();
-  const [present, dismiss] = useIonLoading();
-  const [gender, setGender] = useState(1);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [user, setUser] = useState<UserSignupType>({
     nickname: "",
@@ -29,30 +30,11 @@ const Register: React.FC<Props> = (props) => {
     avatarUrl: "/assets/avatars/male1.png",
     gender: 1,
   });
-  const { setCurrentUser } = useContext(
-    UserContext
-  ) as UserContextType;
-  const validateEmail = (e: any) => {
-    let email = e.target.value;
-    setUser({ ...user, email });
-  };
-  const validateNickName = (e: any) => {
-    let nickname = e.target.value;
-
-    setUser({ ...user, nickname });
-  };
-  const validatePassword = (e: any) => {
-    let password = e.target.value;
-
-    setUser({ ...user, password });
-  };
-  const confirmPass = (e: any) => {
-    let confirmPass = e.target.value;
-
-    setConfirmPassword(confirmPass);
-  };
-  const validateGender = (e: any) => {
-    let gender = e.target.value;
+  const { setCurrentUser } = useUserContext()
+  const {setAllLevels, setCurrentLevel} = useLevelContext()
+  
+  
+  const genderHandler = (gender:number) => {
     let avatarUrl =
       gender === 1
         ? "/assets/avatars/male1.png"
@@ -60,7 +42,8 @@ const Register: React.FC<Props> = (props) => {
 
     setUser({ ...user, gender, avatarUrl });
   };
-  const signUp = async (e: any) => {
+
+  const signUp = async (e: React.FormEvent) => {
     e.preventDefault();
  
     if(user.password!==confirmPassword){
@@ -79,16 +62,19 @@ const Register: React.FC<Props> = (props) => {
       console.log("nickname length is more than 15 chars!")
       return
     }
-    present({
-      message: 'logging in...',
-      duration: 4000
+    props.openLoader({
+      message: 'Loggin In...',
     })
     const registerdUser = await registerUser(user);
-    console.log("register user", registerdUser);
-    if (registerdUser) {
-      await setCurrentUser(registerdUser);
+    const allLevels = await getAllLevels()
+    props.closeLoader();
+
+    if (registerdUser && allLevels) {
+      setCurrentUser(registerdUser);
+      setAllLevels(allLevels)
+      setCurrentLevel(registerdUser.current_level)  
       router.push("/home");
-      props.modal.current?.dismiss();
+      props.closeModal()
     }
     
   };
@@ -98,7 +84,7 @@ const Register: React.FC<Props> = (props) => {
         <IonItem lines={"none"}>
           <IonInput
           required
-            onIonChange={validateEmail}
+            onIonChange={(e)=>setUser({ ...user, email:e.detail.value! })}
             color={"white"}
             placeholder="Email"
             autocomplete="email"
@@ -110,7 +96,7 @@ const Register: React.FC<Props> = (props) => {
           <IonInput
           required
             color={"white"}
-            onIonChange={validateNickName}
+            onIonChange={(e)=>setUser({ ...user, nickname:e.detail.value! })}
             placeholder="Nickname"
             autocomplete="name"
             inputMode="text"
@@ -122,7 +108,7 @@ const Register: React.FC<Props> = (props) => {
         <IonItem lines={"none"}>
           <IonInput
           required
-            onIonChange={validatePassword}
+          onIonChange={(e)=>setUser({ ...user, password:e.detail.value! })}
             color={"white"}
             placeholder="Password"
             autocomplete="new-password"
@@ -132,7 +118,7 @@ const Register: React.FC<Props> = (props) => {
         <IonItem lines={"none"}>
           <IonInput
           required
-            onIonChange={confirmPass}
+          onIonChange={(e)=>setConfirmPassword(e.detail.value!)}
             color={"white"}
             placeholder="Password Confirm"
             autocomplete="new-password"
@@ -143,7 +129,7 @@ const Register: React.FC<Props> = (props) => {
 
       <div className="register-container__gender">
         <IonRadioGroup
-          onIonChange={validateGender}
+          onIonChange={(e)=>genderHandler(e.detail.value)}
           value={user.gender}
           style={{ display: "contents" }}
         >

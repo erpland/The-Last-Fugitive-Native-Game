@@ -21,7 +21,11 @@ export interface StepCapType{
   step:number
 }
 export interface LevelContextType{
-  allLevels: LevelType[] | null;
-  currentLevel:LevelType | null;
+  allLevels: LevelType[] | [];
+  setAllLevels:React.Dispatch<React.SetStateAction<LevelType[] | []>>;
+  currentLevel:LevelType | {};
+  setCurrentLevel:React.Dispatch<React.SetStateAction<LevelType | {}>>;
+  
+
 }
 
