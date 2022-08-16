@@ -3,11 +3,14 @@ import React, { SetStateAction, useState, useContext } from "react";
 import { UserLoginType, UserContextType } from "../../../Types/userTypes";
 import { UserContext } from "../../context/UserContext";
 import { loginUser } from "../../../Database/database";
+import { useIonRouter } from "@ionic/react";
 type Props = {
   setisLoginComponent: React.Dispatch<SetStateAction<boolean>>;
+  modal:any
 };
 
 const Login: React.FC<Props> = (props) => {
+  const router = useIonRouter();
   const [user, setUser] = useState<UserLoginType>({
     email: "",
     password: "",
@@ -32,6 +35,8 @@ const Login: React.FC<Props> = (props) => {
     console.log("logged in:",loggedUser);
     if (loggedUser) {
       await setCurrentUser(loggedUser);
+      router.push("/home");
+      props.modal.current?.dismiss();
     }
   };
   return (

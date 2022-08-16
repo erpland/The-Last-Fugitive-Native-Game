@@ -10,11 +10,14 @@ import { UserSignupType, UserContextType } from "../../../Types/userTypes";
 import React, { SetStateAction, useState, useContext } from "react";
 import { registerUser } from "../../../Database/database";
 import { UserContext } from "../../context/UserContext";
+import { useIonRouter } from "@ionic/react";
 type Props = {
   setisLoginComponent: React.Dispatch<SetStateAction<boolean>>;
+  modal:any
 };
 
 const Register: React.FC<Props> = (props) => {
+  const router = useIonRouter();
   const [gender, setGender] = useState(1);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [user, setUser] = useState<UserSignupType>({
@@ -80,6 +83,8 @@ const Register: React.FC<Props> = (props) => {
     console.log("register user", registerdUser);
     if (registerdUser) {
       await setCurrentUser(registerdUser);
+      router.push("/home");
+      props.modal.current?.dismiss();
     }
     
   };

@@ -18,9 +18,9 @@ const LoginModal: React.FC = (props: Props) => {
 
       <div className="login-modal__body">
         {isLoginComponent ? (
-          <Login setisLoginComponent={(val)=>setisLoginComponent(val)} />
+          <Login setisLoginComponent={(val)=>setisLoginComponent(val)} modal={modal}/>
         ) : (
-          <Register setisLoginComponent={(val)=>setisLoginComponent(val)} />
+          <Register setisLoginComponent={(val)=>setisLoginComponent(val)} modal={modal} />
         )}
       </div>
     </IonModal>
