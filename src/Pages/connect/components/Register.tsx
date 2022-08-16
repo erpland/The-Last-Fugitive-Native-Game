@@ -10,7 +10,7 @@ import { UserSignupType, UserContextType } from "../../../Types/userTypes";
 import React, { SetStateAction, useState, useContext } from "react";
 import { registerUser } from "../../../Database/database";
 import { UserContext } from "../../context/UserContext";
-import { useIonRouter } from "@ionic/react";
+import { useIonRouter ,useIonLoading} from "@ionic/react";
 type Props = {
   setisLoginComponent: React.Dispatch<SetStateAction<boolean>>;
   modal:any
@@ -18,6 +18,7 @@ type Props = {
 
 const Register: React.FC<Props> = (props) => {
   const router = useIonRouter();
+  const [present, dismiss] = useIonLoading();
   const [gender, setGender] = useState(1);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [user, setUser] = useState<UserSignupType>({
@@ -78,7 +79,10 @@ const Register: React.FC<Props> = (props) => {
       console.log("nickname length is more than 15 chars!")
       return
     }
-    
+    present({
+      message: 'logging in...',
+      duration: 4000
+    })
     const registerdUser = await registerUser(user);
     console.log("register user", registerdUser);
     if (registerdUser) {

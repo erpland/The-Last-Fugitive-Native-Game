@@ -1,4 +1,4 @@
-import { IonButton, IonInput, IonItem } from "@ionic/react";
+import { IonButton, IonInput, IonItem,useIonLoading  } from "@ionic/react";
 import React, { SetStateAction, useState, useContext } from "react";
 import { UserLoginType, UserContextType } from "../../../Types/userTypes";
 import { UserContext } from "../../context/UserContext";
@@ -11,6 +11,7 @@ type Props = {
 
 const Login: React.FC<Props> = (props) => {
   const router = useIonRouter();
+  const [present, dismiss] = useIonLoading();
   const [user, setUser] = useState<UserLoginType>({
     email: "",
     password: "",
@@ -31,6 +32,10 @@ const Login: React.FC<Props> = (props) => {
   
   const login = async (e: any) => {
     e.preventDefault();
+    present({
+      message: 'logging in...',
+      duration: 2500
+    })
     const loggedUser = await loginUser(user);
     console.log("logged in:",loggedUser);
     if (loggedUser) {
