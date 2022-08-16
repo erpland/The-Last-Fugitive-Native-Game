@@ -69,6 +69,7 @@ export const getAllAvatars = async ()=>{
 
 //posts
 export const registerUser = async (user: UserSignupType) => {
+  console.log("before",user)
   const requestOptions = {
     method: "POST",
     headers: {
@@ -79,13 +80,12 @@ export const registerUser = async (user: UserSignupType) => {
   };
   try {
     const data = await fetch(SERVER + "users/register", requestOptions);
-    console.log(data)
     if (data.status === 409) {
       return {};
     }
     if (data.ok) {
       const json = await data.json();
-      console.log(json);
+      console.log("after",json);
       return json;
     }
     return null;
