@@ -2,14 +2,20 @@ import React, { SetStateAction, useState, useRef } from "react";
 import { IonButton, IonInput, IonItem } from "@ionic/react";
 import { UserLoginType } from "../../../Types/userTypes";
 import { useUserContext } from "../../context/UserContext";
-import { getAllAvatars, getAllHints, getAllLevels, loginUser } from "../../../Database/database";
+import {
+  getAllAvatars,
+  getAllHints,
+  getAllLevels,
+  loginUser,
+} from "../../../Database/database";
 import { useIonRouter } from "@ionic/react";
+import { Preferences } from '@capacitor/preferences';
 import { useLevelContext } from "../../context/LevelContext";
 type Props = {
   setisLoginComponent: React.Dispatch<SetStateAction<boolean>>;
-  openLoader: ({})=>void;
-  closeLoader: ()=>void;
-  closeModal: ()=>void;
+  openLoader: ({}) => void;
+  closeLoader: () => void;
+  closeModal: () => void;
 };
 
 const Login: React.FC<Props> = (props) => {
@@ -20,17 +26,17 @@ const Login: React.FC<Props> = (props) => {
   });
   const formRef = useRef<HTMLIonItemElement>(null);
 
-  const { setCurrentUser,setAvatars } = useUserContext();
-  const { setAllLevels, setCurrentLevel,setHints } = useLevelContext();
+  const { setCurrentUser, setAvatars } = useUserContext();
+  const { setAllLevels, setCurrentLevel, setHints } = useLevelContext();
 
   const displayPassword = (isPasswordFocus: boolean) => {
     const display = isPasswordFocus ? "display:none;" : "display:unset;";
     if (formRef.current) {
-      formRef.current.setAttribute('style',display)
+      formRef.current.setAttribute("style", display);
     }
   };
 
-  const passwordBlurHandler = (e:React.KeyboardEvent) => {
+  const passwordBlurHandler = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       (e.target as HTMLElement).blur();
     }
@@ -43,21 +49,18 @@ const Login: React.FC<Props> = (props) => {
       message: "Logging In...",
     });
     const loggedUser = await loginUser(user);
-    const allLevels = await getAllLevels();
-    const allHints = await getAllHints()
-    const allAvatars = await getAllAvatars()
     props.closeLoader();
-    if (loggedUser && allLevels && allHints && allAvatars) {
+    if (loggedUser) {
       setCurrentUser(loggedUser);
-      setAllLevels(allLevels);
       setCurrentLevel(loggedUser.current_level);
-      setHints(allHints)
-      setAvatars(allAvatars)
+      await Preferences.set({
+        key : 'isLoggedIn',
+        value: loggedUser._id,
+      })
       router.push("/home");
       props.closeModal();
-    }
-    else{
-      console.log("Error Retriving Data")
+    } else {
+      console.log("Error Retriving Data");
     }
   };
   return (
@@ -81,7 +84,7 @@ const Login: React.FC<Props> = (props) => {
           placeholder="Password"
           onIonFocus={() => displayPassword(true)}
           onIonBlur={() => displayPassword(false)}
-          onKeyUp={(e)=>passwordBlurHandler(e)}
+          onKeyUp={(e) => passwordBlurHandler(e)}
           autocomplete="new-password"
           type="password"
         ></IonInput>

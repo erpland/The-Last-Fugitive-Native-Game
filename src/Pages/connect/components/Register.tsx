@@ -12,6 +12,7 @@ import { getAllAvatars, getAllHints, getAllLevels, registerUser } from "../../..
 import { useUserContext } from "../../context/UserContext";
 import { useIonRouter} from "@ionic/react";
 import { useLevelContext } from "../../context/LevelContext";
+import { Preferences } from "@capacitor/preferences";
 type Props = {
   setisLoginComponent: React.Dispatch<SetStateAction<boolean>>;
   openLoader: ({}) => void;
@@ -66,17 +67,15 @@ const Register: React.FC<Props> = (props) => {
       message: 'Loggin In...',
     })
     const registerdUser = await registerUser(user);
-    const allLevels = await getAllLevels()
-    const allHints = await getAllHints()
-    const allAvatars = await getAllAvatars()
     props.closeLoader();
 
-    if (registerdUser && allLevels&&allHints &&allAvatars) {
+    if (registerdUser) {
       setCurrentUser(registerdUser);
-      setAllLevels(allLevels)
       setCurrentLevel(registerdUser.current_level)
-      setHints(allHints)
-      setAvatars(allAvatars)
+      await Preferences.set({
+        key : 'isLoggedIn',
+        value: registerdUser._id,
+      })
       router.push("/home");
       props.closeModal()
     }
