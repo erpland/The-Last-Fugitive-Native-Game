@@ -8,7 +8,7 @@ import {
 } from "@ionic/react";
 import { UserSignupType } from "../../../Types/userTypes";
 import React, { SetStateAction, useState } from "react";
-import { getAllLevels, registerUser } from "../../../Database/database";
+import { getAllAvatars, getAllHints, getAllLevels, registerUser } from "../../../Database/database";
 import { useUserContext } from "../../context/UserContext";
 import { useIonRouter} from "@ionic/react";
 import { useLevelContext } from "../../context/LevelContext";
@@ -30,8 +30,8 @@ const Register: React.FC<Props> = (props) => {
     avatarUrl: "/assets/avatars/male1.png",
     gender: 1,
   });
-  const { setCurrentUser } = useUserContext()
-  const {setAllLevels, setCurrentLevel} = useLevelContext()
+  const { setCurrentUser,setAvatars } = useUserContext()
+  const {setAllLevels, setCurrentLevel,setHints} = useLevelContext()
   
   
   const genderHandler = (gender:number) => {
@@ -67,12 +67,16 @@ const Register: React.FC<Props> = (props) => {
     })
     const registerdUser = await registerUser(user);
     const allLevels = await getAllLevels()
+    const allHints = await getAllHints()
+    const allAvatars = await getAllAvatars()
     props.closeLoader();
 
-    if (registerdUser && allLevels) {
+    if (registerdUser && allLevels&&allHints &&allAvatars) {
       setCurrentUser(registerdUser);
       setAllLevels(allLevels)
-      setCurrentLevel(registerdUser.current_level)  
+      setCurrentLevel(registerdUser.current_level)
+      setHints(allHints)
+      setAvatars(allAvatars)
       router.push("/home");
       props.closeModal()
     }

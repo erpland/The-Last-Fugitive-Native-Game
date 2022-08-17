@@ -1,20 +1,24 @@
 import React from "react";
-import { IonImg, IonThumbnail } from "@ionic/react";
+import { IonImg } from "@ionic/react";
 import { IonIcon } from "@ionic/react";
 import { star, heart, add } from "ionicons/icons";
+import { useUserContext } from "../../context/UserContext";
 
 type Props = {};
 
 const Header = (props: Props) => {
+  const {currentUser} = useUserContext()
+  const totalRank = currentUser.level_rank.reduce((prev,cur)=>{return prev + cur.rank},0)
+  console.log(totalRank)
   return (
     <div className="header">
       <div className="profilebox__container" id="open-profile-modal" onClick={()=>console.log('aaa')} >
-        <IonImg src="/assets/avatars/zombie_fa_5.png" />
+        <IonImg src={currentUser.avatarUrl} />
       </div>
       <div className="upperbox__container">
         <div className="rankbox__container">
           <IonIcon icon={star} color={"warning"} />
-          <span>300</span>
+          <span>{totalRank}</span>
         </div>
         <div className="lifesbox__container">
           <IonIcon icon={heart} className="upperbox__icon" color={"danger"} />

@@ -19,7 +19,7 @@ export interface UserType{
   current_level:number;
   level_rank:LevelRankType[]
   avatarCode:number;
-  avaterUrl:string;
+  avatarUrl:string;
   gender:number;
   is_notification : boolean,
   time_of_register:Date,
@@ -36,9 +36,25 @@ export interface PlayDatesType{
   start_date:Date;
   end_date:Date;
 }
+export interface AvatarOptionsType{
+  code:number
+  url:string
+}
+export interface AvatarsGenderType{
+  
+}
+export interface AvatarsType{
+  _id:string
+  gender:string
+  options:AvatarOptionsType[]
+  
+}
 export interface UserContextType{
-  currentUser:UserType | {};
-  setCurrentUser:React.Dispatch<React.SetStateAction<UserType | {}>> 
+  currentUser:UserType;
+  setCurrentUser:React.Dispatch<React.SetStateAction<UserType>>
+  avatars:AvatarsType[]
+  setAvatars:React.Dispatch<React.SetStateAction<AvatarsType[]>>
+
 }
 
 

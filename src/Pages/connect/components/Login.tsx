@@ -1,9 +1,8 @@
 import React, { SetStateAction, useState, useRef } from "react";
 import { IonButton, IonInput, IonItem } from "@ionic/react";
-import { InputKeyUpEvent } from "../../../Types/ionicTypes";
 import { UserLoginType } from "../../../Types/userTypes";
 import { useUserContext } from "../../context/UserContext";
-import { getAllLevels, loginUser } from "../../../Database/database";
+import { getAllAvatars, getAllHints, getAllLevels, loginUser } from "../../../Database/database";
 import { useIonRouter } from "@ionic/react";
 import { useLevelContext } from "../../context/LevelContext";
 type Props = {
@@ -21,8 +20,8 @@ const Login: React.FC<Props> = (props) => {
   });
   const formRef = useRef<HTMLIonItemElement>(null);
 
-  const { setCurrentUser } = useUserContext();
-  const { setAllLevels, setCurrentLevel } = useLevelContext();
+  const { setCurrentUser,setAvatars } = useUserContext();
+  const { setAllLevels, setCurrentLevel,setHints } = useLevelContext();
 
   const displayPassword = (isPasswordFocus: boolean) => {
     const display = isPasswordFocus ? "display:none;" : "display:unset;";
@@ -45,13 +44,20 @@ const Login: React.FC<Props> = (props) => {
     });
     const loggedUser = await loginUser(user);
     const allLevels = await getAllLevels();
+    const allHints = await getAllHints()
+    const allAvatars = await getAllAvatars()
     props.closeLoader();
-    if (loggedUser && allLevels) {
+    if (loggedUser && allLevels && allHints && allAvatars) {
       setCurrentUser(loggedUser);
       setAllLevels(allLevels);
       setCurrentLevel(loggedUser.current_level);
+      setHints(allHints)
+      setAvatars(allAvatars)
       router.push("/home");
       props.closeModal();
+    }
+    else{
+      console.log("Error Retriving Data")
     }
   };
   return (

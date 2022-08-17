@@ -20,12 +20,16 @@ export interface StepCapType{
   code:number;
   step:number
 }
+export interface HintsTypes{
+  name:string
+  description:string
+}
 export interface LevelContextType{
   allLevels: LevelType[] | [];
   setAllLevels:React.Dispatch<React.SetStateAction<LevelType[] | []>>;
   currentLevel:LevelType | {};
   setCurrentLevel:React.Dispatch<React.SetStateAction<LevelType | {}>>;
-  
-
+  hints:HintsTypes[]
+  setHints:React.Dispatch<React.SetStateAction<HintsTypes[] | []>>;
 }
 

@@ -9,9 +9,13 @@ import LevelsModal from "./components/LevelsModal";
 import ConnectModal from "./components/ConnectModal";
 import SettingsModal from "./components/SettingModal";
 import FinishModal from "./components/FinishModal";
+import { useUserContext } from "../context/UserContext";
+import { useLevelContext } from "../context/LevelContext";
 type Props = {};
 
 const Home: React.FC = (props: Props) => {
+  // const {currentUser,setCurrentUser} = useUserContext()
+  // const {allLevels,currentLevel} = useLevelContext()
   return (
     <IonPage>
       <IonContent
