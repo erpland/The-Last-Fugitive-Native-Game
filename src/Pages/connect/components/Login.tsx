@@ -2,14 +2,9 @@ import React, { SetStateAction, useState, useRef } from "react";
 import { IonButton, IonInput, IonItem } from "@ionic/react";
 import { UserLoginType } from "../../../Types/userTypes";
 import { useUserContext } from "../../context/UserContext";
-import {
-  getAllAvatars,
-  getAllHints,
-  getAllLevels,
-  loginUser,
-} from "../../../Database/database";
+import { loginUser } from "../../../Database/database";
 import { useIonRouter } from "@ionic/react";
-import { Preferences } from '@capacitor/preferences';
+import { Preferences } from "@capacitor/preferences";
 import { useLevelContext } from "../../context/LevelContext";
 type Props = {
   setisLoginComponent: React.Dispatch<SetStateAction<boolean>>;
@@ -26,8 +21,8 @@ const Login: React.FC<Props> = (props) => {
   });
   const formRef = useRef<HTMLIonItemElement>(null);
 
-  const { setCurrentUser, setAvatars } = useUserContext();
-  const { setAllLevels, setCurrentLevel, setHints } = useLevelContext();
+  const { setCurrentUser } = useUserContext();
+  const { setCurrentLevel } = useLevelContext();
 
   const displayPassword = (isPasswordFocus: boolean) => {
     const display = isPasswordFocus ? "display:none;" : "display:unset;";
@@ -54,9 +49,9 @@ const Login: React.FC<Props> = (props) => {
       setCurrentUser(loggedUser);
       setCurrentLevel(loggedUser.current_level);
       await Preferences.set({
-        key : 'isLoggedIn',
+        key: "isLoggedIn",
         value: loggedUser._id,
-      })
+      });
       router.push("/home");
       props.closeModal();
     } else {

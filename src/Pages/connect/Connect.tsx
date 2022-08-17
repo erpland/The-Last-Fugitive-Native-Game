@@ -46,7 +46,6 @@ const Connect: React.FC = (props: Props) => {
         }
       }
     getAllData();
-    // isLoggedIn();
   }, []);
 
   return (
