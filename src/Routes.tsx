@@ -7,7 +7,7 @@ import Game from "./Pages/game/Game";
 import Connect from "./Pages/connect/Connect";
 import UserContextProvider from "./Pages/context/UserContext";
 import LevelContextProvider from "./Pages/context/LevelContext";
-
+import MusicContextProvider from "./Pages/context/MusicContext";
 type Props = {};
 
 const Routes: React.FC = (props: Props) => {
@@ -16,9 +16,11 @@ const Routes: React.FC = (props: Props) => {
       <IonRouterOutlet>
         <UserContextProvider>
           <LevelContextProvider>
-            <Route path="/" component={Connect}/>
-            <Route path="/home" component={Home} />
-            <Route path={`/game/:level`} component={Game} />
+            <MusicContextProvider>
+              <Route path="/" component={Connect} />
+              <Route path="/home" component={Home} />
+              <Route path={`/game/:level`} component={Game} />
+            </MusicContextProvider>
           </LevelContextProvider>
         </UserContextProvider>
       </IonRouterOutlet>

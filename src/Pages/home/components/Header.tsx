@@ -9,7 +9,6 @@ type Props = {};
 const Header = (props: Props) => {
   const {currentUser} = useUserContext()
   const totalRank = currentUser.level_rank.reduce((prev,cur)=>{return prev + cur.rank},0)
-  console.log(totalRank)
   return (
     <div className="header">
       <div className="profilebox__container" id="open-profile-modal" onClick={()=>console.log('aaa')} >

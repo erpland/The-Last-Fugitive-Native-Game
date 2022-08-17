@@ -59,7 +59,6 @@ const LevelsModal: React.FC = (props: Props) => {
       isOpen:code<=currentLevel ? true : false
     }
   })
-  console.log(levels)
   let levelsBoxes = levels.map((level) => (
     <LevelBox
       key={level.code}

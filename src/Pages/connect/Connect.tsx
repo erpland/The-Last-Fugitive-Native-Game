@@ -24,6 +24,7 @@ const Connect: React.FC = (props: Props) => {
 
   useEffect(() => {
     const getAllData = async () => {
+      // await Preferences.remove({key:"isLoggedIn"})
       const allLevels = await getAllLevels();
       const allHints = await getAllHints();
       const allAvatars = await getAllAvatars();
@@ -52,6 +53,7 @@ const Connect: React.FC = (props: Props) => {
     <IonPage>
       <IonContent className="main__content">
         <LoginModal />
+        
         <div className="connect-container">
           <div className="connect__headlines">
             <h1>Log in To Get Benfits</h1>

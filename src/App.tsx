@@ -23,6 +23,7 @@ import { StatusBar } from "@capacitor/status-bar";
 import Routes from "./Routes";
 import { useEffect } from "react";
 import { AndroidFullScreen } from "@awesome-cordova-plugins/android-full-screen";
+import { SplashScreen } from '@capacitor/splash-screen';
 
 setupIonicReact();
 
@@ -38,8 +39,12 @@ const App: React.FC = () => {
         await AndroidFullScreen.showUnderSystemUI();
       }
     };
-    hideStatusBar();
+    const hideSplash = async() => {
+      await SplashScreen.show();
+    }
     fullScreen();
+    hideSplash();
+    hideStatusBar();
   }, []);
 
   return (
