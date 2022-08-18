@@ -9,6 +9,7 @@ import React, { useRef } from "react";
 import { star, lockClosed } from "ionicons/icons";
 import { useUserContext } from "../../context/UserContext";
 import { useLevelContext } from "../../context/LevelContext";
+import { useIonRouter } from "@ionic/react";
 
 interface Levels {
   code: number;
@@ -65,6 +66,7 @@ const LevelsModal: React.FC = (props: Props) => {
       code={level.code}
       stars={level.stars}
       isOpen={level.isOpen}
+      closeModal = {()=>modal.current?.dismiss()}
     />
   ));
 
@@ -83,7 +85,12 @@ const LevelsModal: React.FC = (props: Props) => {
 
 export default LevelsModal;
 
-const LevelBox = ({ code, stars, isOpen }: Levels): JSX.Element => {
+const LevelBox = ({ code, stars, isOpen,closeModal }: Levels | any): JSX.Element => {
+  const router = useIonRouter();
+  const startLevel = ()=>{
+    closeModal()
+    router.push("/game")
+  }
   let levelStars = [...Array(stars)].map((s, i) => {
     if (stars) return <IonIcon key={i} icon={star} color={"warning"} />;
   });
@@ -91,7 +98,7 @@ const LevelBox = ({ code, stars, isOpen }: Levels): JSX.Element => {
   return (
     <div className="level-box">
       <div className="level-box__stars">{levelStars}</div>
-      <div className="level-box__box">
+      <div className="level-box__box" onClick={startLevel}>
         <span>
           {isOpen ? code : <IonIcon icon={lockClosed} color="warning" />}
         </span>

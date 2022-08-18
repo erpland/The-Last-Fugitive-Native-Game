@@ -23,6 +23,7 @@ const Connect: React.FC = (props: Props) => {
   const { setAllLevels, setCurrentLevel, setHints } = useLevelContext();
 
   useEffect(() => {
+    console.log("Connect!!!!")
     const getAllData = async () => {
       // await Preferences.remove({key:"isLoggedIn"})
       const allLevels = await getAllLevels();

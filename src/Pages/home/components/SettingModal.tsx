@@ -48,7 +48,7 @@ const SettingsModal: React.FC = (props: Props) => {
         </div>
         <div className="settings-modal__range">
           <span>Music</span>
-          <IonRange min={0} max= {1} step={0.1} debounce={100} onIonChange={({detail})=>{
+          <IonRange min={0} max= {1} step={0.1} defaultValue={1} debounce={100} onIonChange={({detail})=>{
             console.log(detail.value)
             setMusicVolume(detail.value)}}>
             <IonIcon slot="start" icon={volumeMute}></IonIcon>

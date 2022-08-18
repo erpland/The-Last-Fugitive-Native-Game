@@ -1,6 +1,6 @@
 import React from "react";
 import { IonReactRouter } from "@ionic/react-router";
-import { Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import { IonRouterOutlet } from "@ionic/react";
 import Home from "./Pages/home/Home";
 import Game from "./Pages/game/Game";
@@ -17,9 +17,10 @@ const Routes: React.FC = (props: Props) => {
         <UserContextProvider>
           <LevelContextProvider>
             <MusicContextProvider>
-              <Route path="/" component={Connect} />
-              <Route path="/home" component={Home} />
-              <Route path={`/game/:level`} component={Game} />
+              {/* <Route path="/connect" component={Connect} /> */}
+              {/* <Redirect exact from="/" to="/connect" /> */}
+              {/* <Route path="/home" component={Home} /> */}
+              <Route path="/game" component={Game}  />
             </MusicContextProvider>
           </LevelContextProvider>
         </UserContextProvider>

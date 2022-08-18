@@ -1,11 +1,17 @@
 import React from 'react'
+import Map from './components/Map'
 
-type Match = {match:any}
+// type Match = {match:any}
 
-const Game: React.FC<Match> = ({match}) => {
-  console.log(match.params)
+const Game: React.FC = () => {
+  // console.log(match.params)
   return (
-    <div>Game - {match.params.level}</div>
+    <div style={{color:'white'}}>
+      <Map/>
+    </div>
+    // <div>Game - {match.params.level}
+
+    // </div>
   )
 }
 

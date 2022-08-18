@@ -8,7 +8,6 @@ const MusicContextProvider:React.FC<React.ReactNode> = ({children}) => {
     '/assets/music/music1.mp3'
   ))
   const [musicVolume, setMusicVolume] = useState(1)
-  backgroundMusic.load()
   
   useEffect(() => {
     backgroundMusic.volume = musicVolume
@@ -16,6 +15,7 @@ const MusicContextProvider:React.FC<React.ReactNode> = ({children}) => {
   
   const playMusic = async() =>{
     console.log("playing")
+    backgroundMusic.load()
     await backgroundMusic.play()
     backgroundMusic.volume = musicVolume
   }
