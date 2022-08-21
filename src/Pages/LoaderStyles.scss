@@ -1,0 +1,32 @@
+.loader-container{
+    height: 100%;
+    font-weight: bold;
+    display: grid;
+    align-items: flex-end;
+    color: white;
+    grid-template-rows: 2fr 1fr;
+  }
+  .content-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .progress{
+    width: 50%;
+  }
+  .button-wrapper{
+    height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   opacity: 1;
+   animation: button-anm 1s;
+  }
+  @keyframes button-anm {
+    from{opacity: 0;}
+    to{opacity: 1;}
+  }
+
+  

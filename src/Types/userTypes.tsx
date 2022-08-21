@@ -54,6 +54,8 @@ export interface UserContextType{
   setCurrentUser:React.Dispatch<React.SetStateAction<UserType>>
   avatars:AvatarsType[]
   setAvatars:React.Dispatch<React.SetStateAction<AvatarsType[]>>
+  isRegisteredUser:boolean
+  setIsRegisteredUser:React.Dispatch<React.SetStateAction<boolean>>
 
 }
 

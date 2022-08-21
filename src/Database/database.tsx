@@ -13,9 +13,9 @@ export const fetchUserByid = async (id: string) => {
       const json = await data.json();
       return json;
     }
-    return null;
+    return new Error("Error while fetch data in get user by id");
   } catch {
-    throw new Error("Error while fetch data in get user by id")
+    throw new Error("Network Error!")
   }
 };
 export const getAllLevels = async () => {
@@ -29,9 +29,9 @@ export const getAllLevels = async () => {
       const json = await data.json();
       return json;
     }
-    return null;
+    return new Error("Error while fetch data in get all levels");
   } catch {
-    throw new Error("Error while fetch data in get all levels")
+    throw new Error("Network Error!")
   }
 };
 export const getAllHints = async () => {
@@ -45,9 +45,9 @@ export const getAllHints = async () => {
       const json = await data.json();
       return json;
     }
-    return null;
+    return  new Error("Error while fetch data in get all hints");
   } catch {
-    throw new Error("Error while fetch data in get all hints")
+    throw new Error("Network Error")
   }
 };
 export const getAllAvatars = async ()=>{
@@ -61,9 +61,9 @@ export const getAllAvatars = async ()=>{
       const json = await data.json();
       return json;
     }
-    return null;
+    return new Error("Error while fetch data in get all hints");
   } catch {
-    throw new Error("Error while fetch data in get all hints")
+    throw new Error("Network Error")
   }
 }
 
@@ -74,15 +74,15 @@ export const registerUser = async (user: UserSignupType) => {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
-      // 'Access-Control-Allow-Origin':'*'
     },
     body: JSON.stringify(user),
   };
   try {
     const data = await fetch(SERVER + "users/register", requestOptions);
-    if (data.status === 409) {
-      return {};
-    }
+    // if (data.status === 409) {
+    //   console.log(data.status)
+    //   return {};
+    // }
     if (data.ok) {
       const json = await data.json();
       console.log("after",json);

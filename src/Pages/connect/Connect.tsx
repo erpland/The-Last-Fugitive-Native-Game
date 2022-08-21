@@ -18,37 +18,36 @@ import {
 type Props = {};
 
 const Connect: React.FC = (props: Props) => {
-  const router = useIonRouter();
-  const { setCurrentUser, setAvatars } = useUserContext();
-  const { setAllLevels, setCurrentLevel, setHints } = useLevelContext();
+  // const router = useIonRouter();
+  // const { setCurrentUser, setAvatars } = useUserContext();
+  // const { setAllLevels, setCurrentLevel, setHints } = useLevelContext();
 
-  useEffect(() => {
-    console.log("Connect!!!!")
-    const getAllData = async () => {
-      // await Preferences.remove({key:"isLoggedIn"})
-      const allLevels = await getAllLevels();
-      const allHints = await getAllHints();
-      const allAvatars = await getAllAvatars();
-      if (allLevels && allHints && allAvatars) {
-        setAllLevels(allLevels);
-        setHints(allHints);
-        setAvatars(allAvatars);
-      }
-      else{
-        console.log("Errro Retrving game data")
-        return
-      }
-    const userId = (await Preferences.get({ key: "isLoggedIn" })).value
-        if(userId){
-          const loggedUser = await fetchUserByid(userId)
-          console.log(loggedUser)
-          setCurrentUser(loggedUser)
-          setCurrentLevel(loggedUser.current_level)
-          router.push("/home");
-        }
-      }
-    getAllData();
-  }, []);
+  // useEffect(() => {
+  //   const getAllData = async () => {
+  //     // await Preferences.remove({key:"isLoggedIn"})
+  //     const allLevels = await getAllLevels();
+  //     const allHints = await getAllHints();
+  //     const allAvatars = await getAllAvatars();
+  //     if (allLevels && allHints && allAvatars) {
+  //       setAllLevels(allLevels);
+  //       setHints(allHints);
+  //       setAvatars(allAvatars);
+  //     }
+  //     else{
+  //       console.log("Errro Retrving game data")
+  //       return
+  //     }
+  //   const userId = (await Preferences.get({ key: "isLoggedIn" })).value
+  //       if(userId){
+  //         const loggedUser = await fetchUserByid(userId)
+  //         console.log(loggedUser)
+  //         setCurrentUser(loggedUser)
+  //         setCurrentLevel(loggedUser.current_level)
+  //         router.push("/home");
+  //       }
+  //     }
+  //   getAllData();
+  // }, []);
 
   return (
     <IonPage>

@@ -1,4 +1,5 @@
 import {
+  IonAlert,
   IonButton,
   IonHeader,
   IonInput,
@@ -7,13 +8,14 @@ import {
   IonThumbnail,
   IonTitle,
   IonToolbar,
+  useIonToast,
 } from "@ionic/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   updateUserAvatar,
   updateUserNickname,
 } from "../../../Database/database";
-import { AvatarOptionsType } from "../../../Types/userTypes";
+import { TOAST_DURATION } from "../../../utils/Constants";
 import { useUserContext } from "../../context/UserContext";
 
 type Props = {};
@@ -26,6 +28,16 @@ const ProfileModal: React.FC = (props: Props) => {
     code: currentUser.avatarCode,
     url: currentUser.avatarUrl,
   });
+  const [isBtnDisabled, setIsBtnDisabled] = useState(false)
+  const [showAlert, setShowAlert] = useState({
+    isOpen: false,
+    header: "Error...",
+    subHeader: "",
+    message:
+      "We had some trouble updating your data.\n Please check your internet connection and try again.",
+    buttons: ["OK"],
+  });
+  const [present, dismiss] = useIonToast();
 
   const listOfAvatars =
     currentUser.gender === 1 ? avatars[0].options : avatars[1].options;
@@ -38,24 +50,51 @@ const ProfileModal: React.FC = (props: Props) => {
   });
 
   const saveProfile = async () => {
+    setIsBtnDisabled(true)
+    if (!nickname) {
+      present({
+        duration: TOAST_DURATION,
+        message: "Nickname Cannot Be Empty!",
+      });
+      setIsBtnDisabled(false)
+      return;
+    }
+    if (
+      nickname === currentUser.nickname &&
+      avatar.code === currentUser.avatarCode
+    ) {
+      modal.current?.dismiss();
+      return;
+    }
+    let nicknameResponse = true;
+    let avatarResponse = true;
     if (nickname !== currentUser.nickname) {
-      await updateUserNickname(currentUser._id, {
+      nicknameResponse = await updateUserNickname(currentUser._id, {
         nickName: nickname,
       });
     }
     if (avatar.code !== currentUser.avatarCode) {
-      await updateUserAvatar(currentUser._id, {
+      avatarResponse = await updateUserAvatar(currentUser._id, {
         avatarCode: avatar.code,
         avatarUrl: avatar.url,
       });
     }
-    setCurrentUser({
-      ...currentUser,
-      nickname,
-      avatarCode: avatar.code,
-      avatarUrl: avatar.url,
-    });
-    modal.current?.dismiss();
+    if (avatarResponse && nicknameResponse) {
+      setCurrentUser({
+        ...currentUser,
+        nickname,
+        avatarCode: avatar.code,
+        avatarUrl: avatar.url,
+      });
+      present({
+        duration: TOAST_DURATION,
+        message: "Your Profile Updated Succsussfuly",
+      });
+      modal.current?.dismiss();
+    } else {
+      setShowAlert({ ...showAlert, isOpen: true });
+      setIsBtnDisabled(false)
+    }
   };
 
   return (
@@ -63,13 +102,23 @@ const ProfileModal: React.FC = (props: Props) => {
       id="profile-modal"
       ref={modal}
       trigger="open-profile-modal"
-      onDidDismiss={() =>
+      onDidDismiss={() => {
         setAvatar({
           code: currentUser.avatarCode,
           url: currentUser.avatarUrl,
-        })
-      }
+        });
+        setNickname(currentUser.nickname);
+        setIsBtnDisabled(false)
+      }}
     >
+      <IonAlert
+        isOpen={showAlert.isOpen}
+        onDidDismiss={() => setShowAlert({ ...showAlert, isOpen: false })}
+        header={showAlert.header}
+        subHeader={showAlert.subHeader}
+        message={showAlert.message}
+        buttons={showAlert.buttons}
+      />
       <IonHeader>
         <IonToolbar>
           <IonTitle>Profile</IonTitle>
@@ -86,6 +135,7 @@ const ProfileModal: React.FC = (props: Props) => {
             color={"white"}
             placeholder="Nickname"
             value={nickname}
+            maxlength={15}
             onIonChange={(e) => setNickname(e.detail.value!)}
           ></IonInput>
         </IonItem>
@@ -97,7 +147,10 @@ const ProfileModal: React.FC = (props: Props) => {
           >
             Cancel
           </IonButton>
-          <IonButton color="primary" onClick={saveProfile}>
+          <IonButton 
+          color="primary" 
+          onClick={saveProfile}
+          disabled={isBtnDisabled}>
             Save
           </IonButton>
         </div>

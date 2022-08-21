@@ -1,27 +1,39 @@
 import {
+  IonAlert,
   IonButton,
   IonInput,
   IonItem,
   IonLabel,
   IonRadio,
   IonRadioGroup,
+  useIonToast,
 } from "@ionic/react";
 import { UserSignupType } from "../../../Types/userTypes";
 import React, { SetStateAction, useState } from "react";
-import { getAllAvatars, getAllHints, getAllLevels, registerUser } from "../../../Database/database";
+import { registerUser } from "../../../Database/database";
 import { useUserContext } from "../../context/UserContext";
-import { useIonRouter} from "@ionic/react";
+import { useIonRouter } from "@ionic/react";
 import { useLevelContext } from "../../context/LevelContext";
 import { Preferences } from "@capacitor/preferences";
+import { TOAST_DURATION } from "../../../utils/Constants";
 type Props = {
   setisLoginComponent: React.Dispatch<SetStateAction<boolean>>;
   openLoader: ({}) => void;
-  closeLoader: ()=>void;
-  closeModal: ()=>void;
+  closeLoader: () => void;
+  closeModal: () => void;
 };
 
 const Register: React.FC<Props> = (props) => {
   const router = useIonRouter();
+  const [present, dismiss] = useIonToast();
+  const [showAlert, setShowAlert] = useState({
+    isOpen: false,
+    header: "Error...",
+    subHeader: "",
+    message:
+      "We had some trouble registering you.\n Please check your internet connection and try again.",
+    buttons: ["OK"],
+  });
   const [confirmPassword, setConfirmPassword] = useState("");
   const [user, setUser] = useState<UserSignupType>({
     nickname: "",
@@ -31,11 +43,10 @@ const Register: React.FC<Props> = (props) => {
     avatarUrl: "/assets/avatars/male1.png",
     gender: 1,
   });
-  const { setCurrentUser,setAvatars } = useUserContext()
-  const {setAllLevels, setCurrentLevel,setHints} = useLevelContext()
-  
-  
-  const genderHandler = (gender:number) => {
+  const { setCurrentUser, setIsRegisteredUser } = useUserContext();
+  const { setCurrentLevel } = useLevelContext();
+
+  const genderHandler = (gender: number) => {
     let avatarUrl =
       gender === 1
         ? "/assets/avatars/male1.png"
@@ -46,60 +57,96 @@ const Register: React.FC<Props> = (props) => {
 
   const signUp = async (e: React.FormEvent) => {
     e.preventDefault();
- 
-    if(user.password!==confirmPassword){
-      console.log("passwords dont match!")
-      return
+    if (!user.nickname || !user.email || !user.password || !confirmPassword) {
+      present({
+        duration: TOAST_DURATION,
+        message: "All Fields Are Requierd!",
+      });
+      return;
     }
-    if(!(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(user.password))){
-      console.log("passwords dont validate!")
-      return
+    if (user.password !== confirmPassword) {
+      present({
+        duration: TOAST_DURATION,
+        message: "Password Does Not Match!",
+      });
+      return;
     }
-    if(!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user.email))){
-      console.log("email dont validate!")
-      return
+    if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(user.password)) {
+      present({
+        duration: TOAST_DURATION,
+        message:
+          "Password Must Be Atleast 6 characters with capital letter lower case letter and a number",
+      });
+      return;
     }
-    if(user.nickname.length>15){
-      console.log("nickname length is more than 15 chars!")
-      return
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user.email)) {
+      present({ duration: TOAST_DURATION, message: "Wrong email format" });
+      return;
+    }
+    if (user.nickname.length > 15) {
+      present({
+        duration: TOAST_DURATION,
+        message: "Nickname cannot be more then 15 characters",
+      });
+      return;
     }
     props.openLoader({
-      message: 'Loggin In...',
-    })
-    const registerdUser = await registerUser(user);
-    props.closeLoader();
-
-    if (registerdUser) {
-      setCurrentUser(registerdUser);
-      setCurrentLevel(registerdUser.current_level)
-      await Preferences.set({
-        key : 'isLoggedIn',
-        value: registerdUser._id,
-      })
-      router.push("/home");
-      props.closeModal()
+      message: "Loggin In...",
+    });
+    let registeredUser
+    try{
+      registeredUser = await registerUser(user);
+    }catch{
+      setShowAlert({ ...showAlert, isOpen: true });
+      return
+    }finally{
+      props.closeLoader();
     }
-    
+    if(registeredUser) {
+      setCurrentUser(registeredUser);
+      setCurrentLevel(registeredUser.current_level);
+      await Preferences.set({
+        key: "isLoggedIn",
+        value: registeredUser._id,
+      });
+      setIsRegisteredUser(true);
+      props.closeModal();
+      router.push("/home");
+    }
+    else{
+      present({
+        duration: TOAST_DURATION,
+        message:"Email Allready Exist In Our Database",
+      });
+    }
   };
   return (
     <form onSubmit={signUp} className="register-container">
+      <IonAlert
+        isOpen={showAlert.isOpen}
+        onDidDismiss={() => setShowAlert({ ...showAlert, isOpen: false })}
+        header={showAlert.header}
+        subHeader={showAlert.subHeader}
+        message={showAlert.message}
+        buttons={showAlert.buttons}
+      />
       <div className="regiseter__left">
         <IonItem lines={"none"}>
           <IonInput
-          required
-            onIonChange={(e)=>setUser({ ...user, email:e.detail.value! })}
+            // required
+            onIonChange={(e) => setUser({ ...user, email: e.detail.value! })}
             color={"white"}
             placeholder="Email"
             autocomplete="email"
             inputMode="email"
-            type="email"
+            // type="email"
           ></IonInput>
         </IonItem>
         <IonItem lines={"none"}>
           <IonInput
-          required
+            // required
             color={"white"}
-            onIonChange={(e)=>setUser({ ...user, nickname:e.detail.value! })}
+            onIonChange={(e) => setUser({ ...user, nickname: e.detail.value! })}
             placeholder="Nickname"
             autocomplete="name"
             inputMode="text"
@@ -110,8 +157,8 @@ const Register: React.FC<Props> = (props) => {
       <div className="register__right">
         <IonItem lines={"none"}>
           <IonInput
-          required
-          onIonChange={(e)=>setUser({ ...user, password:e.detail.value! })}
+            // required
+            onIonChange={(e) => setUser({ ...user, password: e.detail.value! })}
             color={"white"}
             placeholder="Password"
             autocomplete="new-password"
@@ -120,8 +167,8 @@ const Register: React.FC<Props> = (props) => {
         </IonItem>
         <IonItem lines={"none"}>
           <IonInput
-          required
-          onIonChange={(e)=>setConfirmPassword(e.detail.value!)}
+            // required
+            onIonChange={(e) => setConfirmPassword(e.detail.value!)}
             color={"white"}
             placeholder="Password Confirm"
             autocomplete="new-password"
@@ -132,7 +179,7 @@ const Register: React.FC<Props> = (props) => {
 
       <div className="register-container__gender">
         <IonRadioGroup
-          onIonChange={(e)=>genderHandler(e.detail.value)}
+          onIonChange={(e) => genderHandler(e.detail.value)}
           value={user.gender}
           style={{ display: "contents" }}
         >

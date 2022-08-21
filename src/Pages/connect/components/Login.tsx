@@ -1,11 +1,18 @@
 import React, { SetStateAction, useState, useRef } from "react";
-import { IonButton, IonInput, IonItem } from "@ionic/react";
+import {
+  IonAlert,
+  IonButton,
+  IonInput,
+  IonItem,
+  useIonToast,
+} from "@ionic/react";
 import { UserLoginType } from "../../../Types/userTypes";
 import { useUserContext } from "../../context/UserContext";
 import { loginUser } from "../../../Database/database";
 import { useIonRouter } from "@ionic/react";
 import { Preferences } from "@capacitor/preferences";
 import { useLevelContext } from "../../context/LevelContext";
+import { TOAST_DURATION } from "../../../utils/Constants";
 type Props = {
   setisLoginComponent: React.Dispatch<SetStateAction<boolean>>;
   openLoader: ({}) => void;
@@ -21,8 +28,17 @@ const Login: React.FC<Props> = (props) => {
   });
   const formRef = useRef<HTMLIonItemElement>(null);
 
-  const { setCurrentUser } = useUserContext();
+  const { setCurrentUser, setIsRegisteredUser } = useUserContext();
   const { setCurrentLevel } = useLevelContext();
+  const [present, dismiss] = useIonToast();
+  const [showAlert, setShowAlert] = useState({
+    isOpen: false,
+    header: "Error...",
+    subHeader: "",
+    message:
+      "We had some trouble login you in.\n Please check your internet connection and try again.",
+    buttons: ["OK"],
+  });
 
   const displayPassword = (isPasswordFocus: boolean) => {
     const display = isPasswordFocus ? "display:none;" : "display:unset;";
@@ -39,12 +55,25 @@ const Login: React.FC<Props> = (props) => {
 
   const login = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    if (!user.email || !user.password) {
+      present({
+        duration: TOAST_DURATION,
+        message: "All Fields Are Requierd!",
+      });
+      return;
+    }
     props.openLoader({
       message: "Logging In...",
     });
-    const loggedUser = await loginUser(user);
-    props.closeLoader();
+    let loggedUser;
+    try {
+      loggedUser = await loginUser(user);
+    } catch {
+      setShowAlert({ ...showAlert, isOpen: true });
+      return
+    } finally {
+      props.closeLoader();
+    }
     if (loggedUser) {
       setCurrentUser(loggedUser);
       setCurrentLevel(loggedUser.current_level);
@@ -52,29 +81,41 @@ const Login: React.FC<Props> = (props) => {
         key: "isLoggedIn",
         value: loggedUser._id,
       });
-      router.push("/home");
+      setIsRegisteredUser(true);
       props.closeModal();
+      router.push("/home");
     } else {
-      console.log("Error Retriving Data");
+      present({
+        duration: TOAST_DURATION,
+        message: "Wrong Email Or Password",
+      });
     }
   };
   return (
     <form className="login-container" onSubmit={login}>
+      <IonAlert
+        isOpen={showAlert.isOpen}
+        onDidDismiss={() => setShowAlert({ ...showAlert, isOpen: false })}
+        header={showAlert.header}
+        subHeader={showAlert.subHeader}
+        message={showAlert.message}
+        buttons={showAlert.buttons}
+      />
       <IonItem lines={"none"} ref={formRef}>
         <IonInput
           onIonChange={(e) => setUser({ ...user, email: e.detail.value! })}
-          required
+          // required
           color={"white"}
           placeholder="Email"
           autocomplete="email"
           inputMode="email"
-          type="email"
+          // type="email"
         ></IonInput>
       </IonItem>
       <IonItem lines={"none"}>
         <IonInput
           onIonChange={(e) => setUser({ ...user, password: e.detail.value! })}
-          required
+          // required
           color={"white"}
           placeholder="Password"
           onIonFocus={() => displayPassword(true)}

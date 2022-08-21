@@ -34,10 +34,11 @@ const UserContextProvider: React.FC<React.ReactNode> = ({ children }) => {
       },
     ],
   }]);
+  const [isRegisteredUser, setIsRegisteredUser] = useState(false)
 
   return (
     <UserContext.Provider
-      value={{ currentUser, setCurrentUser, avatars, setAvatars }}
+      value={{ currentUser, setCurrentUser, avatars, setAvatars,isRegisteredUser,setIsRegisteredUser}}
     >
       {children}
     </UserContext.Provider>

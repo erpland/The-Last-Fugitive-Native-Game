@@ -21,8 +21,11 @@ import "./theme/variables.css";
 
 import { StatusBar } from "@capacitor/status-bar";
 import Routes from "./Routes";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { AndroidFullScreen } from "@awesome-cordova-plugins/android-full-screen";
+import Loader from "./Pages/Loader";
+import UserContextProvider from "./Pages/context/UserContext";
+import LevelContextProvider from "./Pages/context/LevelContext";
 // import { SplashScreen } from '@capacitor/splash-screen';
 
 setupIonicReact();
@@ -46,10 +49,19 @@ const App: React.FC = () => {
     fullScreen();
     hideStatusBar();
   }, []);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isRegisteredUser, setIsRegisteredUser] = useState(false)
 
   return (
     <IonApp>
-      <Routes />
+      <UserContextProvider>
+        <LevelContextProvider>
+          {isLoading && 
+          <Loader 
+          finshedLoading={() => setIsLoading(false)} />}
+          {!isLoading && <Routes />}
+        </LevelContextProvider>
+      </UserContextProvider>
     </IonApp>
   );
 };

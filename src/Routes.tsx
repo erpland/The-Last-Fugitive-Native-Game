@@ -5,25 +5,24 @@ import { IonRouterOutlet } from "@ionic/react";
 import Home from "./Pages/home/Home";
 import Game from "./Pages/game/Game";
 import Connect from "./Pages/connect/Connect";
-import UserContextProvider from "./Pages/context/UserContext";
-import LevelContextProvider from "./Pages/context/LevelContext";
 import MusicContextProvider from "./Pages/context/MusicContext";
-type Props = {};
+import { useUserContext } from "./Pages/context/UserContext";
+type Props = {
+  // isRegisteredUser:boolean
+};
 
-const Routes: React.FC = (props: Props) => {
+const Routes: React.FC<Props> = () => {
+  const {isRegisteredUser} = useUserContext()
   return (
     <IonReactRouter>
       <IonRouterOutlet>
-        <UserContextProvider>
-          <LevelContextProvider>
             <MusicContextProvider>
-              {/* <Route path="/connect" component={Connect} /> */}
-              {/* <Redirect exact from="/" to="/connect" /> */}
-              {/* <Route path="/home" component={Home} /> */}
+              <Route path="/connect" component={Connect} />
+              {!isRegisteredUser && <Redirect exact from="/" to="/connect" />}
+              {isRegisteredUser && <Redirect exact from="/" to="/home" />}
+              <Route path="/home" component={Home} />
               <Route path="/game" component={Game}  />
             </MusicContextProvider>
-          </LevelContextProvider>
-        </UserContextProvider>
       </IonRouterOutlet>
     </IonReactRouter>
   );

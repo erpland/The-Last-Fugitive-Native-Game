@@ -261,6 +261,9 @@ http://ionicframework.com/docs/theming/ */
 ion-button {
   font-family: "BlackOpsOne-Regular";
 }
+ion-alert{
+  --background:var(--ion-color-light) !important;
+}
 /* ion-modal{
   --border-color:var(--ion-color-warning);
   --border-width:3px;
