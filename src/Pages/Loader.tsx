@@ -5,7 +5,6 @@ import {
   IonContent,
   IonProgressBar,
   IonText,
-  useIonRouter,
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import {
@@ -45,7 +44,7 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
   });
   useEffect(() => {
     const getAllData = async () => {
-      await Preferences.remove({key:"isLoggedIn"})
+      // await Preferences.remove({key:"isLoggedIn"})
       try {
         const allLevels = await getAllLevels();
         setLoading({ ...loading, progress: 0.3 });

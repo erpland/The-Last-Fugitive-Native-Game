@@ -1,0 +1,9 @@
+.player{
+  position: absolute;
+  // width: 49px;
+  // height: 49px;
+  z-index: 100;
+  transition: top 1.5s linear,  left 1.5s linear, transform 1s linear;
+  transform: rotate(0);
+  border: 3px solid pink;
+}

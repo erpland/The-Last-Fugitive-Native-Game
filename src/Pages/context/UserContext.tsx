@@ -6,9 +6,9 @@ export const UserContext = createContext<UserContextType | null>(null);
 const UserContextProvider: React.FC<React.ReactNode> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<UserType>({
     _id: "",
-    nickname: "",
-    email: "",
-    password: "",
+    nickname: "guest7529859852",
+    email: "guest",
+    password: "guest",
     current_level: 1,
     level_rank: [
       {

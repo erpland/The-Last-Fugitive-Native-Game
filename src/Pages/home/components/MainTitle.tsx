@@ -1,3 +1,4 @@
+import { Preferences } from "@capacitor/preferences";
 import { IonButton, useIonRouter } from "@ionic/react";
 import React from "react";
 import { useUserContext } from "../../context/UserContext";
@@ -7,13 +8,14 @@ type Props = {};
 const MainTitle = (props: Props) => {
   const {isRegisteredUser} = useUserContext()
   const router = useIonRouter();
-  const connectButtonHandler=()=>{
-    if(!isRegisteredUser){
-      router.push("/connect");
+  const connectButtonHandler=async()=>{
+    if(isRegisteredUser){
+      await Preferences.remove({key:"isLoggedIn"})
     }
     else{
       console.log("logout")
     }
+    router.push("/connect");
   }
 
   return (

@@ -19,7 +19,6 @@ const {playMusic} = useMusicContext()
   useEffect(() => {
     playMusic()
   }, [])
-console.log("Home!!!!!")
 
 
 return (

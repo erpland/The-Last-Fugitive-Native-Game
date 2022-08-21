@@ -125,6 +125,7 @@ const Login: React.FC<Props> = (props) => {
           type="password"
         ></IonInput>
       </IonItem>
+      <p style={{color:'white'}}>Forgot Password?</p>
       <div className="login-container__buttons">
         <IonButton strong={true} color="primary" type="submit">
           Login

@@ -1,5 +1,5 @@
 .map-container{
-  height: 100vh;
+  height: 100%;
   width: 100vw;
 }
 // .map__cells{
@@ -13,8 +13,8 @@
 }
 .map-box{
   // height: 10vh;
-  width: 100%;
-  background-image: url("../../../../public/assets/game/tile1.png");
+  // width: 100%;
+  // background-image: url("../../../../public/assets/game/tile1.png");
   background-size: cover;
   background-position: center;
 }
