@@ -237,10 +237,11 @@ const Player: React.FC<Props> = ({
         height={TILE_SIZE}
       />
       <h1 style={{
+        textAlign:'center',
           border: "1px solid red",
           transform: "rotate(0deg)",
           transition: "3s",
-        }}> {"=>"}</h1>
+        }}> {"➜"}</h1>
     </div>
   );
 };

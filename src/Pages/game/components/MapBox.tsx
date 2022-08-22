@@ -26,9 +26,9 @@ const MapBox:React.FC<Props> = ({col,index,rowIndex}) => {
     }
   };
   const randomTile = (type:any) => {
-    if (type === 0) return Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+    if (type === 0) return Math.floor(Math.random() * (36));
     else {
-      return Math.floor(Math.random() * (3 - 1) + 1) + 1;
+      return Math.floor(Math.random() * 36);
     }
   };
 
@@ -36,7 +36,7 @@ const MapBox:React.FC<Props> = ({col,index,rowIndex}) => {
   return (
     <div
     style={{
-      backgroundImage: `url(./Assets/game/${getTile(col)}.png)`,
+      backgroundImage: `url(./Assets/game/tileset/${getTile(col)}.png)`,
       height: TILE_SIZE,
       width: TILE_SIZE,
       backgroundSize: "cover",

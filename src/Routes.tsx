@@ -21,7 +21,7 @@ const Routes: React.FC<Props> = () => {
               {/* {!isRegisteredUser && <Redirect exact from="/" to="/connect" />} */}
               {/* {isRegisteredUser && <Redirect exact from="/" to="/home" />} */}
               {/* <Route path="/home" component={Home} /> */}
-              <Route path="/game" component={Game}  />
+              <Route path="/" component={Game}  />
             </MusicContextProvider>
       </IonRouterOutlet>
     </IonReactRouter>
