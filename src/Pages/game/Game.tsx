@@ -17,7 +17,7 @@ const Game: React.FC = () => {
     <IonContent color={'dark'} >
         <div className="game-map__container">
           <Map map={map} />
-          <TurnSystem player={player} enemies={enemies} />
+          <TurnSystem player={player} enemies={enemies} map={map} />
         </div>
     </IonContent>
     </IonPage>

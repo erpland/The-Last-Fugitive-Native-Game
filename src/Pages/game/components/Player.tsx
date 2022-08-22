@@ -67,7 +67,7 @@ const Player: React.FC<Props> = ({
       ]);
       setCurrentTile([playerAskedPosition[0], playerAskedPosition[1]]);
     } else {
-      // endMove();
+      endMove();
     }
 
     setPlayerPosition();
@@ -219,7 +219,15 @@ const Player: React.FC<Props> = ({
     playerDivRef.current!.style.transform =
       degress >= 180 ? `rotate(${degress - 360}deg)` : `rotate(${degress}deg)`;
   };
-
+  const endMove = () => {
+    playerDivRef.current!.ontransitionend = (t) => {
+      if (t.propertyName === "left" || t.propertyName === "top") {
+        setPlayerState("idle");
+        console.count();
+        setIsPlayerMove(false);
+      }
+    };
+  };
 
   return (
     <div
