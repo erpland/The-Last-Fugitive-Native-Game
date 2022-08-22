@@ -1,18 +1,21 @@
-import { IonButton } from '@ionic/react'
-import React from 'react'
-import '../styles/header.scss'
-type Props = {}
+import { IonButton } from "@ionic/react";
+import { type } from "os";
+import React, { useState } from "react";
+import { usePlayerDataContext } from "../../context/PlayerDataContext";
+import "../styles/header.scss";
 
-const Header:React.FC = () => {
+type Props = {
+};
+
+const Header: React.FC<Props> = () => {
+  const {playerData} = usePlayerDataContext()
   return (
-    <div className='header-container'>
-      <span>Steps: 1</span>
-      <span>Turn: You</span>
-      <IonButton fill='outline'>
-        Hint
-      </IonButton>
-      </div>
-  )
-}
+    <div className="header-container">
+      <span>Steps: {playerData.steps}</span>
+      <span>Turn: {playerData.isPlayerTurn ? "Player" : "Zombies"}</span>
+      <IonButton fill="outline">Hint</IonButton>
+    </div>
+  );
+};
 
-export default Header
+export default Header;

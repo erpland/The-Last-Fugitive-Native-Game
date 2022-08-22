@@ -54,7 +54,6 @@ const Player: React.FC<Props> = ({
         playerAskedPosition[1] !== playerCurrentPostion[1])
     ) {
       let askedDirection = getPlayerNextDirection();
-      console.log(askedDirection !== playerCurrentDirection);
       if (askedDirection !== playerCurrentDirection) {
         let degress = getPlayerNextDirectionDegree(askedDirection);
         changeDirection(degress);
@@ -223,7 +222,6 @@ const Player: React.FC<Props> = ({
     playerDivRef.current!.ontransitionend = (t) => {
       if (t.propertyName === "left" || t.propertyName === "top") {
         setPlayerState("idle");
-        console.count();
         setIsPlayerMove(false);
       }
     };

@@ -11,6 +11,7 @@ import enemyFullJSON from "../Assets/Enemy/EnemyFull.json";
 import enemyFullImg from "../Assets/Enemy/EnemyFull.png";
 import { directionMap } from "../constants/helpers";
 type Props = {
+  enemyCode: number;
   position: number[];
   direction: string;
   playerPosition: number[];
@@ -18,9 +19,12 @@ type Props = {
   setIsPlayerMove: (val: boolean) => void;
   isPlayerMove: boolean;
   MAP: number[][];
+  nextEnemiesPositions: any;
+  setNextEnemiesPositions: (pos: number[][]) => void;
 };
 
 const Enemy: React.FC<Props> = ({
+  enemyCode,
   position,
   direction,
   playerPosition,
@@ -28,6 +32,8 @@ const Enemy: React.FC<Props> = ({
   setIsPlayerMove,
   setCurrentTile,
   MAP,
+  nextEnemiesPositions,
+  setNextEnemiesPositions,
 }) => {
   const canvasRef = createRef<HTMLCanvasElement>();
   const enemyDivRef = useRef<HTMLDivElement>(null);
@@ -63,7 +69,28 @@ const Enemy: React.FC<Props> = ({
 
   useEffect(() => {
     if (!isPlayerMove) {
-      let nextMove:any = getNextMove();
+      let nextMove: any = getNextMove();
+    const nextMoveRec = () => {
+        // console.log(nextMove)
+        nextEnemiesPositions[enemyCode] = nextMove;
+        // console.log(nextEnemiesPositions)
+        // console.log(nextEnemiesPositions[enemyCode])
+        for (let i in nextEnemiesPositions) {
+          if (i !== enemyCode.toString()) {
+            if (nextEnemiesPositions[i][0] === nextMove[0] && nextEnemiesPositions[i][1] === nextMove[1]) {
+              console.log("WORKINGGGGG!")
+              nextMove=getNextMove();
+              nextMoveRec()
+            }
+          }
+        }
+      }
+      nextMoveRec()
+      // for(let enemy of nextEnemiesPositions){
+      //   console.log(enemy)
+
+      // }
+
       if (nextMove) {
         let nextDirection = getEnemyNextDirection(nextMove);
         if (nextDirection !== enemyCurrentDirection) {
@@ -73,16 +100,20 @@ const Enemy: React.FC<Props> = ({
         }
       }
       enemyDivRef.current!.style.left = `${nextMove[0] * TILE_SIZE}px`;
-      enemyDivRef.current!.style.top = `${nextMove[1]  * TILE_SIZE}px`;
+      enemyDivRef.current!.style.top = `${nextMove[1] * TILE_SIZE}px`;
       setEnemyCurrentPosition(nextMove);
       setCurrentTile(nextMove);
       endTurn();
-    }
+    };
   }, [isPlayerMove]);
 
   useEffect(() => {
-    enemyDivRef.current!.style.left = `${enemyCurrentPosiotion[0] * TILE_SIZE}px`;
-    enemyDivRef.current!.style.top = `${enemyCurrentPosiotion[1]  * TILE_SIZE}px`;
+    enemyDivRef.current!.style.left = `${
+      enemyCurrentPosiotion[0] * TILE_SIZE
+    }px`;
+    enemyDivRef.current!.style.top = `${
+      enemyCurrentPosiotion[1] * TILE_SIZE
+    }px`;
     let degree = getEnemyNextDirectionDegree(enemyCurrentDirection);
     changeDirection(degree!);
   }, []);
@@ -111,7 +142,7 @@ const Enemy: React.FC<Props> = ({
       draw();
     }
   };
-// gets the currect image defiend by enemy movment state
+  // gets the currect image defiend by enemy movment state
   const getEnemyState = () => {
     switch (enemyState) {
       case "idle":
@@ -163,8 +194,12 @@ const Enemy: React.FC<Props> = ({
   };
   // checks if the next position is valid
   const isValidMove = (nextPos: number, isX: boolean, x: number, y: number) => {
+    if (nextPos < 0) {
+      return false;
+    }
     return isX ? MAP[y][nextPos] !== 1 : MAP[nextPos][x] !== 1;
   };
+
   // gets the enemy next direction
   const getEnemyNextDirection = (nextPosition: any) => {
     if (nextPosition[0] > enemyCurrentPosiotion[0]) return directionMap.RIGHT;
@@ -175,7 +210,7 @@ const Enemy: React.FC<Props> = ({
     else if (nextPosition[1] < enemyCurrentPosiotion[1]) return directionMap.UP;
   };
   // get the enemy roation degree (if needed)
-  const getEnemyNextDirectionDegree = (askedDirection:number) => {
+  const getEnemyNextDirectionDegree = (askedDirection: number) => {
     switch (askedDirection) {
       case directionMap.UP:
         return 270 % 360;
@@ -194,7 +229,7 @@ const Enemy: React.FC<Props> = ({
     }
   };
   // changes the enemy direction (if needed)
-  const changeDirection = (degress:number) => {
+  const changeDirection = (degress: number) => {
     enemyDivRef.current!.style.transform = "rotate(0)";
     enemyDivRef.current!.style.transform =
       degress >= 180 ? `rotate(${degress - 360}deg)` : `rotate(${degress}deg)`;
@@ -214,7 +249,7 @@ const Enemy: React.FC<Props> = ({
       data-colider={true}
       data-type={"enemy"}
       className="player"
-      style={{width:TILE_SIZE,height:TILE_SIZE}}
+      style={{ width: TILE_SIZE, height: TILE_SIZE }}
       // style={{ transform: "rotate(0deg)" }}
     >
       <canvas
@@ -223,12 +258,17 @@ const Enemy: React.FC<Props> = ({
         width={TILE_SIZE}
         height={TILE_SIZE}
       />
-      <h1 style={{
-        textAlign:'center',
+      <h1
+        style={{
+          textAlign: "center",
           border: "1px solid red",
           transform: "rotate(0deg)",
           transition: "3s",
-        }}> {"➜"}</h1>
+        }}
+      >
+        {" "}
+        {"➜"}
+      </h1>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { IonContent, IonPage } from "@ionic/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import PlayerDataContextProvider from "../context/PlayerDataContext";
 import Header from "./components/Header";
 import Map from "./components/Map";
 import TurnSystem from "./components/TurnSystem";
@@ -10,16 +11,24 @@ import { tempLevel } from "./temp.js";
 
 const Game: React.FC = () => {
   const { map, player, enemies } = tempLevel;
-  return (
-    <IonPage >
-      <Header />
 
-    <IonContent color={'dark'} >
-        <div className="game-map__container">
-          <Map map={map} />
-          <TurnSystem player={player} enemies={enemies} map={map} />
-        </div>
-    </IonContent>
+
+  return (
+    <IonPage>
+      <PlayerDataContextProvider>
+        <Header/>
+
+        <IonContent color={"dark"}>
+          <div className="game-map__container">
+            <Map map={map} />
+            <TurnSystem
+              player={player}
+              enemies={enemies}
+              map={map}
+            />
+          </div>
+        </IonContent>
+      </PlayerDataContextProvider>
     </IonPage>
     // <div>Game - {match.params.level}
 
