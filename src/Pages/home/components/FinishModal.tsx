@@ -8,13 +8,17 @@ import {
 } from "@ionic/react";
 import { star, menu, refresh, arrowForward } from "ionicons/icons";
 import React, { useRef } from "react";
-
+import { usePlayerDataContext } from "../../context/PlayerDataContext";
+import '../styles/home.scss'
+interface stepCapType{
+  code:number
+  step:number
+}
 interface Props{
   FinishModal:{
+  isModalOpen:boolean
   isWon: boolean;
-  moves: number;
-  score: number;
-  stars?: 1|2|3;
+  stepCap: stepCapType[]
   }
   TextProps:{
     label:string,
@@ -26,15 +30,24 @@ interface Props{
   }
 }
 
-const FinishModal: React.FC<Props["FinishModal"]> = ({ isWon, moves, score, stars }) => {
+const FinishModal: React.FC<Props["FinishModal"]> = ({ isModalOpen, isWon, stepCap }) => {
   const modal = useRef<HTMLIonModalElement>(null);
   const data = {
     title: isWon ? "Victory" : "Lost",
     color: isWon ? "var(--ion-color-success)" : "var(--ion-color-danger)",
   };
-  
+  const {playerData} = usePlayerDataContext()
+    const calcStars = ()=>{
+    if(playerData.steps <= stepCap[0].step){
+      return 3
+    }else if(playerData.steps <= stepCap[1].step)
+      return 2
+      else{
+        return 1
+      }
+  }
   return (
-    <IonModal id="finish-modal" ref={modal} trigger="open-finish-modal">
+    <IonModal id="finish-modal" ref={modal} trigger="open-finish-modal"  isOpen={isModalOpen}>
       <IonHeader>
         <IonToolbar>
           <IonTitle>{data.title}</IonTitle>
@@ -42,10 +55,10 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({ isWon, moves, score, star
       </IonHeader>
 
       <div className="finish-modal__body">
-        <FinishIcons stars={stars || 0}/>
+        <FinishIcons stars={calcStars() || 0}/>
         <h2 style={{color:data.color}}>Level 10</h2>
-        <ModalText label={"Moves"} value={moves} color={data.color} />
-        <ModalText label={"Score"} value={score} color={data.color} />
+        <ModalText label={"Moves"} value={playerData.steps} color={data.color} />
+        <ModalText label={"Score"} value={1} color={data.color} />
         <div className="finish-modal__button-container">
           <IonButton fill="outline">
             <IonIcon slot="icon-only" icon={menu} color="warning" />

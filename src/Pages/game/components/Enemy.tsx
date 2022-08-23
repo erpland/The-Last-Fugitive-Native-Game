@@ -7,8 +7,12 @@ import React, {
 } from "react";
 import { TILE_SIZE } from "../constants/constants";
 import "../styles/player.scss";
-import enemyFullJSON from "../Assets/Enemy/EnemyFull.json";
-import enemyFullImg from "../Assets/Enemy/EnemyFull.png";
+import enemyFullJSON1 from "../Assets/Enemy/enemyFull1.json";
+import enemyFullImg1 from "../Assets/Enemy/enemyFull1.png";
+import enemyFullJSON2 from "../Assets/Enemy/enemyFull2.json";
+import enemyFullImg2 from "../Assets/Enemy/enemyFull2.png";
+import enemyFullJSON3 from "../Assets/Enemy/enemyFull3.json";
+import enemyFullImg3 from "../Assets/Enemy/enemyFull3.png";
 import { directionMap } from "../constants/helpers";
 type Props = {
   enemyCode: number;
@@ -44,9 +48,59 @@ const Enemy: React.FC<Props> = ({
   const [enemyCurrentDirection, setEnemyCurrentDirection] = useState(
     directionMap[direction]
   );
-  let enemyFrame = enemyFullJSON.enemy.idle[currentFrame];
-  let enemySprite: any, degress;
+  const [enemyFullJSON, setEnemyFullJSON] = useState<any>()
+  const [enemyFullImg, setEnemyFullImg] = useState<any>()
+  
+  let enemyFrame: any;
+  let enemySprite: any;
+  // let enemyFullImg:any
+  // let enemyFullJSON:any
+  const chooseEnemyType = () => {
+    switch (enemyCode) {
+      case 0:
+        setEnemyFullJSON(enemyFullJSON1)
+        enemyFrame = enemyFullJSON1.enemy.idle[currentFrame];
+        setEnemyFullImg(enemyFullImg1)
+        break;
+      case 1:
+        setEnemyFullJSON(enemyFullJSON2)
+        enemyFrame = enemyFullJSON2.enemy.idle[currentFrame];
+        setEnemyFullImg(enemyFullImg2)
+        break;
+      case 2:
+        setEnemyFullJSON(enemyFullJSON3)
+        enemyFrame = enemyFullJSON3.enemy.idle[currentFrame];
+        setEnemyFullImg(enemyFullImg3)
+        break;
+      default:
+        const randomEnemey:any = randomEnemy()
+        console.log(randomEnemey)
+        setEnemyFullJSON(randomEnemey.json)
+        enemyFrame = randomEnemey.json.enemy.idle[currentFrame];;
+        setEnemyFullImg(randomEnemey.img)
+        // setEnemyFullJSON(enemyFullJSON3)
+        // enemyFrame = enemyFullJSON3.enemy.idle[currentFrame];
+        // setEnemyFullImg(enemyFullImg3)
+        break;
+        
+    }
+  };
+  const randomEnemy = () => {
+    let num = Math.floor(Math.random() * 3);
+    switch (num) {
+      case 0:
+       return{json:enemyFullJSON1,img:enemyFullImg1};
+      case 1:
+        return {json:enemyFullJSON2,img:enemyFullImg2};
+      case 2:
+        return {json:enemyFullJSON3,img:enemyFullImg3};
 
+    }
+  };
+  useEffect(() => {
+    chooseEnemyType()
+  }, [])
+  
   //recursive game loop - create animations frames
   useLayoutEffect(() => {
     let timerId: number;
@@ -54,6 +108,7 @@ const Enemy: React.FC<Props> = ({
       setCounter((c) => c + 1);
       timerId = requestAnimationFrame(animate);
     };
+    
     timerId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(timerId);
   }, []);
@@ -70,26 +125,22 @@ const Enemy: React.FC<Props> = ({
   useEffect(() => {
     if (!isPlayerMove) {
       let nextMove: any = getNextMove();
-    const nextMoveRec = () => {
-        // console.log(nextMove)
+      const nextMoveRec = () => {
         nextEnemiesPositions[enemyCode] = nextMove;
-        // console.log(nextEnemiesPositions)
-        // console.log(nextEnemiesPositions[enemyCode])
         for (let i in nextEnemiesPositions) {
           if (i !== enemyCode.toString()) {
-            if (nextEnemiesPositions[i][0] === nextMove[0] && nextEnemiesPositions[i][1] === nextMove[1]) {
-              console.log("WORKINGGGGG!")
-              nextMove=getNextMove();
-              nextMoveRec()
+            if (
+              nextEnemiesPositions[i][0] === nextMove[0] &&
+              nextEnemiesPositions[i][1] === nextMove[1]
+            ) {
+              nextMove = getNextMove();
+              nextMoveRec();
             }
           }
         }
-      }
-      nextMoveRec()
-      // for(let enemy of nextEnemiesPositions){
-      //   console.log(enemy)
+      };
+      nextMoveRec();
 
-      // }
 
       if (nextMove) {
         let nextDirection = getEnemyNextDirection(nextMove);
@@ -101,10 +152,11 @@ const Enemy: React.FC<Props> = ({
       }
       enemyDivRef.current!.style.left = `${nextMove[0] * TILE_SIZE}px`;
       enemyDivRef.current!.style.top = `${nextMove[1] * TILE_SIZE}px`;
+      setEnemyState("move");
       setEnemyCurrentPosition(nextMove);
       setCurrentTile(nextMove);
       endTurn();
-    };
+    }
   }, [isPlayerMove]);
 
   useEffect(() => {
@@ -194,10 +246,15 @@ const Enemy: React.FC<Props> = ({
   };
   // checks if the next position is valid
   const isValidMove = (nextPos: number, isX: boolean, x: number, y: number) => {
+    console.log(isX, nextPos);
     if (nextPos < 0) {
       return false;
+    } else if (isX && nextPos >= MAP[0].length) {
+      return false;
+    } else if (!isX && nextPos >= MAP.length) {
+      return false;
     }
-    return isX ? MAP[y][nextPos] !== 1 : MAP[nextPos][x] !== 1;
+    return isX ? MAP[y][nextPos] < 1 : MAP[nextPos][x] < 1;
   };
 
   // gets the enemy next direction
@@ -212,27 +269,21 @@ const Enemy: React.FC<Props> = ({
   // get the enemy roation degree (if needed)
   const getEnemyNextDirectionDegree = (askedDirection: number) => {
     switch (askedDirection) {
-      case directionMap.UP:
-        return 270 % 360;
-
-      case directionMap.DOWN:
-        return 90 % 360;
-
       case directionMap.LEFT:
-        return 180 % 360;
+        return -1
 
       case directionMap.RIGHT:
-        return 0 % 360;
+        return 1
 
       default:
         break;
     }
   };
   // changes the enemy direction (if needed)
-  const changeDirection = (degress: number) => {
-    enemyDivRef.current!.style.transform = "rotate(0)";
-    enemyDivRef.current!.style.transform =
-      degress >= 180 ? `rotate(${degress - 360}deg)` : `rotate(${degress}deg)`;
+  const changeDirection = (dir: number) => {
+    enemyDivRef.current!.style.transform = `scaleX(${dir})`;
+    // enemyDivRef.current!.style.transform =
+    //   degress >= 180 ? `rotate(${degress - 360}deg)` : `rotate(${degress}deg)`;
   };
   // finishs enemey turn
   const endTurn = () => {

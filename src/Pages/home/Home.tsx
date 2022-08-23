@@ -28,7 +28,7 @@ return (
         className="main__content">
 
        
-        <FinishModal isWon={true} moves={8} score={5} stars={2}/>
+        {/* <FinishModal isWon={true} moves={8} score={5} stars={2}/> */}
         <SettingsModal/>
         <ConnectModal/>
         <ProfileModal/>

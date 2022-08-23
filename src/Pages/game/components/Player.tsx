@@ -30,7 +30,7 @@ const Player: React.FC<Props> = ({
   const [playerAskedPosition, setPlayerAskedPosition] = useState<number[] | null>(null);
   const [playerCurrentDirection, setCurrentPlayerDirection] = useState(directionMap[direction]);
   let playerFrame = playerFullJSON.player.idle[currentFrame];
-  let feetFrame = playerFullJSON.player.feet[0];
+  // let feetFrame = playerFullJSON.player.feet[0];
   useLayoutEffect(() => {
     //יצירת לולאת המשחק לעידכון
     //timer
@@ -129,18 +129,6 @@ const Player: React.FC<Props> = ({
         ctx.clearRect(0, 0, TILE_SIZE, TILE_SIZE);
         // (image, sx, sy, sw, sh, dx, dy, dw, dh)
         getPlayerState();
-
-        ctx.drawImage(
-          playerSprite,
-          feetFrame.frame.x,
-          feetFrame.frame.y,
-          feetFrame.frame.w,
-          feetFrame.frame.h,
-          15,
-          20,
-          TILE_SIZE / 2,
-          TILE_SIZE / 2
-        );
         if (currentFrame < playerFullJSON.player.idle.length - 1) {
           setCurrentFrame((f) => f + 1);
         } else {
@@ -165,11 +153,12 @@ const Player: React.FC<Props> = ({
     switch (playerState) {
       case "idle":
         playerFrame = playerFullJSON.player.idle[currentFrame];
-        feetFrame = playerFullJSON.player.feet[0];
         break;
       case "move":
         playerFrame = playerFullJSON.player.move[currentFrame];
-        feetFrame = playerFullJSON.player.feet[currentFrame];
+        break;
+        case "die":
+          playerFrame = playerFullJSON.player.die[currentFrame];
         break;
       default:
         break;
@@ -193,30 +182,16 @@ const Player: React.FC<Props> = ({
   };
   const getPlayerNextDirectionDegree = (askedDirection:any) => {
     switch (askedDirection) {
-      case directionMap.UP:
-        return 270 % 360;
-        // prev === directionMap.RIGHT ? "rotate(-90deg)" : "rotate(270deg)";
-        break;
-      case directionMap.DOWN:
-        return 90 % 360;
-        // prev === directionMap.LEFT ? "rotate(90deg)" : "rotate(90deg)";
-        break;
       case directionMap.LEFT:
-        return 180 % 360;
-        // prev === directionMap.UP ? "rotate(-180deg)" : "rotate(180deg)";
-        break;
+        return -1;
       case directionMap.RIGHT:
-        return 0 % 360;
-        // prev === directionMap.DOWN ? "rotate(-0deg)" : "rotate(0deg)";
-        break;
+        return 1;
       default:
         break;
     }
   };
-  const changeDirection = (degress:any) => {
-    playerDivRef.current!.style.transform = "rotate(0)";
-    playerDivRef.current!.style.transform =
-      degress >= 180 ? `rotate(${degress - 360}deg)` : `rotate(${degress}deg)`;
+  const changeDirection = (dir:any) => {
+    playerDivRef.current!.style.transform = `scaleX(${dir})`;
   };
   const endMove = () => {
     playerDivRef.current!.ontransitionend = (t) => {

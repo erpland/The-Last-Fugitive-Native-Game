@@ -1,499 +1,496 @@
 {
-  "player": {
-    "idle": [
-      {
-        "filename": "survivor-idle_flashlight_0.png",
-        "frame": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_1.png",
-        "frame": { "x": 303, "y": 0, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_2.png",
-        "frame": { "x": 606, "y": 0, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_3.png",
-        "frame": { "x": 909, "y": 0, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_4.png",
-        "frame": { "x": 1212, "y": 0, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_5.png",
-        "frame": { "x": 1515, "y": 0, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_6.png",
-        "frame": { "x": 0, "y": 223, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_7.png",
-        "frame": { "x": 303, "y": 223, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_8.png",
-        "frame": { "x": 606, "y": 223, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_9.png",
-        "frame": { "x": 909, "y": 223, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_10.png",
-        "frame": { "x": 1212, "y": 223, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_11.png",
-        "frame": { "x": 1515, "y": 223, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_12.png",
-        "frame": { "x": 0, "y": 446, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_13.png",
-        "frame": { "x": 303, "y": 446, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_14.png",
-        "frame": { "x": 606, "y": 446, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_15.png",
-        "frame": { "x": 909, "y": 446, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_16.png",
-        "frame": { "x": 1212, "y": 446, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_17.png",
-        "frame": { "x": 1515, "y": 446, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_18.png",
-        "frame": { "x": 0, "y": 669, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      },
-      {
-        "filename": "survivor-idle_flashlight_19.png",
-        "frame": { "x": 303, "y": 669, "w": 303, "h": 223 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 223 },
-        "sourceSize": { "w": 303, "h": 223 }
-      }
-    ],
-    "move": [
-      {
-        "filename": "survivor-move_flashlight_0.png",
-        "frame": { "x": 606, "y": 669, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_1.png",
-        "frame": { "x": 911, "y": 669, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_2.png",
-        "frame": { "x": 1216, "y": 669, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_3.png",
-        "frame": { "x": 1521, "y": 669, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_4.png",
-        "frame": { "x": 0, "y": 900, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_5.png",
-        "frame": { "x": 305, "y": 900, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_6.png",
-        "frame": { "x": 610, "y": 900, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_7.png",
-        "frame": { "x": 915, "y": 900, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_8.png",
-        "frame": { "x": 1220, "y": 900, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_9.png",
-        "frame": { "x": 1525, "y": 900, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_10.png",
-        "frame": { "x": 0, "y": 1131, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_11.png",
-        "frame": { "x": 305, "y": 1131, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_12.png",
-        "frame": { "x": 610, "y": 1131, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_13.png",
-        "frame": { "x": 915, "y": 1131, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_14.png",
-        "frame": { "x": 1220, "y": 1131, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_15.png",
-        "frame": { "x": 1525, "y": 1131, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_16.png",
-        "frame": { "x": 0, "y": 1362, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_17.png",
-        "frame": { "x": 305, "y": 1362, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_18.png",
-        "frame": { "x": 610, "y": 1362, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      },
-      {
-        "filename": "survivor-move_flashlight_19.png",
-        "frame": { "x": 915, "y": 1362, "w": 305, "h": 231 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 305, "h": 231 },
-        "sourceSize": { "w": 305, "h": 231 }
-      }
-    ],
-    "feet": [
-      {
-        "filename": "survivor-walk_0.png",
-        "frame": { "x": 1220, "y": 1362, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_1.png",
-        "frame": { "x": 1392, "y": 1362, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_2.png",
-        "frame": { "x": 1564, "y": 1362, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_3.png",
-        "frame": { "x": 0, "y": 1593, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_4.png",
-        "frame": { "x": 172, "y": 1593, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_5.png",
-        "frame": { "x": 344, "y": 1593, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_6.png",
-        "frame": { "x": 516, "y": 1593, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_7.png",
-        "frame": { "x": 688, "y": 1593, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_8.png",
-        "frame": { "x": 860, "y": 1593, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_9.png",
-        "frame": { "x": 1032, "y": 1593, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_10.png",
-        "frame": { "x": 1204, "y": 1593, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_11.png",
-        "frame": { "x": 1376, "y": 1593, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_12.png",
-        "frame": { "x": 1548, "y": 1593, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_13.png",
-        "frame": { "x": 0, "y": 1717, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_14.png",
-        "frame": { "x": 172, "y": 1717, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_15.png",
-        "frame": { "x": 344, "y": 1717, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_16.png",
-        "frame": { "x": 516, "y": 1717, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_17.png",
-        "frame": { "x": 688, "y": 1717, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_18.png",
-        "frame": { "x": 860, "y": 1717, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      },
-      {
-        "filename": "survivor-walk_19.png",
-        "frame": { "x": 1032, "y": 1717, "w": 172, "h": 124 },
-        "rotated": false,
-        "trimmed": false,
-        "spriteSourceSize": { "x": 0, "y": 0, "w": 172, "h": 124 },
-        "sourceSize": { "w": 172, "h": 124 }
-      }
-    ]
-  },
-  "meta": {
-    "app": "https://www.codeandweb.com/texturepacker",
-    "version": "1.0",
-    "image": "playerFull.png",
-    "format": "RGBA8888",
-    "size": { "w": 1830, "h": 1841 },
-    "scale": "1",
-    "smartupdate": "$TexturePacker:SmartUpdate:7b6c843a6448f11d84a9bc54a8a9cdb4:7515464ab63b4c8692e30f298847c1fc:1bc8a6ca99a5ff8b38a311c1ec8e4095$"
-  }
+	"player": {
+	"die":[
+{
+	"filename": "8_enemies_1_die_000.png",
+	"frame": {"x":0,"y":0,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_001.png",
+	"frame": {"x":339,"y":0,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_002.png",
+	"frame": {"x":678,"y":0,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_003.png",
+	"frame": {"x":0,"y":285,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_004.png",
+	"frame": {"x":339,"y":285,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_005.png",
+	"frame": {"x":678,"y":285,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_006.png",
+	"frame": {"x":0,"y":570,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_007.png",
+	"frame": {"x":339,"y":570,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_008.png",
+	"frame": {"x":678,"y":570,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_009.png",
+	"frame": {"x":0,"y":855,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_010.png",
+	"frame": {"x":339,"y":855,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_011.png",
+	"frame": {"x":678,"y":855,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_012.png",
+	"frame": {"x":0,"y":1140,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_013.png",
+	"frame": {"x":339,"y":1140,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_014.png",
+	"frame": {"x":678,"y":1140,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_015.png",
+	"frame": {"x":0,"y":1425,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_016.png",
+	"frame": {"x":339,"y":1425,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_017.png",
+	"frame": {"x":678,"y":1425,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_018.png",
+	"frame": {"x":0,"y":1710,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_die_019.png",
+	"frame": {"x":339,"y":1710,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+}],
+"idle":[
+{
+	"filename": "8_enemies_1_idle_000.png",
+	"frame": {"x":678,"y":1710,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_001.png",
+	"frame": {"x":0,"y":1995,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_002.png",
+	"frame": {"x":339,"y":1995,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_003.png",
+	"frame": {"x":678,"y":1995,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_004.png",
+	"frame": {"x":0,"y":2280,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_005.png",
+	"frame": {"x":339,"y":2280,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_006.png",
+	"frame": {"x":678,"y":2280,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_007.png",
+	"frame": {"x":0,"y":2565,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_008.png",
+	"frame": {"x":339,"y":2565,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_009.png",
+	"frame": {"x":678,"y":2565,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_010.png",
+	"frame": {"x":0,"y":2850,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_011.png",
+	"frame": {"x":339,"y":2850,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_012.png",
+	"frame": {"x":678,"y":2850,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_013.png",
+	"frame": {"x":0,"y":3135,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_014.png",
+	"frame": {"x":339,"y":3135,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_015.png",
+	"frame": {"x":678,"y":3135,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_016.png",
+	"frame": {"x":0,"y":3420,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_017.png",
+	"frame": {"x":339,"y":3420,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_018.png",
+	"frame": {"x":678,"y":3420,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_idle_019.png",
+	"frame": {"x":0,"y":3705,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+}],
+"move":
+[
+{
+	"filename": "8_enemies_1_walk_000.png",
+	"frame": {"x":339,"y":3705,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_001.png",
+	"frame": {"x":678,"y":3705,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_002.png",
+	"frame": {"x":0,"y":3990,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_003.png",
+	"frame": {"x":339,"y":3990,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_004.png",
+	"frame": {"x":678,"y":3990,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_005.png",
+	"frame": {"x":0,"y":4275,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_006.png",
+	"frame": {"x":339,"y":4275,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_007.png",
+	"frame": {"x":678,"y":4275,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_008.png",
+	"frame": {"x":0,"y":4560,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_009.png",
+	"frame": {"x":339,"y":4560,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_010.png",
+	"frame": {"x":678,"y":4560,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_011.png",
+	"frame": {"x":0,"y":4845,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_012.png",
+	"frame": {"x":339,"y":4845,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_013.png",
+	"frame": {"x":678,"y":4845,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_014.png",
+	"frame": {"x":0,"y":5130,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_015.png",
+	"frame": {"x":339,"y":5130,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_016.png",
+	"frame": {"x":678,"y":5130,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_017.png",
+	"frame": {"x":0,"y":5415,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_018.png",
+	"frame": {"x":339,"y":5415,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+},
+{
+	"filename": "8_enemies_1_walk_019.png",
+	"frame": {"x":678,"y":5415,"w":339,"h":285},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":339,"h":285},
+	"sourceSize": {"w":339,"h":285}
+}]},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "playerFull.png",
+	"format": "RGBA8888",
+	"size": {"w":1017,"h":5700},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:b17dde8b5595cdfeccf18cbfeda88207:5fc7198d66fc9e2df1278edbf33ccd53:1bc8a6ca99a5ff8b38a311c1ec8e4095$"
+}
 }

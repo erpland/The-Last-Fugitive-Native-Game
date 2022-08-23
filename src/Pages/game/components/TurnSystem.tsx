@@ -13,25 +13,29 @@ type Props = {
 };
 type NextEnemiesPositionsType = {
   [key: number]: number[];
-}
+};
 
 const TurnSystem: React.FC<Props> = ({ player, enemies, map }) => {
-const enemiesKeys = {...enemies.map(e=>{return []})}
-console.log()
+  const enemiesKeys = {
+    ...enemies.map((e) => {
+      return [];
+    }),
+  };
 
   const enemiesPositionsMap = enemies.map((enemy) => enemy.start_position);
   const [isPlayerMove, setIsPlayerMove] = useState(true);
   const [playerPosition, setPlayerPosition] = useState(player.start_position);
   const [enemyPosition, setEnemyPosition] = useState(enemiesPositionsMap);
-  const [nextEnemiesPositions, setNextEnemiesPositions] = useState<NextEnemiesPositionsType>(enemiesKeys)
+  const [nextEnemiesPositions, setNextEnemiesPositions] =
+    useState<NextEnemiesPositionsType>(enemiesKeys);
   const { playerData, setPlayerData } = usePlayerDataContext();
 
   useEffect(() => {
     let steps = playerData.steps;
     if (!isPlayerMove) {
-      steps++
+      steps++;
     }
-    setPlayerData({steps,isPlayerTurn: isPlayerMove})
+    setPlayerData({ steps, isPlayerTurn: isPlayerMove });
   }, [isPlayerMove]);
 
   const changeEnemyPositions = (pos: number[], index: number) => {
@@ -43,15 +47,15 @@ console.log()
     return (
       <Enemy
         key={index}
-        enemyCode = {enemy.code}
+        enemyCode={enemy.code}
         position={enemy.start_position}
         direction={enemy.startDirection}
         playerPosition={playerPosition}
         setIsPlayerMove={setIsPlayerMove}
         isPlayerMove={isPlayerMove}
         setCurrentTile={(pos) => changeEnemyPositions(pos, index)}
-        nextEnemiesPositions = {nextEnemiesPositions}
-        setNextEnemiesPositions = {(pos)=>setNextEnemiesPositions(pos)}
+        nextEnemiesPositions={nextEnemiesPositions}
+        setNextEnemiesPositions={(pos) => setNextEnemiesPositions(pos)}
         MAP={map}
       />
     );
