@@ -25,6 +25,8 @@ type Props = {
   MAP: number[][];
   nextEnemiesPositions: any;
   setNextEnemiesPositions: (pos: number[][]) => void;
+  setIsFinished:React.Dispatch<React.SetStateAction<boolean>>
+  counter:number
 };
 
 const Enemy: React.FC<Props> = ({
@@ -38,11 +40,13 @@ const Enemy: React.FC<Props> = ({
   MAP,
   nextEnemiesPositions,
   setNextEnemiesPositions,
+  setIsFinished,
+  counter
 }) => {
   const canvasRef = createRef<HTMLCanvasElement>();
   const enemyDivRef = useRef<HTMLDivElement>(null);
   const [currentFrame, setCurrentFrame] = useState(0);
-  const [counter, setCounter] = useState(0);
+  // const [counter, setCounter] = useState(0);
   const [enemyState, setEnemyState] = useState("idle");
   const [enemyCurrentPosiotion, setEnemyCurrentPosition] = useState(position);
   const [enemyCurrentDirection, setEnemyCurrentDirection] = useState(
@@ -53,8 +57,6 @@ const Enemy: React.FC<Props> = ({
   
   let enemyFrame: any;
   let enemySprite: any;
-  // let enemyFullImg:any
-  // let enemyFullJSON:any
   const chooseEnemyType = () => {
     switch (enemyCode) {
       case 0:
@@ -102,16 +104,17 @@ const Enemy: React.FC<Props> = ({
   }, [])
   
   //recursive game loop - create animations frames
-  useLayoutEffect(() => {
-    let timerId: number;
-    const animate = () => {
-      setCounter((c) => c + 1);
-      timerId = requestAnimationFrame(animate);
-    };
+  // useLayoutEffect(() => {
+  //   let timerId: number;
+  //   const animate = () => {
+  //     setCounter((c) => c + 1);
+  //     timerId = requestAnimationFrame(animate);
+  //     console.log("Enemy => " + enemyCode, counter)
+  //   };
     
-    timerId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(timerId);
-  }, []);
+  //   timerId = requestAnimationFrame(animate);
+  //   return () => cancelAnimationFrame(timerId);
+  // }, []);
 
   //create new image every 5 frames (for animation)
   useEffect(() => {
@@ -256,7 +259,6 @@ const Enemy: React.FC<Props> = ({
     }
     return isX ? MAP[y][nextPos] < 1 : MAP[nextPos][x] < 1;
   };
-
   // gets the enemy next direction
   const getEnemyNextDirection = (nextPosition: any) => {
     if (nextPosition[0] > enemyCurrentPosiotion[0]) return directionMap.RIGHT;
@@ -309,7 +311,7 @@ const Enemy: React.FC<Props> = ({
         width={TILE_SIZE}
         height={TILE_SIZE}
       />
-      <h1
+      {/* <h1
         style={{
           textAlign: "center",
           border: "1px solid red",
@@ -319,7 +321,7 @@ const Enemy: React.FC<Props> = ({
       >
         {" "}
         {"➜"}
-      </h1>
+      </h1> */}
     </div>
   );
 };

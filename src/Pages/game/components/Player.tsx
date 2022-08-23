@@ -11,6 +11,8 @@ type Props = {
   setCurrentTile: (pos: any) => void;
   setIsPlayerMove: (val: boolean) => void;
   isPlayerMove: boolean;
+  setIsFinished:React.Dispatch<React.SetStateAction<boolean>>
+  counter:number
 };
 
 const Player: React.FC<Props> = ({
@@ -19,29 +21,32 @@ const Player: React.FC<Props> = ({
   setCurrentTile,
   setIsPlayerMove,
   isPlayerMove,
+  setIsFinished,
+  counter
 }) => {
   let playerSprite :any;
   const canvasRef = createRef<HTMLCanvasElement>();
   const playerDivRef = createRef<HTMLDivElement>();
   const [currentFrame, setCurrentFrame] = useState(0);
-  const [counter, setCounter] = useState(0);
+  // const [counter, setCounter] = useState(0);
   const [playerState, setPlayerState] = useState("idle");
   const [playerCurrentPostion, setPlayerCurrentPosition] = useState(position);
   const [playerAskedPosition, setPlayerAskedPosition] = useState<number[] | null>(null);
   const [playerCurrentDirection, setCurrentPlayerDirection] = useState(directionMap[direction]);
   let playerFrame = playerFullJSON.player.idle[currentFrame];
   // let feetFrame = playerFullJSON.player.feet[0];
-  useLayoutEffect(() => {
-    //יצירת לולאת המשחק לעידכון
-    //timer
-    let timerId : number;
-    const animate = () => {
-      setCounter((c) => c + 1);
-      timerId = requestAnimationFrame(animate);
-    };
-    timerId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(timerId);
-  }, []);
+  // useLayoutEffect(() => {
+  //   //יצירת לולאת המשחק לעידכון
+  //   //timer
+  //   let timerId : number;
+  //   const animate = () => {
+  //     setCounter((c) => c + 1);
+  //     timerId = requestAnimationFrame(animate);
+  //     console.log("player => ", counter)
+  //   };
+  //   timerId = requestAnimationFrame(animate);
+  //   return () => cancelAnimationFrame(timerId);
+  // }, []);
   
   useEffect(() => {
     //תזוזת השחקן
@@ -95,7 +100,7 @@ const Player: React.FC<Props> = ({
       }
       if (e.target.dataset.win_tile === "true") {
         setTimeout(() => {
-          alert("winner");
+          setIsFinished(true)
         }, 1000);
       }
     };
@@ -217,12 +222,12 @@ const Player: React.FC<Props> = ({
         width={TILE_SIZE}
         height={TILE_SIZE}
       />
-      <h1 style={{
+      {/* <h1 style={{
         textAlign:'center',
           border: "1px solid red",
           transform: "rotate(0deg)",
           transition: "3s",
-        }}> {"➜"}</h1>
+        }}> {"➜"}</h1> */}
     </div>
   );
 };

@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useState } from "react";
-import { PlayerDataContextType, } from "../../Types/PlayerDataType";
+import { PlayerDataContextType } from "../../Types/PlayerDataType";
 
-export const PlayerDataContext = createContext<PlayerDataContextType | null>(null);
+export const PlayerDataContext = createContext<PlayerDataContextType | null>(
+  null
+);
 
 const PlayerDataContextProvider: React.FC<React.ReactNode> = ({ children }) => {
   const [playerData, setPlayerData] = useState({
@@ -11,8 +13,9 @@ const PlayerDataContextProvider: React.FC<React.ReactNode> = ({ children }) => {
   return (
     <PlayerDataContext.Provider
       value={{
-        playerData, setPlayerData
-        }}
+        playerData,
+        setPlayerData,
+      }}
     >
       {children}
     </PlayerDataContext.Provider>
@@ -20,4 +23,5 @@ const PlayerDataContextProvider: React.FC<React.ReactNode> = ({ children }) => {
 };
 
 export default PlayerDataContextProvider;
-export const usePlayerDataContext = () => useContext(PlayerDataContext) as PlayerDataContextType;
+export const usePlayerDataContext = () =>
+  useContext(PlayerDataContext) as PlayerDataContextType;

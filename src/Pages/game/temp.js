@@ -8,7 +8,7 @@ export const tempLevel = {
     [0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
   ],
-  player: { start_position: [3, 2], startDirection: "LEFT" },
+  player: { start_position: [0, 2], startDirection: "LEFT" },
   enemies: [
     {code: 0, start_position: [2, 2], startDirection: "RIGHT" },
     {code:1, start_position:[8,3], startDirection:"RIGHT"},

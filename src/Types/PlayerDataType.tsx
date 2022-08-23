@@ -6,4 +6,5 @@ export interface PlayerData{
 export interface PlayerDataContextType{
   playerData:PlayerData
   setPlayerData:React.Dispatch<React.SetStateAction<PlayerData>>
+
 } 

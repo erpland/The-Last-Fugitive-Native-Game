@@ -11,10 +11,11 @@ import { tempLevel } from "./temp.js";
 
 const Game: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { map, player, enemies,step_cap } = tempLevel;
+  const [isWon,setIsWon] = useState(true)
+  const { map, player, enemies,step_cap,code } = tempLevel;
   return (
     <IonPage>
-        <FinishModal isModalOpen={isModalOpen} isWon={true} stepCap={step_cap}/> 
+        <FinishModal isModalOpen={isModalOpen} isWon={isWon} stepCap={step_cap} levelCode={code}/> 
         <Header/>
         <IonContent color={"dark"}>
           <div className="game-map__container">
@@ -23,6 +24,9 @@ const Game: React.FC = () => {
               player={player}
               enemies={enemies}
               map={map}
+              isFinished={isModalOpen}
+              setIsFinished={(val)=>setIsModalOpen(val)}
+              setIsWon = {(val)=>setIsWon(val)}
             />
           </div>
         </IonContent>
