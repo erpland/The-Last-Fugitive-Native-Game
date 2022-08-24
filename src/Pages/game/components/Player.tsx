@@ -1,9 +1,11 @@
-import React, { createRef, useEffect, useLayoutEffect, useState } from "react";
+import React, { createRef, useEffect, useRef, useState } from "react";
 import { TILE_SIZE } from "../constants/constants";
 import { directionMap } from "../constants/helpers";
-import playerFullJSON from '../Assets/Player/playerFull.json'
-import playerFullImg from "../Assets/Player/playerFull.png";
+import spriteSheetMap from '../Assets/Player/playerFull.json'
+import spriteSheetImg from "../Assets/Player/playerFull.png";
 import '../styles/player.scss'
+import { changeSpriteDirection, getSpriteFrameByState, getSpriteImage, getSpriteNextDirection } from "../functions";
+import { SpriteFrameType } from "../../../Types/GameTypes";
 
 type Props = {
   position: number[];
@@ -24,30 +26,16 @@ const Player: React.FC<Props> = ({
   setIsFinished,
   counter
 }) => {
-  let playerSprite :any;
+  const playerSprite = useRef<HTMLImageElement | null>(null)
   const canvasRef = createRef<HTMLCanvasElement>();
   const playerDivRef = createRef<HTMLDivElement>();
   const [currentFrame, setCurrentFrame] = useState(0);
-  // const [counter, setCounter] = useState(0);
   const [playerState, setPlayerState] = useState("idle");
   const [playerCurrentPostion, setPlayerCurrentPosition] = useState(position);
   const [playerAskedPosition, setPlayerAskedPosition] = useState<number[] | null>(null);
   const [playerCurrentDirection, setCurrentPlayerDirection] = useState(directionMap[direction]);
-  let playerFrame = playerFullJSON.player.idle[currentFrame];
-  // let feetFrame = playerFullJSON.player.feet[0];
-  // useLayoutEffect(() => {
-  //   //יצירת לולאת המשחק לעידכון
-  //   //timer
-  //   let timerId : number;
-  //   const animate = () => {
-  //     setCounter((c) => c + 1);
-  //     timerId = requestAnimationFrame(animate);
-  //     console.log("player => ", counter)
-  //   };
-  //   timerId = requestAnimationFrame(animate);
-  //   return () => cancelAnimationFrame(timerId);
-  // }, []);
-  
+  const playerFrame = useRef<SpriteFrameType>(spriteSheetMap.player.idle[currentFrame])
+  // let playerFrame = spriteSheetMap.player.idle[currentFrame];
   useEffect(() => {
     //תזוזת השחקן
     if (!isPlayerMove) {
@@ -60,8 +48,8 @@ const Player: React.FC<Props> = ({
     ) {
       let askedDirection = getPlayerNextDirection();
       if (askedDirection !== playerCurrentDirection) {
-        let degress = getPlayerNextDirectionDegree(askedDirection);
-        changeDirection(degress);
+        let directionAxis = getSpriteNextDirection(askedDirection)
+        changeDirection(directionAxis);
         setCurrentPlayerDirection(askedDirection);
       }
       setPlayerState("move");
@@ -71,19 +59,21 @@ const Player: React.FC<Props> = ({
       ]);
       setCurrentTile([playerAskedPosition[0], playerAskedPosition[1]]);
     } else {
-      endMove();
+      endTurn();
     }
 
     setPlayerPosition();
   }, [playerAskedPosition, playerCurrentPostion]);
   
 
+  // יצירת שחקן וקריאה לעדכון פריים
   useEffect(() => {
-    // יצירת שחקן וקריאה לעדכון פריים
-    playerSprite = new Image();
-    playerSprite.src = playerFullImg;
-    playerSprite.onload = () => {
-      drawPlayer("draw");
+    //*
+    playerSprite.current = getSpriteImage(spriteSheetImg)
+    // playerSprite.current = new Image();
+    // playerSprite.current.src = spriteSheetImg;
+    playerSprite.current.onload = () => {
+      drawPlayer();
     };
   }, [counter % 5 === 0]);
 
@@ -127,24 +117,25 @@ const Player: React.FC<Props> = ({
     };
   }, [playerCurrentPostion]);
 
-  const drawPlayer = (action:any, dir = 0) => {
+  const drawPlayer = () => {
     if (canvasRef && canvasRef.current) {
       const ctx = canvasRef.current?.getContext("2d")!;
       const draw = () => {
         ctx.clearRect(0, 0, TILE_SIZE, TILE_SIZE);
         // (image, sx, sy, sw, sh, dx, dy, dw, dh)
-        getPlayerState();
-        if (currentFrame < playerFullJSON.player.idle.length - 1) {
+        // getPlayerState();
+        playerFrame.current = getSpriteFrameByState(playerState,spriteSheetMap.player,currentFrame)
+        if (currentFrame < spriteSheetMap.player.idle.length - 1) {
           setCurrentFrame((f) => f + 1);
         } else {
           setCurrentFrame(0);
         }
         ctx.drawImage(
-          playerSprite,
-          playerFrame.frame.x,
-          playerFrame.frame.y,
-          playerFrame.frame.w,
-          playerFrame.frame.h,
+          playerSprite.current!,
+          playerFrame.current.frame.x,
+          playerFrame.current.frame.y,
+          playerFrame.current.frame.w,
+          playerFrame.current.frame.h,
           0,
           0,
           TILE_SIZE,
@@ -154,21 +145,23 @@ const Player: React.FC<Props> = ({
       draw();
     }
   };
-  const getPlayerState = () => {
-    switch (playerState) {
-      case "idle":
-        playerFrame = playerFullJSON.player.idle[currentFrame];
-        break;
-      case "move":
-        playerFrame = playerFullJSON.player.move[currentFrame];
-        break;
-        case "die":
-          playerFrame = playerFullJSON.player.die[currentFrame];
-        break;
-      default:
-        break;
-    }
-  };
+  // *
+  // const getPlayerState = () => {
+  //   playerFrame = getSpriteFrameByState(playerState,spriteSheetMap.player,currentFrame)
+  //   // switch (playerState) {
+  //   //   case "idle":
+  //   //     playerFrame = spriteSheetMap.player.idle[currentFrame];
+  //   //     break;
+  //   //   case "move":
+  //   //     playerFrame = spriteSheetMap.player.move[currentFrame];
+  //   //     break;
+  //   //     case "die":
+  //   //       playerFrame = spriteSheetMap.player.die[currentFrame];
+  //   //     break;
+  //   //   default:
+  //   //     break;
+  //   // }
+  // };
   const setPlayerPosition = () => {
     playerDivRef.current!.style.left =
     `${playerCurrentPostion[0] * TILE_SIZE}px`;
@@ -185,20 +178,24 @@ const Player: React.FC<Props> = ({
     else if (playerAskedPosition![1] < playerCurrentPostion[1])
       return directionMap.UP;
   };
-  const getPlayerNextDirectionDegree = (askedDirection:any) => {
-    switch (askedDirection) {
-      case directionMap.LEFT:
-        return -1;
-      case directionMap.RIGHT:
-        return 1;
-      default:
-        break;
-    }
+  //*
+  // const getPlayerNextDirectionDegree = (askedDirection:number) => {
+  //   return getSpriteNextDirection(askedDirection)
+  //   // switch (askedDirection) {
+  //   //   case directionMap.LEFT:
+  //   //     return -1;
+  //   //   case directionMap.RIGHT:
+  //   //     return 1;
+  //   //   default:
+  //   //     break;
+  //   // }
+  // };
+  //*
+  const changeDirection = (dir:number) => {
+    changeSpriteDirection(playerDivRef.current!,dir)
   };
-  const changeDirection = (dir:any) => {
-    playerDivRef.current!.style.transform = `scaleX(${dir})`;
-  };
-  const endMove = () => {
+  //*
+  const endTurn = () => {
     playerDivRef.current!.ontransitionend = (t) => {
       if (t.propertyName === "left" || t.propertyName === "top") {
         setPlayerState("idle");

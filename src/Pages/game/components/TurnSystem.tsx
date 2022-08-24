@@ -47,7 +47,6 @@ const TurnSystem: React.FC<Props> = ({
       setCounter((c) => c + 1);
       timerId = requestAnimationFrame(animate);
     };
-
     timerId = requestAnimationFrame(animate);
 
     return () => cancelAnimationFrame(timerId);
