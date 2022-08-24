@@ -1,5 +1,9 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
+import { addLevelRank, updateLevelRank, updateUserCurrentLevel } from "../../../Database/database";
+import { StepCapType } from "../../../Types/levelTypes";
 import { usePlayerDataContext } from "../../context/PlayerDataContext";
+import { useUserContext } from "../../context/UserContext";
+import FinishModal from "../../home/components/FinishModal";
 import Enemy from "./Enemy";
 import Player from "./Player";
 
@@ -10,9 +14,9 @@ type Props = {
   };
   enemies: { code: number; start_position: number[]; startDirection: string }[];
   map: number[][];
-  isFinished: boolean;
-  setIsFinished: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsWon: React.Dispatch<React.SetStateAction<boolean>>;
+ levelCode: number;
+ steps:StepCapType[]
+
 };
 type NextEnemiesPositionsType = {
   [key: number]: number[];
@@ -22,9 +26,10 @@ const TurnSystem: React.FC<Props> = ({
   player,
   enemies,
   map,
-  isFinished,
-  setIsFinished,
-  setIsWon,
+  levelCode,
+  steps
+ 
+
 }) => {
   const enemiesKeys = {
     ...enemies.map((e) => {
@@ -32,12 +37,16 @@ const TurnSystem: React.FC<Props> = ({
     }),
   };
   const enemiesPositionsMap = enemies.map((enemy) => enemy.start_position);
+  const [gameKey, setgameKey] = useState(0)
   const [isPlayerMove, setIsPlayerMove] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isWon,setIsWon] = useState<boolean>()
   const [playerPosition, setPlayerPosition] = useState(player.start_position);
   const [enemyPosition, setEnemyPosition] = useState(enemiesPositionsMap);
   const [nextEnemiesPositions, setNextEnemiesPositions] =
     useState<NextEnemiesPositionsType>(enemiesKeys);
   const { playerData, setPlayerData } = usePlayerDataContext();
+  const { currentUser, setCurrentUser } = useUserContext();
   const [counter, setCounter] = useState(0);
 
   //game loop
@@ -74,10 +83,47 @@ const TurnSystem: React.FC<Props> = ({
       ) {
         setTimeout(() => {
           setIsWon(false);
-          setIsFinished(true);
+          setIsModalOpen(true);
         }, 1500);
       }
   }, [playerPosition, enemyPosition]);
+  const calcStars = () => {
+    if (playerData.steps <= steps[0].step) {
+      return 3;
+    } else if (playerData.steps <= steps[1].step) return 2;
+    else {
+      return 1;
+    }
+  };
+  useEffect(() => {
+    const updatePlayerData=async()=>{
+      let level={
+        level_code: levelCode,
+        rank: calcStars(),
+        popularity:0
+      }
+      
+      if(currentUser.current_level===levelCode){
+      let nextLevel=levelCode+1
+      await addLevelRank(currentUser._id,level)
+      await updateUserCurrentLevel(currentUser._id,nextLevel)
+      const ranks=currentUser.level_rank
+      ranks.push(level)
+      setCurrentUser({...currentUser,level_rank:ranks,current_level:nextLevel})
+      }
+      else{
+        await updateLevelRank(currentUser._id,level)
+        currentUser.level_rank[levelCode-1].rank=calcStars()
+        
+      }
+    }
+    if(isWon){
+     updatePlayerData()
+    }
+   
+
+  }, [isWon])
+  
 
   //save all enemies postisions
   const changeEnemyPositions = (pos: number[], index: number) => {
@@ -85,6 +131,13 @@ const TurnSystem: React.FC<Props> = ({
     positions[index] = pos;
     setEnemyPosition([...positions]);
   };
+
+
+  const reloadPage=()=>{
+    setgameKey(gameKey+1)
+    setIsModalOpen(false)
+
+  }
   //map all enemies to render
   const enemiesMap = enemies.map((enemy, index) => {
     return (
@@ -101,13 +154,14 @@ const TurnSystem: React.FC<Props> = ({
         nextEnemiesPositions={nextEnemiesPositions}
         setNextEnemiesPositions={(pos) => setNextEnemiesPositions(pos)}
         MAP={map}
-        setIsFinished={setIsFinished}
+        setIsFinished={setIsModalOpen}
       />
     );
   });
-
+  
   return (
-    <>
+    <div key={gameKey}>
+     <FinishModal reloadPage={()=>reloadPage()} isModalOpen={isModalOpen} isWon={isWon!} stepCap={steps} levelCode={levelCode}/> 
       <Player
         position={player.start_position}
         direction={player.startDirection}
@@ -115,10 +169,12 @@ const TurnSystem: React.FC<Props> = ({
         setIsPlayerMove={(val) => setIsPlayerMove(val)}
         isPlayerMove={isPlayerMove}
         counter={counter}
-        setIsFinished={setIsFinished}
+        setIsFinished={setIsModalOpen}
+        setIsWon={(val)=>setIsWon(val)}
+        
       />
       {enemiesMap}
-    </>
+    </div>
   );
 };
 

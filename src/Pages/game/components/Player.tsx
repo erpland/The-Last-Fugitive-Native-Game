@@ -15,6 +15,7 @@ type Props = {
   isPlayerMove: boolean;
   setIsFinished:React.Dispatch<React.SetStateAction<boolean>>
   counter:number
+  setIsWon:React.Dispatch<React.SetStateAction<boolean|undefined>>
 };
 
 const Player: React.FC<Props> = ({
@@ -24,7 +25,8 @@ const Player: React.FC<Props> = ({
   setIsPlayerMove,
   isPlayerMove,
   setIsFinished,
-  counter
+  counter,
+  setIsWon
 }) => {
   const playerSprite = useRef<HTMLImageElement | null>(null)
   const canvasRef = createRef<HTMLCanvasElement>();
@@ -91,6 +93,7 @@ const Player: React.FC<Props> = ({
       if (e.target.dataset.win_tile === "true") {
         setTimeout(() => {
           setIsFinished(true)
+          setIsWon(true)
         }, 1000);
       }
     };

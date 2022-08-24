@@ -3,6 +3,7 @@ import {
   IonAlert,
   IonButton,
   IonContent,
+  IonPage,
   IonProgressBar,
   IonText,
 } from "@ionic/react";
@@ -85,6 +86,7 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
   }, []);
 
   return (
+    <IonPage>
     <IonContent>
       <IonAlert
         isOpen={showAlert.isOpen}
@@ -113,6 +115,7 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
         </div>}
       </div>
     </IonContent>
+    </IonPage>
   );
 };
 

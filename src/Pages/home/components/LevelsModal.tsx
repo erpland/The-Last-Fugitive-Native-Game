@@ -89,7 +89,8 @@ const LevelBox = ({ code, stars, isOpen,closeModal }: Levels | any): JSX.Element
   const router = useIonRouter();
   const startLevel = ()=>{
     closeModal()
-    router.push("/game")
+    if(isOpen)
+      router.push("/game",undefined,undefined,code);
   }
   let levelStars = [...Array(stars)].map((s, i) => {
     if (stars) return <IonIcon key={i} icon={star} color={"warning"} />;

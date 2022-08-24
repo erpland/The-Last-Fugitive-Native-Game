@@ -10,6 +10,7 @@ import { star, menu, refresh, arrowForward } from "ionicons/icons";
 import React, { useRef } from "react";
 import { usePlayerDataContext } from "../../context/PlayerDataContext";
 import "../styles/home.scss";
+import { useIonRouter } from "@ionic/react";
 interface stepCapType {
   code: number;
   step: number;
@@ -19,7 +20,8 @@ interface Props {
     isModalOpen: boolean;
     isWon: boolean;
     stepCap: stepCapType[];
-    levelCode:number
+    levelCode:number,
+    reloadPage:()=>void;
   };
   TextProps: {
     label: string;
@@ -35,14 +37,16 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({
   isModalOpen,
   isWon,
   stepCap,
-  levelCode
+  levelCode,
+  reloadPage
 }) => {
   const modal = useRef<HTMLIonModalElement>(null);
   const data = {
     title: isWon ? "VICOTRY" : "GAME OVER",
     color: isWon ? "var(--ion-color-success)" : "var(--ion-color-danger)",
   };
-  const { playerData } = usePlayerDataContext();
+  const { playerData,setPlayerData } = usePlayerDataContext();
+  const router = useIonRouter();
   const calcStars = () => {
     if (playerData.steps <= stepCap[0].step) {
       return 3;
@@ -51,12 +55,26 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({
       return 1;
     }
   };
+
+  const handleRefresh=()=>{
+    modal.current?.dismiss()
+    setPlayerData({ steps:0, isPlayerTurn: true });
+    reloadPage()
+  }
+  const backToHomePage=()=>{
+    setPlayerData({ steps:0,isPlayerTurn:true })
+    router.push('/home')
+    modal.current?.dismiss()
+  }
   return (
     <IonModal
       id="finish-modal"
       ref={modal}
       trigger="open-finish-modal"
       isOpen={isModalOpen}
+      backdropDismiss={false}
+      
+      
     >
       <IonHeader>
         <IonToolbar>
@@ -75,13 +93,13 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({
         {/* <ModalText label={"Score"} value={1} color={data.color} /> */}
 
         <div className="finish-modal__button-container">
-          <IonButton fill="outline">
+          {/* <IonButton fill="outline">
             <IonIcon slot="icon-only" icon={menu} color="warning" />
-          </IonButton>
-          <IonButton fill="outline">
+          </IonButton> */}
+          <IonButton fill="outline" onClick={()=>handleRefresh()} id={"open-levels-modal"}>
             <IonIcon slot="icon-only" icon={refresh} color="warning" />
           </IonButton>
-          <IonButton fill="outline">
+          <IonButton fill="outline" onClick={()=>backToHomePage()}>
             <IonIcon slot="icon-only" icon={arrowForward} color="warning" />
           </IonButton>
         </div>
