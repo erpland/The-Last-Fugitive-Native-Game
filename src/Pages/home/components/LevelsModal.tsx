@@ -2,10 +2,11 @@ import {
   IonHeader,
   IonIcon,
   IonModal,
+  IonSpinner,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { star, lockClosed } from "ionicons/icons";
 import { useUserContext } from "../../context/UserContext";
 import { useLevelContext } from "../../context/LevelContext";
@@ -17,57 +18,28 @@ interface Levels {
   isOpen: boolean;
 }
 
-// const dummyLevels: Levels[] = [
-//   {
-//     code: 1,
-//     stars: 3,
-//     isOpen: true,
-//   },
-//   {
-//     code: 2,
-//     stars: 2,
-//     isOpen: true,
-//   },
-//   {
-//     code: 3,
-//     stars: 1,
-//     isOpen: true,
-//   },
-//   {
-//     code: 4,
-//     stars: null,
-//     isOpen: true,
-//   },
-//   {
-//     code: 5,
-//     stars: null,
-//     isOpen: false,
-//   },
-// ];
-
 type Props = {};
 
 const LevelsModal: React.FC = (props: Props) => {
   const modal = useRef<HTMLIonModalElement>(null);
-  const {currentUser} = useUserContext()
-  const {allLevels,currentLevel} = useLevelContext()
-  const levelsCodes = allLevels.map(level=>level.code)
-  const userRanks = currentUser.level_rank.map(level=>level.rank)
-  const levels = levelsCodes.map((code,index) => {
+  const { currentUser } = useUserContext();
+  const { allLevels, currentLevel } = useLevelContext();
+  const levelsCodes = allLevels.map((level) => level.code);
+  const userRanks = currentUser.level_rank.map((level) => level.rank);
+  const levels = levelsCodes.map((code, index) => {
     return {
       code,
-      stars:userRanks[index] || null,
-      isOpen:code<=currentLevel ? true : false
-    }
-  })
-  console.log(currentLevel)
+      stars: userRanks[index] || null,
+      isOpen: code <= currentLevel ? true : false,
+    };
+  });
   let levelsBoxes = levels.map((level) => (
     <LevelBox
       key={level.code}
       code={level.code}
       stars={level.stars}
       isOpen={level.isOpen}
-      closeModal = {()=>modal.current?.dismiss()}
+      closeModal={() => modal.current?.dismiss()}
     />
   ));
 
@@ -78,7 +50,6 @@ const LevelsModal: React.FC = (props: Props) => {
           <IonTitle>Levels</IonTitle>
         </IonToolbar>
       </IonHeader>
-
       <div className="levels-modal__body">{levelsBoxes}</div>
     </IonModal>
   );
@@ -86,23 +57,42 @@ const LevelsModal: React.FC = (props: Props) => {
 
 export default LevelsModal;
 
-const LevelBox = ({ code, stars, isOpen,closeModal }: Levels | any): JSX.Element => {
+const LevelBox = ({
+  code,
+  stars,
+  isOpen,
+  closeModal,
+}: Levels | any): JSX.Element => {
   const router = useIonRouter();
-  const startLevel = ()=>{
-    closeModal()
-    if(isOpen)
-      router.push("/game",undefined,undefined,code);
-  }
+  const [isLoading, setIsLoading] = useState(false);
+  const startLevel = () => {
+    if (isOpen) {
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
+        closeModal();
+        router.push("/game", undefined, undefined, code);
+      }, 2000);
+    }
+  };
   let levelStars = [...Array(stars)].map((s, i) => {
     if (stars) return <IonIcon key={i} icon={star} color={"warning"} />;
   });
 
   return (
     <div className="level-box">
+      {isLoading && (
+        <IonSpinner
+          color={"warning"}
+          name="bubbles"
+          style={{ position: "absolute" }}
+        />
+      )}
       <div className="level-box__stars">{levelStars}</div>
       <div className="level-box__box" onClick={startLevel}>
         <span>
-          {isOpen ? code : <IonIcon icon={lockClosed} color="warning" />}
+          {!isLoading &&
+            (isOpen ? code : <IonIcon icon={lockClosed} color="warning" />)}
         </span>
       </div>
     </div>

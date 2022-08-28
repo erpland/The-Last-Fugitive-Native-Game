@@ -11,6 +11,7 @@ import React, { useRef } from "react";
 import { usePlayerDataContext } from "../../context/PlayerDataContext";
 import "../../home/styles/home.scss";
 import { useIonRouter } from "@ionic/react";
+import RatingBar from "./RatingBar";
 interface stepCapType {
   code: number;
   step: number;
@@ -90,6 +91,7 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({
           value={playerData.steps}
           color={data.color}
         />
+        <RatingBar/>
         {/* <ModalText label={"Score"} value={1} color={data.color} /> */}
 
         <div className="finish-modal__button-container">

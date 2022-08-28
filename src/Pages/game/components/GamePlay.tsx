@@ -49,10 +49,10 @@ const GamePlay: React.FC<Props> = ({
     useState<NextEnemiesPositionsType>(enemiesKeys);
   const { playerData, setPlayerData } = usePlayerDataContext();
   const { currentUser, setCurrentUser } = useUserContext();
-  const {setCurrentLevel,allLevels} = useLevelContext()
+  const { setCurrentLevel, allLevels } = useLevelContext();
   const [counter, setCounter] = useState(0);
-  const [isPlayerKilled,setIsPlayerKilled] = useState(false)
-
+  const [isPlayerKilled, setIsPlayerKilled] = useState(false);
+  
   //game loop
   useLayoutEffect(() => {
     let timerId: number;
@@ -86,7 +86,7 @@ const GamePlay: React.FC<Props> = ({
         (playerPosition[0] - 1 === enemyPosition[i][0] &&
           playerPosition[1] === enemyPosition[i][1])
       ) {
-        setIsPlayerKilled(true)
+        setIsPlayerKilled(true);
         setTimeout(() => {
           setIsWon(false);
           setIsModalOpen(true);
@@ -101,37 +101,40 @@ const GamePlay: React.FC<Props> = ({
       return 1;
     }
   };
-  console.log(levelCode,currentUser.current_level)
+  // console.log(levelCode,currentUser.current_level)
   useEffect(() => {
-    console.log("useEffect")
     const updatePlayerData = async () => {
       let level = {
         level_code: levelCode,
         rank: calcStars(),
-        popularity:0
-      }
-      
-      if(currentUser.current_level===levelCode){
-      let nextLevel=levelCode+1
-      await addLevelRank(currentUser._id,currentUser.token,level)
-      await updateUserCurrentLevel(currentUser._id,currentUser.token,nextLevel)
-      const ranks=currentUser.level_rank
-      ranks.push(level)
-      setCurrentUser({...currentUser,level_rank:ranks,current_level:nextLevel})
-      }
-      else{
-        await updateLevelRank(currentUser._id,currentUser.token,level)
-        currentUser.level_rank[levelCode-1].rank=calcStars()
-        
-      }
-    }
-    if(isWon){
-     updatePlayerData()
-    }
-   
+        popularity: 0,
+      };
 
-  }, [isWon])
-  
+      if (currentUser.current_level === levelCode) {
+        let nextLevel = levelCode + 1;
+        await addLevelRank(currentUser._id, currentUser.token, level);
+        await updateUserCurrentLevel(
+          currentUser._id,
+          currentUser.token,
+          nextLevel
+        );
+        const ranks = currentUser.level_rank;
+        ranks.push(level);
+        setCurrentUser({
+          ...currentUser,
+          level_rank: ranks,
+          current_level: nextLevel,
+        });
+        setCurrentLevel(nextLevel)
+      } else {
+        await updateLevelRank(currentUser._id, currentUser.token, level);
+        currentUser.level_rank[levelCode - 1].rank = calcStars();
+      }
+    };
+    if (isWon) {
+      updatePlayerData();
+    }
+  }, [isWon]);
 
   //save all enemies postisions
   const changeEnemyPositions = (pos: number[], index: number) => {
@@ -160,7 +163,7 @@ const GamePlay: React.FC<Props> = ({
       setNextEnemiesPositions={(pos) => setNextEnemiesPositions(pos)}
       MAP={map}
       setIsFinished={setIsModalOpen}
-      isPlayerKilled = {isPlayerKilled}
+      isPlayerKilled={isPlayerKilled}
     />
   ));
 
@@ -172,7 +175,6 @@ const GamePlay: React.FC<Props> = ({
         isWon={isWon!}
         stepCap={steps}
         levelCode={levelCode}
-        
       />
       <Player
         position={player.start_position}

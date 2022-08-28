@@ -5,4 +5,16 @@
   justify-content: space-between;
   align-items: center;
   color: white;
+  .header__data{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 2vmin;
+  }
+  .header__buttons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2vmin;
+  }
 }
