@@ -23,6 +23,7 @@ const UserContextProvider: React.FC<React.ReactNode> = ({ children }) => {
     is_notification: true,
     time_of_register: new Date(),
     play_dates: [],
+    token:""
   });
   const [avatars, setAvatars] = useState<AvatarsType[]>([{
     _id: "",

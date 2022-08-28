@@ -108,35 +108,30 @@ const GamePlay: React.FC<Props> = ({
       let level = {
         level_code: levelCode,
         rank: calcStars(),
-        popularity: 0,
-      };
-      if (currentUser.current_level === levelCode) {
-        let nextLevel = levelCode + 1;
-        await addLevelRank(currentUser._id, level);
-        await updateUserCurrentLevel(currentUser._id, nextLevel);
-        const ranks = currentUser.level_rank;
-        ranks.push(level);
-        setCurrentUser({
-          ...currentUser,
-          level_rank: ranks,
-          current_level: nextLevel,
-        });
-        
-        setCurrentLevel(nextLevel)
-      } else {
-        await updateLevelRank(currentUser._id, level);
-        const ranks = currentUser.level_rank;
-        ranks[levelCode-1].rank = calcStars();
-        setCurrentUser({
-          ...currentUser,
-          level_rank: ranks,
-        });
+        popularity:0
       }
-    };
-    if (isWon) {
-      updatePlayerData();
+      
+      if(currentUser.current_level===levelCode){
+      let nextLevel=levelCode+1
+      await addLevelRank(currentUser._id,level)
+      await updateUserCurrentLevel(currentUser._id,nextLevel)
+      const ranks=currentUser.level_rank
+      ranks.push(level)
+      setCurrentUser({...currentUser,level_rank:ranks,current_level:nextLevel})
+      }
+      else{
+        await updateLevelRank(currentUser._id,level)
+        currentUser.level_rank[levelCode-1].rank=calcStars()
+        
+      }
     }
-  }, [isWon]);
+    if(isWon){
+     updatePlayerData()
+    }
+   
+
+  }, [isWon])
+  
 
   //save all enemies postisions
   const changeEnemyPositions = (pos: number[], index: number) => {

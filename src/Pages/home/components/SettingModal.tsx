@@ -25,7 +25,7 @@ const SettingsModal: React.FC = (props: Props) => {
 
   const saveUserSettings = async () => {
     if (currentUser.is_notification !== isChecked) {
-      await updateUserNotification(currentUser._id, isChecked);
+      await updateUserNotification(currentUser._id, currentUser.token,isChecked);
       setCurrentUser({...currentUser,is_notification:isChecked})
     }
     modal.current?.dismiss()

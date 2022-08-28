@@ -69,12 +69,12 @@ const ProfileModal: React.FC = (props: Props) => {
     let nicknameResponse = true;
     let avatarResponse = true;
     if (nickname !== currentUser.nickname) {
-      nicknameResponse = await updateUserNickname(currentUser._id, {
+      nicknameResponse = await updateUserNickname(currentUser._id, currentUser.token,{
         nickName: nickname,
       });
     }
     if (avatar.code !== currentUser.avatarCode) {
-      avatarResponse = await updateUserAvatar(currentUser._id, {
+      avatarResponse = await updateUserAvatar(currentUser._id,currentUser.token, {
         avatarCode: avatar.code,
         avatarUrl: avatar.url,
       });
