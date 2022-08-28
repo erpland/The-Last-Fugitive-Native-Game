@@ -115,11 +115,11 @@ export const loginUser = async (user: UserLoginType) => {
 
 
 //puts
-export const addLevelRank = async (id:string,rank:LevelRankType)=>{
+export const addLevelRank = async (id:string,token:string,rank:LevelRankType)=>{
   const requestOptions = {
     method: "PUT",
     headers: {
-      "Content-type": "application/json; charset=UTF-8"},
+      "Content-type": "application/json; charset=UTF-8","x-access-token":token},
     body: JSON.stringify(rank),
   };
   try {
@@ -134,11 +134,12 @@ export const addLevelRank = async (id:string,rank:LevelRankType)=>{
     throw new Error("Error while fetching data in register");
   }
 }
-export const updateUserAvatar = async (id:string,avatar:{avatarCode:number,avatarUrl:string})=>{
+export const updateUserAvatar = async (id:string,token:string,avatar:{avatarCode:number,avatarUrl:string})=>{
+  
   const requestOptions = {
     method: "PUT",
     headers: {
-      "Content-type": "application/json; charset=UTF-8"},
+      "Content-type": "application/json; charset=UTF-8","x-access-token":token},
     body: JSON.stringify(avatar),
   };
   try {
@@ -152,11 +153,11 @@ export const updateUserAvatar = async (id:string,avatar:{avatarCode:number,avata
     throw new Error("Error while fetching data in register");
   }
 }
-export const updateUserNickname = async (id:string,nickname:{nickName:string})=>{
+export const updateUserNickname = async (id:string,token:string,nickname:{nickName:string})=>{
   const requestOptions = {
     method: "PUT",
     headers: {
-      "Content-type": "application/json; charset=UTF-8"},
+      "Content-type": "application/json; charset=UTF-8","x-access-token":token},
     body: JSON.stringify(nickname),
   };
   try {
@@ -171,11 +172,11 @@ export const updateUserNickname = async (id:string,nickname:{nickName:string})=>
     throw new Error("Error while fetching data in register");
   }
 }
-export const updateUserNotification = async (id:string,is_notification:boolean)=>{
+export const updateUserNotification = async (id:string,token:string,is_notification:boolean)=>{
   const requestOptions = {
     method: "PUT",
     headers: {
-      "Content-type": "application/json; charset=UTF-8"},
+      "Content-type": "application/json; charset=UTF-8","x-access-token":token},
     body: JSON.stringify({is_notification}),
   };
   try {
@@ -190,11 +191,11 @@ export const updateUserNotification = async (id:string,is_notification:boolean)=
     throw new Error("Error while fetching data in register");
   }
 }
-export const addUserPlayDate = async (id:string,playDate:PlayDatesType)=>{
+export const addUserPlayDate = async (id:string,token:string,playDate:PlayDatesType)=>{
   const requestOptions = {
     method: "PUT",
     headers: {
-      "Content-type": "application/json; charset=UTF-8"},
+      "Content-type": "application/json; charset=UTF-8","x-access-token":token},
     body: JSON.stringify(playDate),
   };
   try {
@@ -209,11 +210,11 @@ export const addUserPlayDate = async (id:string,playDate:PlayDatesType)=>{
     throw new Error("Error while fetching data in register");
   }
 }
-export const updateUserCurrentLevel = async (id:string,current_level:number)=>{
+export const updateUserCurrentLevel = async (id:string,token:string,current_level:number)=>{
   const requestOptions = {
     method: "PUT",
     headers: {
-      "Content-type": "application/json; charset=UTF-8"},
+      "Content-type": "application/json; charset=UTF-8","x-access-token":token},
     body: JSON.stringify({current_level}),
   };
   try {
@@ -228,11 +229,11 @@ export const updateUserCurrentLevel = async (id:string,current_level:number)=>{
     throw new Error("Error while fetching data in register");
   }
 }
-export const updateLevelPopulatiry = async (id:string,popularity:{level_code:number,popularity:number})=>{
+export const updateLevelPopulatiry = async (id:string,token:string,popularity:{level_code:number,popularity:number})=>{
   const requestOptions = {
     method: "PUT",
     headers: {
-      "Content-type": "application/json; charset=UTF-8"},
+      "Content-type": "application/json; charset=UTF-8","x-access-token":token},
     body: JSON.stringify(popularity),
   };
   try {
@@ -247,11 +248,11 @@ export const updateLevelPopulatiry = async (id:string,popularity:{level_code:num
     throw new Error("Error while fetching data in register");
   }
 }
-export const updateLevelRank = async (id:string,rank:LevelRankType)=>{
+export const updateLevelRank = async (id:string,token:string,rank:LevelRankType)=>{
   const requestOptions = {
     method: "PUT",
     headers: {
-      "Content-type": "application/json; charset=UTF-8"},
+      "Content-type": "application/json; charset=UTF-8","x-access-token":token},
     body: JSON.stringify(rank),
   };
   try {

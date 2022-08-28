@@ -23,7 +23,8 @@ export interface UserType{
   gender:number;
   is_notification : boolean,
   time_of_register:Date,
-  play_dates:PlayDatesType[] 
+  play_dates:PlayDatesType[],
+  token:string 
 }
 
 export interface LevelRankType{
