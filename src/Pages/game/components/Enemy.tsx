@@ -23,6 +23,7 @@ type Props = {
   setNextEnemiesPositions: (pos: number[][]) => void;
   setIsFinished: React.Dispatch<React.SetStateAction<boolean>>;
   counter: number;
+  isPlayerKilled:boolean
 };
 
 const Enemy: React.FC<Props> = ({
@@ -38,6 +39,7 @@ const Enemy: React.FC<Props> = ({
   setNextEnemiesPositions,
   setIsFinished,
   counter,
+  isPlayerKilled
 }) => {
   const canvasRef = createRef<HTMLCanvasElement>();
   const enemyDivRef = useRef<HTMLDivElement>(null);
@@ -97,6 +99,16 @@ const Enemy: React.FC<Props> = ({
     setSpriteSheetImg(spriteSheet);
   }, []);
 
+  // useEffect(()=>{
+  //   if(isPlayerKilled){
+  //     enemyDivRef.current!.ontransitionend = (t) =>{
+  //       if (t.propertyName === "left" || t.propertyName === "top") {
+  //         console.log("attack")
+  //         setEnemyState("attack")
+  //       }      
+  //     }
+  //   }
+  // },[isPlayerKilled])
   //create new image every 5 frames (for animation)
   useEffect(() => {
     enemySprite.current = getSpriteImage(spriteSheetImg);
@@ -106,7 +118,7 @@ const Enemy: React.FC<Props> = ({
   }, [counter % 5 === 0]);
 
   useEffect(() => {
-    if (!isPlayerMove) {
+    if (!isPlayerMove && !isPlayerKilled) {
       let nextMove: any = getNextMove();
       const validateTileIsFree = () => {
         nextEnemiesPositions[enemyCode] = nextMove;
@@ -252,12 +264,15 @@ const Enemy: React.FC<Props> = ({
   };
   // gets the enemy next direction
   const getEnemyNextDirection = (nextPosition: any) => {
-    if (nextPosition[0] > enemyCurrentPosiotion[0]) return directionMap.RIGHT;
-    else if (nextPosition[0] < enemyCurrentPosiotion[0])
+    if (nextPosition[0] > enemyCurrentPosiotion[0]) {
+      return directionMap.RIGHT;
+    } else if (nextPosition[0] < enemyCurrentPosiotion[0]) {
       return directionMap.LEFT;
-    else if (nextPosition[1] > enemyCurrentPosiotion[1])
-      return directionMap.DOWN;
-    else if (nextPosition[1] < enemyCurrentPosiotion[1]) return directionMap.UP;
+    } else if (nextPosition[1] > enemyCurrentPosiotion[1]) {
+      return enemyCurrentDirection
+    } else if (nextPosition[1] < enemyCurrentPosiotion[1]) {
+      return enemyCurrentDirection
+    }
   };
   // get the enemy roation degree (if needed)
   //*
@@ -288,6 +303,7 @@ const Enemy: React.FC<Props> = ({
       }
     };
   };
+
   return (
     <div
       ref={enemyDivRef}

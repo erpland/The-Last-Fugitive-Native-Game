@@ -37,7 +37,11 @@ const Player: React.FC<Props> = ({
   const [playerAskedPosition, setPlayerAskedPosition] = useState<number[] | null>(null);
   const [playerCurrentDirection, setCurrentPlayerDirection] = useState(directionMap[direction]);
   const playerFrame = useRef<SpriteFrameType>(spriteSheetMap.player.idle[currentFrame])
-  // let playerFrame = spriteSheetMap.player.idle[currentFrame];
+
+  useEffect(()=>{
+    changeSpriteDirection(playerDivRef.current!,-1)
+    // setCurrentPlayerDirection(askedDirection);
+  },[])
   useEffect(() => {
     //תזוזת השחקן
     if (!isPlayerMove) {
@@ -51,7 +55,7 @@ const Player: React.FC<Props> = ({
       let askedDirection = getPlayerNextDirection();
       if (askedDirection !== playerCurrentDirection) {
         let directionAxis = getSpriteNextDirection(askedDirection)
-        changeDirection(directionAxis);
+        changeSpriteDirection(playerDivRef.current!,directionAxis);
         setCurrentPlayerDirection(askedDirection);
       }
       setPlayerState("move");
@@ -72,8 +76,6 @@ const Player: React.FC<Props> = ({
   useEffect(() => {
     //*
     playerSprite.current = getSpriteImage(spriteSheetImg)
-    // playerSprite.current = new Image();
-    // playerSprite.current.src = spriteSheetImg;
     playerSprite.current.onload = () => {
       drawPlayer();
     };
@@ -125,7 +127,6 @@ const Player: React.FC<Props> = ({
       const ctx = canvasRef.current?.getContext("2d")!;
       const draw = () => {
         ctx.clearRect(0, 0, TILE_SIZE, TILE_SIZE);
-        // (image, sx, sy, sw, sh, dx, dy, dw, dh)
         // getPlayerState();
         playerFrame.current = getSpriteFrameByState(playerState,spriteSheetMap.player,currentFrame)
         if (currentFrame < spriteSheetMap.player.idle.length - 1) {
@@ -148,23 +149,6 @@ const Player: React.FC<Props> = ({
       draw();
     }
   };
-  // *
-  // const getPlayerState = () => {
-  //   playerFrame = getSpriteFrameByState(playerState,spriteSheetMap.player,currentFrame)
-  //   // switch (playerState) {
-  //   //   case "idle":
-  //   //     playerFrame = spriteSheetMap.player.idle[currentFrame];
-  //   //     break;
-  //   //   case "move":
-  //   //     playerFrame = spriteSheetMap.player.move[currentFrame];
-  //   //     break;
-  //   //     case "die":
-  //   //       playerFrame = spriteSheetMap.player.die[currentFrame];
-  //   //     break;
-  //   //   default:
-  //   //     break;
-  //   // }
-  // };
   const setPlayerPosition = () => {
     playerDivRef.current!.style.left =
     `${playerCurrentPostion[0] * TILE_SIZE}px`;
@@ -177,27 +161,10 @@ const Player: React.FC<Props> = ({
     else if (playerAskedPosition![0] < playerCurrentPostion[0])
       return directionMap.LEFT;
     else if (playerAskedPosition![1] > playerCurrentPostion[1])
-      return directionMap.DOWN;
+      return playerCurrentDirection
     else if (playerAskedPosition![1] < playerCurrentPostion[1])
-      return directionMap.UP;
+      return playerCurrentDirection
   };
-  //*
-  // const getPlayerNextDirectionDegree = (askedDirection:number) => {
-  //   return getSpriteNextDirection(askedDirection)
-  //   // switch (askedDirection) {
-  //   //   case directionMap.LEFT:
-  //   //     return -1;
-  //   //   case directionMap.RIGHT:
-  //   //     return 1;
-  //   //   default:
-  //   //     break;
-  //   // }
-  // };
-  //*
-  const changeDirection = (dir:number) => {
-    changeSpriteDirection(playerDivRef.current!,dir)
-  };
-  //*
   const endTurn = () => {
     playerDivRef.current!.ontransitionend = (t) => {
       if (t.propertyName === "left" || t.propertyName === "top") {
@@ -206,7 +173,6 @@ const Player: React.FC<Props> = ({
       }
     };
   };
-
   return (
     <div
       ref={playerDivRef}
@@ -214,7 +180,6 @@ const Player: React.FC<Props> = ({
       data-type={"player"}
       className="player"
       style={{width:TILE_SIZE,height:TILE_SIZE}}
-      // style={{ transform: "rotate(0deg)" }}
     >
       <canvas
         style={{ pointerEvents: "none", zIndex: 100 }}
@@ -222,12 +187,6 @@ const Player: React.FC<Props> = ({
         width={TILE_SIZE}
         height={TILE_SIZE}
       />
-      {/* <h1 style={{
-        textAlign:'center',
-          border: "1px solid red",
-          transform: "rotate(0deg)",
-          transition: "3s",
-        }}> {"➜"}</h1> */}
     </div>
   );
 };

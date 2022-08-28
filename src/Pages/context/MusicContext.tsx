@@ -14,10 +14,10 @@ const MusicContextProvider:React.FC<React.ReactNode> = ({children}) => {
   }, [musicVolume])
   
   const playMusic = async() =>{
-    console.log("playing")
-    backgroundMusic.load()
-    await backgroundMusic.play()
-    backgroundMusic.volume = musicVolume
+    if(backgroundMusic.paused)
+      backgroundMusic.load()
+      await backgroundMusic.play()
+      backgroundMusic.volume = musicVolume
   }
   const stopMusic = async()=>{
     console.log("stoping")

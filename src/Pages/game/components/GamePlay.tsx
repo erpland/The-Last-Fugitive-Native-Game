@@ -1,11 +1,16 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { addLevelRank, updateLevelRank, updateUserCurrentLevel } from "../../../Database/database";
+import {
+  addLevelRank,
+  updateLevelRank,
+  updateUserCurrentLevel,
+} from "../../../Database/database";
 import { StepCapType } from "../../../Types/levelTypes";
 import { usePlayerDataContext } from "../../context/PlayerDataContext";
 import { useUserContext } from "../../context/UserContext";
-import FinishModal from "../../home/components/FinishModal";
+import FinishModal from "./FinishModal";
 import Enemy from "./Enemy";
 import Player from "./Player";
+import { useLevelContext } from "../../context/LevelContext";
 
 type Props = {
   player: {
@@ -14,22 +19,19 @@ type Props = {
   };
   enemies: { code: number; start_position: number[]; startDirection: string }[];
   map: number[][];
- levelCode: number;
- steps:StepCapType[]
-
+  levelCode: number;
+  steps: StepCapType[];
 };
 type NextEnemiesPositionsType = {
   [key: number]: number[];
 };
 
-const TurnSystem: React.FC<Props> = ({
+const GamePlay: React.FC<Props> = ({
   player,
   enemies,
   map,
   levelCode,
-  steps
- 
-
+  steps,
 }) => {
   const enemiesKeys = {
     ...enemies.map((e) => {
@@ -37,17 +39,19 @@ const TurnSystem: React.FC<Props> = ({
     }),
   };
   const enemiesPositionsMap = enemies.map((enemy) => enemy.start_position);
-  const [gameKey, setgameKey] = useState(0)
+  const [gameKey, setgameKey] = useState(0);
   const [isPlayerMove, setIsPlayerMove] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isWon,setIsWon] = useState<boolean>()
+  const [isWon, setIsWon] = useState<boolean>();
   const [playerPosition, setPlayerPosition] = useState(player.start_position);
   const [enemyPosition, setEnemyPosition] = useState(enemiesPositionsMap);
   const [nextEnemiesPositions, setNextEnemiesPositions] =
     useState<NextEnemiesPositionsType>(enemiesKeys);
   const { playerData, setPlayerData } = usePlayerDataContext();
   const { currentUser, setCurrentUser } = useUserContext();
+  const {setCurrentLevel,allLevels} = useLevelContext()
   const [counter, setCounter] = useState(0);
+  const [isPlayerKilled,setIsPlayerKilled] = useState(false)
 
   //game loop
   useLayoutEffect(() => {
@@ -68,6 +72,7 @@ const TurnSystem: React.FC<Props> = ({
     }
     setPlayerData({ steps, isPlayerTurn: isPlayerMove });
   }, [isPlayerMove]);
+
   //check if player lost
   useEffect(() => {
     for (let i in nextEnemiesPositions)
@@ -81,6 +86,7 @@ const TurnSystem: React.FC<Props> = ({
         (playerPosition[0] - 1 === enemyPosition[i][0] &&
           playerPosition[1] === enemyPosition[i][1])
       ) {
+        setIsPlayerKilled(true)
         setTimeout(() => {
           setIsWon(false);
           setIsModalOpen(true);
@@ -95,35 +101,42 @@ const TurnSystem: React.FC<Props> = ({
       return 1;
     }
   };
+  console.log(levelCode,currentUser.current_level)
   useEffect(() => {
-    const updatePlayerData=async()=>{
-      let level={
+    console.log("useEffect")
+    const updatePlayerData = async () => {
+      let level = {
         level_code: levelCode,
         rank: calcStars(),
-        popularity:0
-      }
-      
-      if(currentUser.current_level===levelCode){
-      let nextLevel=levelCode+1
-      await addLevelRank(currentUser._id,level)
-      await updateUserCurrentLevel(currentUser._id,nextLevel)
-      const ranks=currentUser.level_rank
-      ranks.push(level)
-      setCurrentUser({...currentUser,level_rank:ranks,current_level:nextLevel})
-      }
-      else{
-        await updateLevelRank(currentUser._id,level)
-        currentUser.level_rank[levelCode-1].rank=calcStars()
+        popularity: 0,
+      };
+      if (currentUser.current_level === levelCode) {
+        let nextLevel = levelCode + 1;
+        await addLevelRank(currentUser._id, level);
+        await updateUserCurrentLevel(currentUser._id, nextLevel);
+        const ranks = currentUser.level_rank;
+        ranks.push(level);
+        setCurrentUser({
+          ...currentUser,
+          level_rank: ranks,
+          current_level: nextLevel,
+        });
         
+        setCurrentLevel(nextLevel)
+      } else {
+        await updateLevelRank(currentUser._id, level);
+        const ranks = currentUser.level_rank;
+        ranks[levelCode-1].rank = calcStars();
+        setCurrentUser({
+          ...currentUser,
+          level_rank: ranks,
+        });
       }
+    };
+    if (isWon) {
+      updatePlayerData();
     }
-    if(isWon){
-     updatePlayerData()
-    }
-   
-
-  }, [isWon])
-  
+  }, [isWon]);
 
   //save all enemies postisions
   const changeEnemyPositions = (pos: number[], index: number) => {
@@ -132,36 +145,40 @@ const TurnSystem: React.FC<Props> = ({
     setEnemyPosition([...positions]);
   };
 
-
-  const reloadPage=()=>{
-    setgameKey(gameKey+1)
-    setIsModalOpen(false)
-
-  }
+  const resetLevel = () => {
+    setgameKey(gameKey + 1);
+    setIsModalOpen(false);
+  };
   //map all enemies to render
-  const enemiesMap = enemies.map((enemy, index) => {
-    return (
-      <Enemy
-        key={index}
-        enemyCode={enemy.code}
-        position={enemy.start_position}
-        direction={enemy.startDirection}
-        playerPosition={playerPosition}
-        setIsPlayerMove={setIsPlayerMove}
-        isPlayerMove={isPlayerMove}
-        counter={counter}
-        setCurrentTile={(pos) => changeEnemyPositions(pos, index)}
-        nextEnemiesPositions={nextEnemiesPositions}
-        setNextEnemiesPositions={(pos) => setNextEnemiesPositions(pos)}
-        MAP={map}
-        setIsFinished={setIsModalOpen}
-      />
-    );
-  });
-  
+  const enemiesMap = enemies.map((enemy, index) => (
+    <Enemy
+      key={index}
+      enemyCode={enemy.code}
+      position={enemy.start_position}
+      direction={enemy.startDirection}
+      playerPosition={playerPosition}
+      setIsPlayerMove={setIsPlayerMove}
+      isPlayerMove={isPlayerMove}
+      counter={counter}
+      setCurrentTile={(pos) => changeEnemyPositions(pos, index)}
+      nextEnemiesPositions={nextEnemiesPositions}
+      setNextEnemiesPositions={(pos) => setNextEnemiesPositions(pos)}
+      MAP={map}
+      setIsFinished={setIsModalOpen}
+      isPlayerKilled = {isPlayerKilled}
+    />
+  ));
+
   return (
     <div key={gameKey}>
-     <FinishModal reloadPage={()=>reloadPage()} isModalOpen={isModalOpen} isWon={isWon!} stepCap={steps} levelCode={levelCode}/> 
+      <FinishModal
+        resetLevel={() => resetLevel()}
+        isModalOpen={isModalOpen}
+        isWon={isWon!}
+        stepCap={steps}
+        levelCode={levelCode}
+        
+      />
       <Player
         position={player.start_position}
         direction={player.startDirection}
@@ -170,12 +187,11 @@ const TurnSystem: React.FC<Props> = ({
         isPlayerMove={isPlayerMove}
         counter={counter}
         setIsFinished={setIsModalOpen}
-        setIsWon={(val)=>setIsWon(val)}
-        
+        setIsWon={(val) => setIsWon(val)}
       />
       {enemiesMap}
     </div>
   );
 };
 
-export default TurnSystem;
+export default GamePlay;

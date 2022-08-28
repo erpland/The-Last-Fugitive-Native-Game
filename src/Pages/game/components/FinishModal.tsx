@@ -6,10 +6,10 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { star, menu, refresh, arrowForward } from "ionicons/icons";
+import { star, refresh, arrowForward } from "ionicons/icons";
 import React, { useRef } from "react";
 import { usePlayerDataContext } from "../../context/PlayerDataContext";
-import "../styles/home.scss";
+import "../../home/styles/home.scss";
 import { useIonRouter } from "@ionic/react";
 interface stepCapType {
   code: number;
@@ -21,7 +21,7 @@ interface Props {
     isWon: boolean;
     stepCap: stepCapType[];
     levelCode:number,
-    reloadPage:()=>void;
+    resetLevel:()=>void;
   };
   TextProps: {
     label: string;
@@ -38,7 +38,7 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({
   isWon,
   stepCap,
   levelCode,
-  reloadPage
+  resetLevel
 }) => {
   const modal = useRef<HTMLIonModalElement>(null);
   const data = {
@@ -59,7 +59,7 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({
   const handleRefresh=()=>{
     modal.current?.dismiss()
     setPlayerData({ steps:0, isPlayerTurn: true });
-    reloadPage()
+    resetLevel()
   }
   const backToHomePage=()=>{
     setPlayerData({ steps:0,isPlayerTurn:true })

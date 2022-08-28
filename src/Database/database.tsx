@@ -79,10 +79,6 @@ export const registerUser = async (user: UserSignupType) => {
   };
   try {
     const data = await fetch(SERVER + "users/register", requestOptions);
-    // if (data.status === 409) {
-    //   console.log(data.status)
-    //   return {};
-    // }
     if (data.ok) {
       const json = await data.json();
       console.log("after",json);

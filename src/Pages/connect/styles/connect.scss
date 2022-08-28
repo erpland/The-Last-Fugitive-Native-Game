@@ -51,12 +51,12 @@ $icons-size__large: 15vmin;
   }
 }
 
-ion-modal {
+ion-modal#login-modal {
   --border-radius: 16px;
   --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
   0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --height: 95%; 
-  --width: 80%;
+  --height: max-content; 
+  --width: fit-content;
   --ion-font-family: "Roboto";
   &::part(backdrop) {
     opacity: 1;
@@ -74,7 +74,7 @@ ion-modal#login-modal {
   font-weight: bold;
   .login-modal__body {
     height: 100%;
-    padding: 20px;
+    padding: 10px 20px 5px 20px;
     // text-align: center;
     display: flex;
     flex-direction: row;
@@ -87,11 +87,17 @@ ion-modal#login-modal {
 
   .login-container {
     height: 100%;
-    width: 80%;
+    width: 100%;
     grid-template-rows: auto auto auto;
     // justify-content: center;
     align-items: center;
     display: grid;
+    ion-item{
+      min-width: 300px;
+    }
+    p{
+      text-align: center;
+    }
     
     // flex-direction: column;
     .login-container__buttons {
@@ -101,11 +107,12 @@ ion-modal#login-modal {
       align-items: center;
       justify-content: flex-end;
       ion-button {
-        width: 60%;
+        min-width: 250px;
         font-family: "Roboto";
         // font-size: 4vmin;
       }
       p {
+        text-align: center;
         font-family: "Roboto";
         cursor: pointer;
         color: var(--ion-color-warning);

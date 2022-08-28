@@ -75,10 +75,10 @@ const Connect: React.FC = (props: Props) => {
           </div>
           <div className="connect__buttons">
             <IonButton id="open-login-modal">Sign In With Email</IonButton>
-            <IonButton fill="outline">
+            {/* <IonButton fill="outline">
               <IonIcon slot="start" icon={logoFacebook} />
               Sign In With Facebook
-            </IonButton>
+            </IonButton> */}
             <span>Play as Guest</span>
           </div>
         </div>
