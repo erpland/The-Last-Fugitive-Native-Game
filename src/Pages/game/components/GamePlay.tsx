@@ -113,14 +113,14 @@ const GamePlay: React.FC<Props> = ({
       
       if(currentUser.current_level===levelCode){
       let nextLevel=levelCode+1
-      await addLevelRank(currentUser._id,level)
-      await updateUserCurrentLevel(currentUser._id,nextLevel)
+      await addLevelRank(currentUser._id,currentUser.token,level)
+      await updateUserCurrentLevel(currentUser._id,currentUser.token,nextLevel)
       const ranks=currentUser.level_rank
       ranks.push(level)
       setCurrentUser({...currentUser,level_rank:ranks,current_level:nextLevel})
       }
       else{
-        await updateLevelRank(currentUser._id,level)
+        await updateLevelRank(currentUser._id,currentUser.token,level)
         currentUser.level_rank[levelCode-1].rank=calcStars()
         
       }

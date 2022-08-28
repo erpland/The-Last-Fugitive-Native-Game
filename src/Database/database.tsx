@@ -1,4 +1,9 @@
-import {UserSignupType,UserLoginType,PlayDatesType,LevelRankType} from '../Types/userTypes'
+import {
+  UserSignupType,
+  UserLoginType,
+  PlayDatesType,
+  LevelRankType,
+} from "../Types/userTypes";
 const SERVER = "https://the-last-fugitive.herokuapp.com/api/";
 
 //gets
@@ -15,7 +20,7 @@ export const fetchUserByid = async (id: string) => {
     }
     return new Error("Error while fetch data in get user by id");
   } catch {
-    throw new Error("Network Error!")
+    throw new Error("Network Error!");
   }
 };
 export const getAllLevels = async () => {
@@ -24,14 +29,14 @@ export const getAllLevels = async () => {
     headers: { "Content-type": "application/json; charset=UTF-8" },
   };
   try {
-    const data = await fetch(SERVER + "levels/",requestOptions);
+    const data = await fetch(SERVER + "levels/", requestOptions);
     if (data.ok) {
       const json = await data.json();
       return json;
     }
     return new Error("Error while fetch data in get all levels");
   } catch {
-    throw new Error("Network Error!")
+    throw new Error("Network Error!");
   }
 };
 export const getAllHints = async () => {
@@ -40,36 +45,36 @@ export const getAllHints = async () => {
     headers: { "Content-type": "application/json; charset=UTF-8" },
   };
   try {
-    const data = await fetch(SERVER + "hints/",requestOptions);
-    if (data.ok) {
-      const json = await data.json();
-      return json;
-    }
-    return  new Error("Error while fetch data in get all hints");
-  } catch {
-    throw new Error("Network Error")
-  }
-};
-export const getAllAvatars = async ()=>{
-  const requestOptions = {
-    method: "get",
-    headers: { "Content-type": "application/json; charset=UTF-8" },
-  };
-  try {
-    const data = await fetch(SERVER + "avatars/",requestOptions);
+    const data = await fetch(SERVER + "hints/", requestOptions);
     if (data.ok) {
       const json = await data.json();
       return json;
     }
     return new Error("Error while fetch data in get all hints");
   } catch {
-    throw new Error("Network Error")
+    throw new Error("Network Error");
   }
-}
+};
+export const getAllAvatars = async () => {
+  const requestOptions = {
+    method: "get",
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  };
+  try {
+    const data = await fetch(SERVER + "avatars/", requestOptions);
+    if (data.ok) {
+      const json = await data.json();
+      return json;
+    }
+    return new Error("Error while fetch data in get all hints");
+  } catch {
+    throw new Error("Network Error");
+  }
+};
 
 //posts
 export const registerUser = async (user: UserSignupType) => {
-  console.log("before",user)
+  console.log("before", user);
   const requestOptions = {
     method: "POST",
     headers: {
@@ -81,7 +86,7 @@ export const registerUser = async (user: UserSignupType) => {
     const data = await fetch(SERVER + "users/register", requestOptions);
     if (data.ok) {
       const json = await data.json();
-      console.log("after",json);
+      console.log("after", json);
       return json;
     }
     return null;
@@ -93,7 +98,8 @@ export const loginUser = async (user: UserLoginType) => {
   const requestOptions = {
     method: "POST",
     headers: {
-      "Content-type": "application/json; charset=UTF-8"},
+      "Content-type": "application/json; charset=UTF-8",
+    },
     body: JSON.stringify(user),
   };
   try {
@@ -109,17 +115,25 @@ export const loginUser = async (user: UserLoginType) => {
   }
 };
 
-
 //puts
-export const addLevelRank = async (id:string,token:string,rank:LevelRankType)=>{
+export const addLevelRank = async (
+  id: string,
+  token: string,
+  rank: LevelRankType
+) => {
   const requestOptions = {
     method: "PUT",
     headers: {
-      "Content-type": "application/json; charset=UTF-8","x-access-token":token},
+      "Content-type": "application/json; charset=UTF-8",
+      "x-access-token": token,
+    },
     body: JSON.stringify(rank),
   };
   try {
-    const data = await fetch(SERVER + "users/update/addLevelRank/" + id, requestOptions);
+    const data = await fetch(
+      SERVER + "users/update/addLevelRank/" + id,
+      requestOptions
+    );
     if (data.ok) {
       const json = await data.json();
       console.log(json);
@@ -129,17 +143,25 @@ export const addLevelRank = async (id:string,token:string,rank:LevelRankType)=>{
   } catch {
     throw new Error("Error while fetching data in register");
   }
-}
-export const updateUserAvatar = async (id:string,token:string,avatar:{avatarCode:number,avatarUrl:string})=>{
-  
+};
+export const updateUserAvatar = async (
+  id: string,
+  token: string,
+  avatar: { avatarCode: number; avatarUrl: string }
+) => {
   const requestOptions = {
     method: "PUT",
     headers: {
-      "Content-type": "application/json; charset=UTF-8","x-access-token":token},
+      "Content-type": "application/json; charset=UTF-8",
+      "x-access-token": token,
+    },
     body: JSON.stringify(avatar),
   };
   try {
-    const data = await fetch(SERVER + "users/update/avatar/" + id, requestOptions);
+    const data = await fetch(
+      SERVER + "users/update/avatar/" + id,
+      requestOptions
+    );
     if (data.ok) {
       const json = await data.json();
       return json;
@@ -148,16 +170,25 @@ export const updateUserAvatar = async (id:string,token:string,avatar:{avatarCode
   } catch {
     throw new Error("Error while fetching data in register");
   }
-}
-export const updateUserNickname = async (id:string,token:string,nickname:{nickName:string})=>{
+};
+export const updateUserNickname = async (
+  id: string,
+  token: string,
+  nickname: { nickName: string }
+) => {
   const requestOptions = {
     method: "PUT",
     headers: {
-      "Content-type": "application/json; charset=UTF-8","x-access-token":token},
+      "Content-type": "application/json; charset=UTF-8",
+      "x-access-token": token,
+    },
     body: JSON.stringify(nickname),
   };
   try {
-    const data = await fetch(SERVER + "users/update/nickname/" + id, requestOptions);
+    const data = await fetch(
+      SERVER + "users/update/nickname/" + id,
+      requestOptions
+    );
     if (data.ok) {
       const json = await data.json();
       console.log(json);
@@ -167,16 +198,25 @@ export const updateUserNickname = async (id:string,token:string,nickname:{nickNa
   } catch {
     throw new Error("Error while fetching data in register");
   }
-}
-export const updateUserNotification = async (id:string,token:string,is_notification:boolean)=>{
+};
+export const updateUserNotification = async (
+  id: string,
+  token: string,
+  is_notification: boolean
+) => {
   const requestOptions = {
     method: "PUT",
     headers: {
-      "Content-type": "application/json; charset=UTF-8","x-access-token":token},
-    body: JSON.stringify({is_notification}),
+      "Content-type": "application/json; charset=UTF-8",
+      "x-access-token": token,
+    },
+    body: JSON.stringify({ is_notification }),
   };
   try {
-    const data = await fetch(SERVER + "users/update/notification/" + id, requestOptions);
+    const data = await fetch(
+      SERVER + "users/update/notification/" + id,
+      requestOptions
+    );
     if (data.ok) {
       const json = await data.json();
       console.log(json);
@@ -186,16 +226,25 @@ export const updateUserNotification = async (id:string,token:string,is_notificat
   } catch {
     throw new Error("Error while fetching data in register");
   }
-}
-export const addUserPlayDate = async (id:string,token:string,playDate:PlayDatesType)=>{
+};
+export const addUserPlayDate = async (
+  id: string,
+  token: string,
+  playDate: PlayDatesType
+) => {
   const requestOptions = {
     method: "PUT",
     headers: {
-      "Content-type": "application/json; charset=UTF-8","x-access-token":token},
+      "Content-type": "application/json; charset=UTF-8",
+      "x-access-token": token,
+    },
     body: JSON.stringify(playDate),
   };
   try {
-    const data = await fetch(SERVER + "users/update/addplaydate/" + id, requestOptions);
+    const data = await fetch(
+      SERVER + "users/update/addplaydate/" + id,
+      requestOptions
+    );
     if (data.ok) {
       const json = await data.json();
       console.log(json);
@@ -205,16 +254,25 @@ export const addUserPlayDate = async (id:string,token:string,playDate:PlayDatesT
   } catch {
     throw new Error("Error while fetching data in register");
   }
-}
-export const updateUserCurrentLevel = async (id:string,token:string,current_level:number)=>{
+};
+export const updateUserCurrentLevel = async (
+  id: string,
+  token: string,
+  current_level: number
+) => {
   const requestOptions = {
     method: "PUT",
     headers: {
-      "Content-type": "application/json; charset=UTF-8","x-access-token":token},
-    body: JSON.stringify({current_level}),
+      "Content-type": "application/json; charset=UTF-8",
+      "x-access-token": token,
+    },
+    body: JSON.stringify({ current_level }),
   };
   try {
-    const data = await fetch(SERVER + "users/update/currentlevel/" + id, requestOptions);
+    const data = await fetch(
+      SERVER + "users/update/currentlevel/" + id,
+      requestOptions
+    );
     if (data.ok) {
       const json = await data.json();
       console.log(json);
@@ -224,16 +282,25 @@ export const updateUserCurrentLevel = async (id:string,token:string,current_leve
   } catch {
     throw new Error("Error while fetching data in register");
   }
-}
-export const updateLevelPopulatiry = async (id:string,token:string,popularity:{level_code:number,popularity:number})=>{
+};
+export const updateLevelPopulatiry = async (
+  id: string,
+  token: string,
+  popularity: { level_code: number; popularity: number }
+) => {
   const requestOptions = {
     method: "PUT",
     headers: {
-      "Content-type": "application/json; charset=UTF-8","x-access-token":token},
+      "Content-type": "application/json; charset=UTF-8",
+      "x-access-token": token,
+    },
     body: JSON.stringify(popularity),
   };
   try {
-    const data = await fetch(SERVER + "users/update/levelpopularity/" + id, requestOptions);
+    const data = await fetch(
+      SERVER + "users/update/levelpopularity/" + id,
+      requestOptions
+    );
     if (data.ok) {
       const json = await data.json();
       console.log(json);
@@ -243,16 +310,25 @@ export const updateLevelPopulatiry = async (id:string,token:string,popularity:{l
   } catch {
     throw new Error("Error while fetching data in register");
   }
-}
-export const updateLevelRank = async (id:string,token:string,rank:LevelRankType)=>{
+};
+export const updateLevelRank = async (
+  id: string,
+  token: string,
+  rank: LevelRankType
+) => {
   const requestOptions = {
     method: "PUT",
     headers: {
-      "Content-type": "application/json; charset=UTF-8","x-access-token":token},
+      "Content-type": "application/json; charset=UTF-8",
+      "x-access-token": token,
+    },
     body: JSON.stringify(rank),
   };
   try {
-    const data = await fetch(SERVER + "users/update/levelrank/" + id, requestOptions);
+    const data = await fetch(
+      SERVER + "users/update/levelrank/" + id,
+      requestOptions
+    );
     if (data.ok) {
       const json = await data.json();
       console.log(json);
@@ -262,4 +338,4 @@ export const updateLevelRank = async (id:string,token:string,rank:LevelRankType)
   } catch {
     throw new Error("Error while fetching data in register");
   }
-}
+};
