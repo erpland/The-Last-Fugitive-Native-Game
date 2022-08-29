@@ -23,7 +23,7 @@ const UserContextProvider: React.FC<React.ReactNode> = ({ children }) => {
     is_notification: true,
     time_of_register: new Date(),
     play_dates: [],
-    token:""
+    token:"",
   });
   const [avatars, setAvatars] = useState<AvatarsType[]>([{
     _id: "",
@@ -36,10 +36,10 @@ const UserContextProvider: React.FC<React.ReactNode> = ({ children }) => {
     ],
   }]);
   const [isRegisteredUser, setIsRegisteredUser] = useState(false)
-
+  const [isGuest, setIsGuest] = useState(false)
   return (
     <UserContext.Provider
-      value={{ currentUser, setCurrentUser, avatars, setAvatars,isRegisteredUser,setIsRegisteredUser}}
+      value={{ currentUser, setCurrentUser, avatars, setAvatars,isRegisteredUser,setIsRegisteredUser,isGuest,setIsGuest}}
     >
       {children}
     </UserContext.Provider>

@@ -48,7 +48,7 @@ const GamePlay: React.FC<Props> = ({
   const [nextEnemiesPositions, setNextEnemiesPositions] =
     useState<NextEnemiesPositionsType>(enemiesKeys);
   const { playerData, setPlayerData } = usePlayerDataContext();
-  const { currentUser, setCurrentUser } = useUserContext();
+  const { currentUser, setCurrentUser,isGuest } = useUserContext();
   const { setCurrentLevel, allLevels } = useLevelContext();
   const [counter, setCounter] = useState(0);
   const [isPlayerKilled, setIsPlayerKilled] = useState(false);
@@ -112,11 +112,12 @@ const GamePlay: React.FC<Props> = ({
 
       if (currentUser.current_level === levelCode) {
         let nextLevel = levelCode + 1;
-        await addLevelRank(currentUser._id, currentUser.token, level);
+        await addLevelRank(currentUser._id, currentUser.token, level,isGuest);
         await updateUserCurrentLevel(
           currentUser._id,
           currentUser.token,
-          nextLevel
+          nextLevel,
+          isGuest
         );
         const ranks = currentUser.level_rank;
         ranks.push(level);
@@ -127,7 +128,7 @@ const GamePlay: React.FC<Props> = ({
         });
         setCurrentLevel(nextLevel)
       } else {
-        await updateLevelRank(currentUser._id, currentUser.token, level);
+        await updateLevelRank(currentUser._id, currentUser.token, level,isGuest);
         currentUser.level_rank[levelCode - 1].rank = calcStars();
       }
     };

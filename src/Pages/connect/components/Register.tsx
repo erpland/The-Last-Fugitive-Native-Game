@@ -10,7 +10,7 @@ import {
 } from "@ionic/react";
 import { UserSignupType } from "../../../Types/userTypes";
 import React, { SetStateAction, useState } from "react";
-import { registerUser } from "../../../Database/database";
+import { registerUser, signGuestAsUser } from "../../../Database/database";
 import { useUserContext } from "../../context/UserContext";
 import { useIonRouter } from "@ionic/react";
 import { useLevelContext } from "../../context/LevelContext";
@@ -95,7 +95,14 @@ const Register: React.FC<Props> = (props) => {
     });
     let registeredUser
     try{
+      let guestId=(await Preferences.get({key:"guestId"})).value
+      if(!guestId){
       registeredUser = await registerUser(user);
+      }
+      else{
+        registeredUser = await signGuestAsUser({...user,id: guestId});
+         await Preferences.remove({key:"guestId"})
+      }
     }catch{
       setShowAlert({ ...showAlert, isOpen: true });
       return

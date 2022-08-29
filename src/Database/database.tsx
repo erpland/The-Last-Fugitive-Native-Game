@@ -94,6 +94,71 @@ export const registerUser = async (user: UserSignupType) => {
     throw new Error("Error while fetching data in register");
   }
 };
+
+//register guest
+export const registerGuest = async () => {
+  
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  };
+  try {
+    const data = await fetch(SERVER + "guests/register", requestOptions);
+    if (data.ok) {
+      const json = await data.json();
+      console.log("after", json);
+      return json;
+    }
+    return null;
+  } catch {
+    throw new Error("Error while fetching data in register");
+  }
+};
+
+//sign guest as user
+
+export const signGuestAsUser = async (guest: UserSignupType) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify(guest),
+  };
+  try {
+    console.log(guest)
+    const data = await fetch(SERVER + "users/guestRegister", requestOptions);
+    if (data.ok) {
+      const json = await data.json();
+      return json;
+    }
+    return null;
+  } catch {
+    throw new Error("Error while fetching data in register");
+  }
+};
+
+
+//login guest
+export const fetchGuestById = async (id: string) => {
+  const requestOptions = {
+    method: "get",
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  };
+  try {
+    const data = await fetch(SERVER + "guests/" + id, requestOptions);
+    if (data.ok) {
+      const json = await data.json();
+      return json;
+    }
+    return new Error("Error while fetch data in get user by id");
+  } catch {
+    throw new Error("Network Error!");
+  }
+};
+
 export const loginUser = async (user: UserLoginType) => {
   const requestOptions = {
     method: "POST",
@@ -119,7 +184,8 @@ export const loginUser = async (user: UserLoginType) => {
 export const addLevelRank = async (
   id: string,
   token: string,
-  rank: LevelRankType
+  rank: LevelRankType,
+  isGuest: boolean
 ) => {
   const requestOptions = {
     method: "PUT",
@@ -130,8 +196,9 @@ export const addLevelRank = async (
     body: JSON.stringify(rank),
   };
   try {
+    let controller=isGuest?"guests/update/addLevelRank/"+id:"users/update/addLevelRank/" + id
     const data = await fetch(
-      SERVER + "users/update/addLevelRank/" + id,
+      SERVER + controller,
       requestOptions
     );
     if (data.ok) {
@@ -202,7 +269,8 @@ export const updateUserNickname = async (
 export const updateUserNotification = async (
   id: string,
   token: string,
-  is_notification: boolean
+  is_notification: boolean, 
+  isGuest: boolean
 ) => {
   const requestOptions = {
     method: "PUT",
@@ -213,8 +281,9 @@ export const updateUserNotification = async (
     body: JSON.stringify({ is_notification }),
   };
   try {
+    let controller=isGuest?"guests/update/notification/"+id:"users/update/notification/" + id
     const data = await fetch(
-      SERVER + "users/update/notification/" + id,
+      SERVER + controller,
       requestOptions
     );
     if (data.ok) {
@@ -230,7 +299,8 @@ export const updateUserNotification = async (
 export const addUserPlayDate = async (
   id: string,
   token: string,
-  playDate: PlayDatesType
+  playDate: PlayDatesType,
+  isGuset:boolean
 ) => {
   const requestOptions = {
     method: "PUT",
@@ -241,8 +311,9 @@ export const addUserPlayDate = async (
     body: JSON.stringify(playDate),
   };
   try {
+    let controller=isGuset?"guests/update/addplaydate/" + id:"users/update/addplaydate/" + id
     const data = await fetch(
-      SERVER + "users/update/addplaydate/" + id,
+      SERVER + controller,
       requestOptions
     );
     if (data.ok) {
@@ -258,7 +329,8 @@ export const addUserPlayDate = async (
 export const updateUserCurrentLevel = async (
   id: string,
   token: string,
-  current_level: number
+  current_level: number,
+  isGuest: boolean
 ) => {
   const requestOptions = {
     method: "PUT",
@@ -269,8 +341,9 @@ export const updateUserCurrentLevel = async (
     body: JSON.stringify({ current_level }),
   };
   try {
+    let controller=isGuest?"guests/update/currentlevel/" + id:"users/update/currentlevel/" + id
     const data = await fetch(
-      SERVER + "users/update/currentlevel/" + id,
+      SERVER + controller,
       requestOptions
     );
     if (data.ok) {
@@ -286,7 +359,8 @@ export const updateUserCurrentLevel = async (
 export const updateLevelPopulatiry = async (
   id: string,
   token: string,
-  popularity: { level_code: number; popularity: number }
+  popularity: { level_code: number; popularity: number },
+  isGuest: boolean
 ) => {
   const requestOptions = {
     method: "PUT",
@@ -297,8 +371,9 @@ export const updateLevelPopulatiry = async (
     body: JSON.stringify(popularity),
   };
   try {
+    let controller=isGuest?"guests/update/levelpopularity/" + id:"users/update/levelpopularity/" + id
     const data = await fetch(
-      SERVER + "users/update/levelpopularity/" + id,
+      SERVER + controller,
       requestOptions
     );
     if (data.ok) {
@@ -314,7 +389,8 @@ export const updateLevelPopulatiry = async (
 export const updateLevelRank = async (
   id: string,
   token: string,
-  rank: LevelRankType
+  rank: LevelRankType,
+  isGuest: boolean
 ) => {
   const requestOptions = {
     method: "PUT",
@@ -325,8 +401,9 @@ export const updateLevelRank = async (
     body: JSON.stringify(rank),
   };
   try {
+    let controller=isGuest?"guests/update/levelrank/" + id:"users/update/levelrank/" + id
     const data = await fetch(
-      SERVER + "users/update/levelrank/" + id,
+      SERVER + controller,
       requestOptions
     );
     if (data.ok) {
@@ -339,3 +416,6 @@ export const updateLevelRank = async (
     throw new Error("Error while fetching data in register");
   }
 };
+
+
+

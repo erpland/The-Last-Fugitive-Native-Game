@@ -18,14 +18,14 @@ type Props = {};
 
 const SettingsModal: React.FC = (props: Props) => {
   const modal = useRef<HTMLIonModalElement>(null);
-  const { currentUser,setCurrentUser } = useUserContext();
+  const { currentUser,setCurrentUser ,isGuest} = useUserContext();
   const {setMusicVolume} = useMusicContext()
 
   const [isChecked, setIsChecked] = useState(currentUser.is_notification);
 
   const saveUserSettings = async () => {
     if (currentUser.is_notification !== isChecked) {
-      await updateUserNotification(currentUser._id, currentUser.token,isChecked);
+      await updateUserNotification(currentUser._id, currentUser.token,isChecked,isGuest);
       setCurrentUser({...currentUser,is_notification:isChecked})
     }
     modal.current?.dismiss()

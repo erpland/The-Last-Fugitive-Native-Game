@@ -9,19 +9,42 @@ import { Preferences } from "@capacitor/preferences";
 import { useUserContext } from "../context/UserContext";
 import { useLevelContext } from "../context/LevelContext";
 import {
+  fetchGuestById,
   fetchUserByid,
   getAllAvatars,
   getAllHints,
   getAllLevels,
+  registerGuest,
 } from "../../Database/database";
 
 type Props = {};
 
 const Connect: React.FC = (props: Props) => {
-  // const router = useIonRouter();
-  // const { setCurrentUser, setAvatars } = useUserContext();
-  // const { setAllLevels, setCurrentLevel, setHints } = useLevelContext();
 
+  // const router = useIonRouter();
+  const { isGuest,setIsGuest,setCurrentUser} = useUserContext();
+  const router = useIonRouter();
+  const {setCurrentLevel} = useLevelContext();
+  const playAsGuest=async()=>{
+    const guestId = (await Preferences.get({ key: "guestId" })).value;
+    if(guestId){
+      const loggedGuest = await fetchGuestById(guestId);
+          setCurrentUser(loggedGuest);
+          setCurrentLevel(loggedGuest.current_level);
+          setIsGuest(true)
+    }
+    else{
+      const registeredGuest = await registerGuest();
+      setCurrentUser(registeredGuest);
+      setCurrentLevel(registeredGuest.current_level);
+      setIsGuest(true)
+      await Preferences.set({
+        key: "guestId",
+        value: registeredGuest._id,
+      });
+    }
+    router.push("/home");
+  }
   // useEffect(() => {
   //   const getAllData = async () => {
   //     // await Preferences.remove({key:"isLoggedIn"})
@@ -79,7 +102,7 @@ const Connect: React.FC = (props: Props) => {
               <IonIcon slot="start" icon={logoFacebook} />
               Sign In With Facebook
             </IonButton> */}
-            <span>Play as Guest</span>
+            <span onClick={()=>playAsGuest()}>Play as Guest</span>
           </div>
         </div>
       </IonContent>

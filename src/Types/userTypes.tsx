@@ -5,6 +5,7 @@ export interface UserSignupType {
   avatarCode: number;
   avatarUrl:string;
   gender: number;
+  id?:string
 }
 
 export interface UserLoginType {
@@ -24,8 +25,9 @@ export interface UserType{
   is_notification : boolean,
   time_of_register:Date,
   play_dates:PlayDatesType[],
-  token:string 
+  token:string
 }
+
 
 export interface LevelRankType{
   level_code:number;
@@ -57,6 +59,8 @@ export interface UserContextType{
   setAvatars:React.Dispatch<React.SetStateAction<AvatarsType[]>>
   isRegisteredUser:boolean
   setIsRegisteredUser:React.Dispatch<React.SetStateAction<boolean>>
+  isGuest:boolean
+  setIsGuest:React.Dispatch<React.SetStateAction<boolean>>
 
 }
 
