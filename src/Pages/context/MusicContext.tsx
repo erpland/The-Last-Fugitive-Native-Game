@@ -21,7 +21,7 @@ const MusicContextProvider:React.FC<React.ReactNode> = ({children}) => {
   }
   const stopMusic = async()=>{
     console.log("stoping")
-    await backgroundMusic.pause()
+    backgroundMusic.pause()
   }
   backgroundMusic.addEventListener('ended',(ev)=>{
     console.log("ended")

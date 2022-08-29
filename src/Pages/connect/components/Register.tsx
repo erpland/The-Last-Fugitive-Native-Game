@@ -43,7 +43,7 @@ const Register: React.FC<Props> = (props) => {
     avatarUrl: "/assets/avatars/male1.png",
     gender: 1,
   });
-  const { setCurrentUser, setIsRegisteredUser } = useUserContext();
+  const { setCurrentUser, setIsRegisteredUser,setIsGuest } = useUserContext();
   const { setCurrentLevel } = useLevelContext();
 
   const genderHandler = (gender: number) => {
@@ -93,23 +93,22 @@ const Register: React.FC<Props> = (props) => {
     props.openLoader({
       message: "Loggin In...",
     });
-    let registeredUser
-    try{
-      let guestId=(await Preferences.get({key:"guestId"})).value
-      if(!guestId){
-      registeredUser = await registerUser(user);
+    let registeredUser;
+    try {
+      let guestId = (await Preferences.get({ key: "guestId" })).value;
+      if (!guestId) {
+        registeredUser = await registerUser(user);
+      } else {
+        registeredUser = await signGuestAsUser({ ...user, id: guestId });
+        await Preferences.remove({ key: "guestId" });
       }
-      else{
-        registeredUser = await signGuestAsUser({...user,id: guestId});
-         await Preferences.remove({key:"guestId"})
-      }
-    }catch{
+    } catch {
       setShowAlert({ ...showAlert, isOpen: true });
-      return
-    }finally{
+      return;
+    } finally {
       props.closeLoader();
     }
-    if(registeredUser) {
+    if (registeredUser) {
       setCurrentUser(registeredUser);
       setCurrentLevel(registeredUser.current_level);
       await Preferences.set({
@@ -117,13 +116,13 @@ const Register: React.FC<Props> = (props) => {
         value: registeredUser._id,
       });
       setIsRegisteredUser(true);
+      setIsGuest(false)
       props.closeModal();
       router.push("/home");
-    }
-    else{
+    } else {
       present({
         duration: TOAST_DURATION,
-        message:"Email Allready Exist In Our Database",
+        message: "Email Allready Exist In Our Database",
       });
     }
   };

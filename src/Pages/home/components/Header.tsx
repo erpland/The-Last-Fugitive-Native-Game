@@ -7,7 +7,7 @@ import { useUserContext } from "../../context/UserContext";
 type Props = {};
 
 const Header = (props: Props) => {
-  const {currentUser} = useUserContext()
+  const {currentUser,remainingGames,isRegisteredUser} = useUserContext()
   const totalRank = currentUser.level_rank.reduce((prev,cur)=>{return prev + cur.rank},0)
   return (
     <div className="header">
@@ -21,7 +21,7 @@ const Header = (props: Props) => {
         </div>
         <div className="lifesbox__container">
           <IonIcon icon={heart} className="upperbox__icon" color={"danger"} />
-          <span>1/3</span>
+          <span>{remainingGames} / {isRegisteredUser ? 5 : 3}</span>
           <IonIcon icon={add} className="upperbox__icon" color={"success"} />
         </div>
       </div>

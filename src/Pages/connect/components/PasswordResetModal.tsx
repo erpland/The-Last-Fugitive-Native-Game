@@ -31,7 +31,6 @@ const PasswordResetModal: React.FC<Props> = ({isResetModal,setIsResetModal}) => 
     }
     try {
       const response = await resetPassword(email);
-      console.log("res=>>>", response)
       if (!response) {
         present({ duration: TOAST_DURATION, message: "User does not exists" });
         return;

@@ -103,7 +103,6 @@ export const resetPassword = async (email:string)=>{
   };
   try {
     const data = await fetch(SERVER + "password-reset/reset", requestOptions);
-    console.log("data======>\n" ,data)
     return data.ok
   } catch {
     throw new Error("Error while sending email");

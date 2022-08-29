@@ -8,53 +8,44 @@ import "./styles/connect.scss";
 import { Preferences } from "@capacitor/preferences";
 import { useUserContext } from "../context/UserContext";
 import { useLevelContext } from "../context/LevelContext";
-import {
-  fetchGuestById,
-  fetchUserByid,
-  getAllAvatars,
-  getAllHints,
-  getAllLevels,
-  registerGuest,
-} from "../../Database/database";
+import { fetchGuestById, registerGuest } from "../../Database/database";
 import PasswordResetModal from "./components/PasswordResetModal";
 
 type Props = {};
 
 const Connect: React.FC = (props: Props) => {
-
   // const router = useIonRouter();
-  const { isGuest,setIsGuest,setCurrentUser} = useUserContext();
+  const { setIsGuest, setCurrentUser,setIsRegisteredUser } = useUserContext();
   const router = useIonRouter();
-  const {setCurrentLevel} = useLevelContext();
-  const [isResetModal, setIsResetModal] = useState(false)
-  const playAsGuest=async()=>{
+  const { setCurrentLevel } = useLevelContext();
+  const [isResetModal, setIsResetModal] = useState(false);
+
+  const playAsGuest = async () => {
     const guestId = (await Preferences.get({ key: "guestId" })).value;
-    if(guestId){
-      const loggedGuest = await fetchGuestById(guestId);
-          setCurrentUser(loggedGuest);
-          setCurrentLevel(loggedGuest.current_level);
-          setIsGuest(true)
-    }
-    else{
-      const registeredGuest = await registerGuest();
-      setCurrentUser(registeredGuest);
-      setCurrentLevel(registeredGuest.current_level);
-      setIsGuest(true)
+    let guestUser;
+    if (guestId) {
+      guestUser = await fetchGuestById(guestId);
+    } else {
+      guestUser = await registerGuest();
       await Preferences.set({
         key: "guestId",
-        value: registeredGuest._id,
+        value: guestUser._id,
       });
     }
+    setCurrentUser(guestUser);
+    setCurrentLevel(guestUser.current_level);
+    setIsGuest(true);
+    setIsRegisteredUser(false)
     router.push("/home");
-  }
+  };
 
   return (
     <IonPage>
       <IonContent className="main__content">
-        <LoginModal setIsResetModal={(val:any)=>setIsResetModal(val)}/>
+        <LoginModal setIsResetModal={(val: any) => setIsResetModal(val)} />
         <PasswordResetModal
-        isResetModal = {isResetModal} 
-        setIsResetModal={(val:any)=>setIsResetModal(val)}
+          isResetModal={isResetModal}
+          setIsResetModal={(val: any) => setIsResetModal(val)}
         />
         <div className="connect-container">
           <div className="connect__headlines">
@@ -81,7 +72,7 @@ const Connect: React.FC = (props: Props) => {
               <IonIcon slot="start" icon={logoFacebook} />
               Sign In With Facebook
             </IonButton> */}
-            <span onClick={()=>playAsGuest()}>Play as Guest</span>
+            <span onClick={() => playAsGuest()}>Play as Guest</span>
           </div>
         </div>
       </IonContent>

@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface UserSignupType {
   nickname: string;
   email: string;
@@ -61,6 +63,8 @@ export interface UserContextType{
   setIsRegisteredUser:React.Dispatch<React.SetStateAction<boolean>>
   isGuest:boolean
   setIsGuest:React.Dispatch<React.SetStateAction<boolean>>
+  remainingGames : number
+  setRemainingGames: React.Dispatch<React.SetStateAction<number>>
 
 }
 

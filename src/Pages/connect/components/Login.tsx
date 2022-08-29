@@ -18,7 +18,7 @@ type Props = {
   openLoader: ({}) => void;
   closeLoader: () => void;
   closeModal: () => void;
-  setIsResetModal:React.Dispatch<React.SetStateAction<boolean>>
+  setIsResetModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Login: React.FC<Props> = (props) => {
@@ -29,7 +29,7 @@ const Login: React.FC<Props> = (props) => {
   });
   const formRef = useRef<HTMLIonItemElement>(null);
 
-  const { setCurrentUser, setIsRegisteredUser } = useUserContext();
+  const { setCurrentUser, setIsRegisteredUser, setIsGuest } = useUserContext();
   const { setCurrentLevel } = useLevelContext();
   const [present, dismiss] = useIonToast();
   const [showAlert, setShowAlert] = useState({
@@ -71,7 +71,7 @@ const Login: React.FC<Props> = (props) => {
       loggedUser = await loginUser(user);
     } catch {
       setShowAlert({ ...showAlert, isOpen: true });
-      return
+      return;
     } finally {
       props.closeLoader();
     }
@@ -83,6 +83,7 @@ const Login: React.FC<Props> = (props) => {
         value: loggedUser._id,
       });
       setIsRegisteredUser(true);
+      setIsGuest(false)
       props.closeModal();
       router.push("/home");
     } else {
@@ -126,7 +127,9 @@ const Login: React.FC<Props> = (props) => {
           type="password"
         ></IonInput>
       </IonItem>
-      <p style={{color:'white'}} onClick={()=>props.setIsResetModal(true)}>Forgot Password?</p>
+      <p style={{ color: "white" }} onClick={() => props.setIsResetModal(true)}>
+        Forgot Password?
+      </p>
       <div className="login-container__buttons">
         <IonButton strong={true} color="primary" type="submit">
           Login
