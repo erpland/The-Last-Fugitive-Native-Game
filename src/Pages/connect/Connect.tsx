@@ -1,5 +1,5 @@
 import { IonButton, IonContent, IonPage } from "@ionic/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { IonIcon } from "@ionic/react";
 import { logoFacebook, wallet, gift, cloudDownload } from "ionicons/icons";
 import LoginModal from "./components/LoginModal";
@@ -16,6 +16,7 @@ import {
   getAllLevels,
   registerGuest,
 } from "../../Database/database";
+import PasswordResetModal from "./components/PasswordResetModal";
 
 type Props = {};
 
@@ -25,6 +26,7 @@ const Connect: React.FC = (props: Props) => {
   const { isGuest,setIsGuest,setCurrentUser} = useUserContext();
   const router = useIonRouter();
   const {setCurrentLevel} = useLevelContext();
+  const [isResetModal, setIsResetModal] = useState(false)
   const playAsGuest=async()=>{
     const guestId = (await Preferences.get({ key: "guestId" })).value;
     if(guestId){
@@ -45,38 +47,15 @@ const Connect: React.FC = (props: Props) => {
     }
     router.push("/home");
   }
-  // useEffect(() => {
-  //   const getAllData = async () => {
-  //     // await Preferences.remove({key:"isLoggedIn"})
-  //     const allLevels = await getAllLevels();
-  //     const allHints = await getAllHints();
-  //     const allAvatars = await getAllAvatars();
-  //     if (allLevels && allHints && allAvatars) {
-  //       setAllLevels(allLevels);
-  //       setHints(allHints);
-  //       setAvatars(allAvatars);
-  //     }
-  //     else{
-  //       console.log("Errro Retrving game data")
-  //       return
-  //     }
-  //   const userId = (await Preferences.get({ key: "isLoggedIn" })).value
-  //       if(userId){
-  //         const loggedUser = await fetchUserByid(userId)
-  //         console.log(loggedUser)
-  //         setCurrentUser(loggedUser)
-  //         setCurrentLevel(loggedUser.current_level)
-  //         router.push("/home");
-  //       }
-  //     }
-  //   getAllData();
-  // }, []);
 
   return (
     <IonPage>
       <IonContent className="main__content">
-        <LoginModal />
-        
+        <LoginModal setIsResetModal={(val:any)=>setIsResetModal(val)}/>
+        <PasswordResetModal
+        isResetModal = {isResetModal} 
+        setIsResetModal={(val:any)=>setIsResetModal(val)}
+        />
         <div className="connect-container">
           <div className="connect__headlines">
             <h1>Log in To Get Benfits</h1>

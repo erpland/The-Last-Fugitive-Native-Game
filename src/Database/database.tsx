@@ -74,7 +74,6 @@ export const getAllAvatars = async () => {
 
 //posts
 export const registerUser = async (user: UserSignupType) => {
-  console.log("before", user);
   const requestOptions = {
     method: "POST",
     headers: {
@@ -94,7 +93,22 @@ export const registerUser = async (user: UserSignupType) => {
     throw new Error("Error while fetching data in register");
   }
 };
-
+export const resetPassword = async (email:string)=>{
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify({email}),
+  };
+  try {
+    const data = await fetch(SERVER + "password-reset/reset", requestOptions);
+    console.log("data======>\n" ,data)
+    return data.ok
+  } catch {
+    throw new Error("Error while sending email");
+  }
+}
 //register guest
 export const registerGuest = async () => {
   

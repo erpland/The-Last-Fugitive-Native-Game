@@ -18,6 +18,7 @@ type Props = {
   openLoader: ({}) => void;
   closeLoader: () => void;
   closeModal: () => void;
+  setIsResetModal:React.Dispatch<React.SetStateAction<boolean>>
 };
 
 const Login: React.FC<Props> = (props) => {
@@ -125,7 +126,7 @@ const Login: React.FC<Props> = (props) => {
           type="password"
         ></IonInput>
       </IonItem>
-      <p style={{color:'white'}}>Forgot Password?</p>
+      <p style={{color:'white'}} onClick={()=>props.setIsResetModal(true)}>Forgot Password?</p>
       <div className="login-container__buttons">
         <IonButton strong={true} color="primary" type="submit">
           Login
