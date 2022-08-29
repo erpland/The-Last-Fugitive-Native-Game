@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IonPage,IonContent } from "@ionic/react";
 import Header from "./components/Header";
 import MainTitle from "./components/MainTitle";
@@ -8,13 +8,12 @@ import './styles/home.scss'
 import LevelsModal from "./components/LevelsModal";
 import ConnectModal from "./components/ConnectModal";
 import SettingsModal from "./components/SettingModal";
-import FinishModal from "../game/components/FinishModal";
-import { useUserContext } from "../context/UserContext";
-import { useLevelContext } from "../context/LevelContext";
 import { useMusicContext } from "../context/MusicContext";
+
 type Props = {};
 
 const Home: React.FC = (props: Props) => {
+  const [isProfileModal, setIsProfileModal] = useState(false)
 const {playMusic} = useMusicContext()
   useEffect(() => {
     playMusic()
@@ -28,11 +27,13 @@ return (
         className="main__content">
         <SettingsModal/>
         <ConnectModal/>
-        <ProfileModal/>
+        <ProfileModal
+        isProfileModal = {isProfileModal}
+        setIsProfileModal = {setIsProfileModal}/>
         <LevelsModal/>
        
         <div className="container">
-          <Header/>
+          <Header setIsProfileModal={(val:any)=>setIsProfileModal(val)}/>
           <MainTitle />
           <Footer />
         </div>

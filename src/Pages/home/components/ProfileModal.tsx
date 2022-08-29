@@ -10,7 +10,7 @@ import {
   IonToolbar,
   useIonToast,
 } from "@ionic/react";
-import React, { useRef, useState } from "react";
+import React, { SetStateAction, useRef, useState } from "react";
 import {
   updateUserAvatar,
   updateUserNickname,
@@ -18,9 +18,12 @@ import {
 import { TOAST_DURATION } from "../../../utils/Constants";
 import { useUserContext } from "../../context/UserContext";
 
-type Props = {};
+type Props = {
+  isProfileModal : boolean
+  setIsProfileModal: React.Dispatch<SetStateAction<boolean>>
+};
 
-const ProfileModal: React.FC = (props: Props) => {
+const ProfileModal: React.FC<Props> = ({isProfileModal,setIsProfileModal}) => {
   const modal = useRef<HTMLIonModalElement>(null);
   const { currentUser, setCurrentUser, avatars } = useUserContext();
   const [nickname, setNickname] = useState(currentUser.nickname);
@@ -37,7 +40,7 @@ const ProfileModal: React.FC = (props: Props) => {
       "We had some trouble updating your data.\n Please check your internet connection and try again.",
     buttons: ["OK"],
   });
-  const [present, dismiss] = useIonToast();
+  const [present] = useIonToast();
 
   const listOfAvatars =
     currentUser.gender === 1 ? avatars[0].options : avatars[1].options;
@@ -101,7 +104,7 @@ const ProfileModal: React.FC = (props: Props) => {
     <IonModal
       id="profile-modal"
       ref={modal}
-      trigger="open-profile-modal"
+      isOpen={isProfileModal}
       onDidDismiss={() => {
         setAvatar({
           code: currentUser.avatarCode,
@@ -109,6 +112,7 @@ const ProfileModal: React.FC = (props: Props) => {
         });
         setNickname(currentUser.nickname);
         setIsBtnDisabled(false)
+        setIsProfileModal(false)
       }}
     >
       <IonAlert
