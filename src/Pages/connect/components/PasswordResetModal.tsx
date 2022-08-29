@@ -17,7 +17,7 @@ type Props = {
 };
 
 const PasswordResetModal: React.FC<Props> = ({isResetModal,setIsResetModal}) => {
-  const [present, dismiss] = useIonToast();
+  const [present] = useIonToast();
   const modal = useRef<HTMLIonModalElement>(null);
   const [email, setEmail] = useState("");
   const resetPasswordHandler = async (e: any) => {

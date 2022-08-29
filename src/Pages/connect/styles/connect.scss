@@ -51,7 +51,8 @@ $icons-size__large: 15vmin;
   }
 }
 
-ion-modal#login-modal {
+ion-modal#login-modal,
+ion-modal#reset-password-modal {
   --border-radius: 16px;
   --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
   0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -159,5 +160,30 @@ ion-modal#login-modal {
         color: var(--ion-color-warning);
       }
     }
+  }
+}
+ion-modal#reset-password-modal{
+  font-weight: bold;
+  .reset-modal__container{
+    // height: 50vmin;
+    padding: 20px;
+    form{
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      ion-item{
+        padding: 10px 0px;
+        min-width: 300px;
+      }
+      ion-button{
+        justify-self: flex-end;
+        font-family: "Roboto";
+        margin: 10px;
+      }
+    }
+
   }
 }

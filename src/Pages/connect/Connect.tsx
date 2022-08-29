@@ -19,6 +19,7 @@ const Connect: React.FC = (props: Props) => {
   const router = useIonRouter();
   const { setCurrentLevel } = useLevelContext();
   const [isResetModal, setIsResetModal] = useState(false);
+  const [isLoginModal,setIsLoginModal] = useState(false)
 
   const playAsGuest = async () => {
     const guestId = (await Preferences.get({ key: "guestId" })).value;
@@ -42,7 +43,11 @@ const Connect: React.FC = (props: Props) => {
   return (
     <IonPage>
       <IonContent className="main__content">
-        <LoginModal setIsResetModal={(val: any) => setIsResetModal(val)} />
+        <LoginModal 
+        setIsResetModal={(val: any) => setIsResetModal(val)}
+        isLoginModal = {isLoginModal} 
+        setIsLoginModal={(val:any)=>setIsLoginModal(val)}
+        />
         <PasswordResetModal
           isResetModal={isResetModal}
           setIsResetModal={(val: any) => setIsResetModal(val)}
@@ -67,7 +72,7 @@ const Connect: React.FC = (props: Props) => {
             </div>
           </div>
           <div className="connect__buttons">
-            <IonButton id="open-login-modal">Sign In With Email</IonButton>
+            <IonButton onClick={()=>setIsLoginModal(true)}>Sign In With Email</IonButton>
             {/* <IonButton fill="outline">
               <IonIcon slot="start" icon={logoFacebook} />
               Sign In With Facebook

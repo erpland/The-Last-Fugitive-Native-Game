@@ -19,6 +19,7 @@ type Props = {
   closeLoader: () => void;
   closeModal: () => void;
   setIsResetModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Login: React.FC<Props> = (props) => {
@@ -54,6 +55,11 @@ const Login: React.FC<Props> = (props) => {
     }
   };
 
+  const openResetModal = () => {
+    props.setIsResetModal(true);
+    props.setIsLoginModal(false)
+  };
+
   const login = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user.email || !user.password) {
@@ -83,7 +89,7 @@ const Login: React.FC<Props> = (props) => {
         value: loggedUser._id,
       });
       setIsRegisteredUser(true);
-      setIsGuest(false)
+      setIsGuest(false);
       props.closeModal();
       router.push("/home");
     } else {
@@ -127,7 +133,7 @@ const Login: React.FC<Props> = (props) => {
           type="password"
         ></IonInput>
       </IonItem>
-      <p style={{ color: "white" }} onClick={() => props.setIsResetModal(true)}>
+      <p style={{ color: "white" }} onClick={openResetModal}>
         Forgot Password?
       </p>
       <div className="login-container__buttons">
