@@ -32,7 +32,7 @@ const Login: React.FC<Props> = (props) => {
 
   const { setCurrentUser, setIsRegisteredUser, setIsGuest } = useUserContext();
   const { setCurrentLevel } = useLevelContext();
-  const [present, dismiss] = useIonToast();
+  const [present] = useIonToast();
   const [showAlert, setShowAlert] = useState({
     isOpen: false,
     header: "Error...",

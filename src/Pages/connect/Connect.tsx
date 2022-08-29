@@ -1,4 +1,4 @@
-import { IonButton, IonContent, IonPage } from "@ionic/react";
+import { IonButton, IonContent, IonPage, useIonLoading } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { IonIcon } from "@ionic/react";
 import { logoFacebook, wallet, gift, cloudDownload } from "ionicons/icons";
@@ -14,14 +14,15 @@ import PasswordResetModal from "./components/PasswordResetModal";
 type Props = {};
 
 const Connect: React.FC = (props: Props) => {
-  // const router = useIonRouter();
   const { setIsGuest, setCurrentUser,setIsRegisteredUser } = useUserContext();
   const router = useIonRouter();
   const { setCurrentLevel } = useLevelContext();
   const [isResetModal, setIsResetModal] = useState(false);
   const [isLoginModal,setIsLoginModal] = useState(false)
+  const [present, dismiss] = useIonLoading();
 
   const playAsGuest = async () => {
+    present({message: "Logging In...",})
     const guestId = (await Preferences.get({ key: "guestId" })).value;
     let guestUser;
     if (guestId) {
@@ -37,6 +38,7 @@ const Connect: React.FC = (props: Props) => {
     setCurrentLevel(guestUser.current_level);
     setIsGuest(true);
     setIsRegisteredUser(false)
+    dismiss()
     router.push("/home");
   };
 
@@ -47,6 +49,8 @@ const Connect: React.FC = (props: Props) => {
         setIsResetModal={(val: any) => setIsResetModal(val)}
         isLoginModal = {isLoginModal} 
         setIsLoginModal={(val:any)=>setIsLoginModal(val)}
+        openLoader={present}
+        closeLoader={dismiss}
         />
         <PasswordResetModal
           isResetModal={isResetModal}
@@ -55,16 +59,16 @@ const Connect: React.FC = (props: Props) => {
         <div className="connect-container">
           <div className="connect__headlines">
             <h1>Log in To Get Benfits</h1>
-            <h5>Connect with Facebook Or Email</h5>
+            <h5>Connect With Email</h5>
           </div>
           <div className="connect__images">
             <div>
               <IonIcon icon={wallet} />
-              <small>Get Free Bonues</small>
+              <small>Watch Less Ads</small>
             </div>
             <div>
               <IonIcon icon={gift} />
-              <small>Get Exclusive Gifts</small>
+              <small>Get Exclusive Content</small>
             </div>
             <div>
               <IonIcon icon={cloudDownload} />

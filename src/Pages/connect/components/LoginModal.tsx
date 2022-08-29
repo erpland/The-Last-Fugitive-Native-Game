@@ -7,12 +7,14 @@ type Props = {
   setIsResetModal: React.Dispatch<React.SetStateAction<boolean>>;
   isLoginModal : boolean
   setIsLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
+  openLoader:()=>void
+  closeLoader:()=>void
 };
 
-const LoginModal: React.FC<Props> = ({ setIsResetModal,isLoginModal,setIsLoginModal }) => {
+const LoginModal: React.FC<Props> = ({ setIsResetModal,isLoginModal,setIsLoginModal,openLoader,closeLoader }) => {
   const [isLoginComponent, setisLoginComponent] = useState(true);
   const modal = useRef<HTMLIonModalElement>(null);
-  const [present, dismiss] = useIonLoading();
+  
 
   const closeModal = () => {
     modal.current?.dismiss();
@@ -32,8 +34,8 @@ const LoginModal: React.FC<Props> = ({ setIsResetModal,isLoginModal,setIsLoginMo
           <Login
             setisLoginComponent={(val) => setisLoginComponent(val)}
             closeModal={closeModal}
-            openLoader={present}
-            closeLoader={dismiss}
+            openLoader={openLoader}
+            closeLoader={closeLoader}
             setIsResetModal={setIsResetModal}
             setIsLoginModal={setIsLoginModal}
           />
@@ -41,8 +43,8 @@ const LoginModal: React.FC<Props> = ({ setIsResetModal,isLoginModal,setIsLoginMo
           <Register
             setisLoginComponent={(val) => setisLoginComponent(val)}
             closeModal={closeModal}
-            openLoader={present}
-            closeLoader={dismiss}
+            openLoader={openLoader}
+            closeLoader={closeLoader}
           />
         )}
       </div>
