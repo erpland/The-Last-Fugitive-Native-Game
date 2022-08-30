@@ -1,15 +1,14 @@
 import { IonIcon } from "@ionic/react";
 import { star } from "ionicons/icons";
-import React, { useState } from "react";
+import React, { SetStateAction, useState } from "react";
 
-type Props = {};
+type Props = {
+  rating:number
+  setRating: React.Dispatch<SetStateAction<number>>
+};
 
-const RatingBar: React.FC = (props: Props) => {
-  const [rating, setRating] = useState(0);
+const RatingBar: React.FC<Props> = ({rating,setRating}) => {
 
-  const stars = new Array(5).fill(null).map((a) => {
-    return <IonIcon style={{ padding: "10px" }} size="large" icon={star} />;
-  });
   return (
     <div
       style={{

@@ -7,11 +7,14 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { star, refresh, arrowForward } from "ionicons/icons";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { usePlayerDataContext } from "../../context/PlayerDataContext";
 import "../../home/styles/home.scss";
 import { useIonRouter } from "@ionic/react";
 import RatingBar from "./RatingBar";
+import { useUserContext } from "../../context/UserContext";
+import { updateLevelPopulatiry } from "../../../Database/database";
+import { useLevelContext } from "../../context/LevelContext";
 interface stepCapType {
   code: number;
   step: number;
@@ -47,6 +50,9 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({
     color: isWon ? "var(--ion-color-success)" : "var(--ion-color-danger)",
   };
   const { playerData,setPlayerData } = usePlayerDataContext();
+  const {setCurrentUser,currentUser,isGuest} = useUserContext()
+  const [levelRating, setLevelRating] = useState(currentUser.level_rank[levelCode-1].popularity || 0);
+
   const router = useIonRouter();
   const calcStars = () => {
     if (playerData.steps <= stepCap[0].step) {
@@ -62,8 +68,15 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({
     setPlayerData({ steps:0, isPlayerTurn: true });
     resetLevel()
   }
-  const backToHomePage=()=>{
+  const backToHomePage= ()=>{
     setPlayerData({ steps:0,isPlayerTurn:true })
+    const levelRank = currentUser.level_rank
+    levelRank[levelCode-1].popularity = levelRating
+    setCurrentUser({...currentUser,level_rank:levelRank})
+    updateLevelPopulatiry(currentUser._id,currentUser.token, {
+      level_code:levelCode,
+      popularity:levelRating
+    },isGuest)
     router.push('/home')
     modal.current?.dismiss()
   }
@@ -91,13 +104,12 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({
           value={playerData.steps}
           color={data.color}
         />
-        <RatingBar/>
-        {/* <ModalText label={"Score"} value={1} color={data.color} /> */}
+        <RatingBar
+        rating = {levelRating}
+        setRating = {(val:any)=>setLevelRating(val)}
+        />
 
         <div className="finish-modal__button-container">
-          {/* <IonButton fill="outline">
-            <IonIcon slot="icon-only" icon={menu} color="warning" />
-          </IonButton> */}
           <IonButton fill="outline" onClick={()=>handleRefresh()} id={"open-levels-modal"}>
             <IonIcon slot="icon-only" icon={refresh} color="warning" />
           </IonButton>

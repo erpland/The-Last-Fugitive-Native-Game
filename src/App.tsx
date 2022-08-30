@@ -21,7 +21,7 @@ import "./theme/variables.css";
 
 import { StatusBar } from "@capacitor/status-bar";
 import Routes from "./Routes";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AndroidFullScreen } from "@awesome-cordova-plugins/android-full-screen";
 import Loader from "./Pages/Loader";
 import UserContextProvider from "./Pages/context/UserContext";
@@ -50,8 +50,8 @@ const App: React.FC = () => {
     hideStatusBar();
   }, []);
   const [isLoading, setIsLoading] = useState(true);
-  // const [isRegisteredUser, setIsRegisteredUser] = useState(false)
-
+  
+  
   return (
     <IonApp>
       <UserContextProvider>
