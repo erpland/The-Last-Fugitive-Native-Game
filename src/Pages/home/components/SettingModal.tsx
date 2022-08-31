@@ -64,7 +64,6 @@ const SettingsModal: React.FC = (props: Props) => {
             value={soundVolume}
             debounce={100}
             onIonChange={({ detail }) => {
-              console.log(detail.value);
               setSoundVolume(detail.value);
             }}
           >
@@ -81,7 +80,6 @@ const SettingsModal: React.FC = (props: Props) => {
             value={musicVolume}
             debounce={100}
             onIonChange={({ detail }) => {
-              console.log(detail.value);
               setMusicVolume(detail.value);
             }}
           >

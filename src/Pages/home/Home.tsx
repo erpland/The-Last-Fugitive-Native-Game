@@ -47,9 +47,8 @@ const Home: React.FC = (props: Props) => {
           });
           addUserPlayDate(currentUser._id, currentUser.token, dates, isGuest);
           playDate = null;
-          console.log("Updated!");
+          console.log("play date has been updated");
         }
-        console.log("CLEAR!");
       }
     });
   }, []);
@@ -60,9 +59,6 @@ const Home: React.FC = (props: Props) => {
     currentDate = new Date();
   };
 
-  useEffect(() => {
-    playMusic();
-  }, []);
   console.count("home")
   return (
     <IonPage>

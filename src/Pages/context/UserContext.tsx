@@ -53,8 +53,9 @@ const UserContextProvider: React.FC<React.ReactNode> = ({ children }) => {
   useEffect(() => {
     clearInterval(interval.current);
     if (remainingGames < 5) {
-      console.log("ADDED INTERVAL");
+      console.log("added remaing games interval");
       interval.current = setInterval(() => {
+        console.log("added 1 life")
         updateRemainingGames();
       }, REMAINING_GAMES_TIMER);
     }
