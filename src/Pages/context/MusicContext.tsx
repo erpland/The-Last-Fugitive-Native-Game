@@ -1,3 +1,4 @@
+import { Preferences } from '@capacitor/preferences';
 import React, { createContext, useContext, useEffect, useState } from 'react'
 // import {HintsTypes, MusicContextType, LevelType} from '../../Types/levelTypes'
 
@@ -7,7 +8,21 @@ const MusicContextProvider:React.FC<React.ReactNode> = ({children}) => {
   const [backgroundMusic, setBackgroundMusic] = useState<HTMLAudioElement>(new Audio(
     '/assets/music/music1.mp3'
   ))
-  const [musicVolume, setMusicVolume] = useState(1)
+  
+  const [soundVolume, setSoundVolume] = useState(0)
+  const [musicVolume, setMusicVolume] = useState(0)
+  
+ 
+  useEffect(() => {
+    const getVolume = async ()=>{
+      const music = (await Preferences.get({ key: "music" })).value;
+      const sound = (await Preferences.get({ key: "sound" })).value;
+      setSoundVolume(Number(sound))
+      setMusicVolume(Number(music))
+    }
+    getVolume()
+  }, [])
+  
   
   useEffect(() => {
     backgroundMusic.volume = musicVolume
@@ -20,18 +35,16 @@ const MusicContextProvider:React.FC<React.ReactNode> = ({children}) => {
       backgroundMusic.volume = musicVolume
   }
   const stopMusic = async()=>{
-    console.log("stoping")
     backgroundMusic.pause()
   }
   
   backgroundMusic.addEventListener('ended',(ev)=>{
-    console.log("ended")
     stopMusic()
     playMusic()
   })
   
   return (
-    <MusicContext.Provider value={{playMusic,stopMusic,setMusicVolume}}>
+    <MusicContext.Provider value={{playMusic,stopMusic,musicVolume,setMusicVolume,soundVolume,setSoundVolume}}>
       {children}
     </MusicContext.Provider>
   )

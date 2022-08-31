@@ -1,6 +1,6 @@
 import React, { createRef, useEffect, useRef, useState } from "react";
-import { TILE_SIZE } from "../constants/constants";
-import { directionMap } from "../constants/helpers";
+import { TILE_SIZE } from "../../../utils/constants";
+import { directionMap } from "../../../utils/helpers";
 import spriteSheetMap from "../Assets/Player/playerFull.json";
 import spriteSheetImg from "../Assets/Player/playerFull.png";
 import "../styles/player.scss";

@@ -29,7 +29,7 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
     textColor:"light",
     isDone:false
   });
-  const { setCurrentUser, setAvatars, setIsRegisteredUser } = useUserContext();
+  const { setCurrentUser, setAvatars, setIsRegisteredUser,setRemainingGames } = useUserContext();
   const { setAllLevels, setCurrentLevel, setHints } = useLevelContext();
 
   const [showAlert, setShowAlert] = useState({
@@ -58,6 +58,21 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
         setAvatars(allAvatars);
 
         const userId = (await Preferences.get({ key: "isLoggedIn" })).value;
+        let remainingGames=(await Preferences.get({ key: "games" })).value;
+        if(!remainingGames){
+          (await Preferences.set({ key: "games",value:"5" }))
+          remainingGames = "5"
+        }
+        setRemainingGames(parseInt(remainingGames!))
+        let musicVolume = (await Preferences.get({ key: "music" })).value;
+        let soundVolume = (await Preferences.get({ key: "sound" })).value;
+
+        if(!musicVolume){
+          (await Preferences.set({ key:"music",value:"0.9" }))
+        }
+        if(!soundVolume){
+          (await Preferences.set({ key:"sound",value:"0.9" }))
+        }
         if (userId) {
           const loggedUser = await fetchUserByid(userId);
           setCurrentUser(loggedUser);
@@ -83,7 +98,6 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
       }
     };
     getAllData();
-    console.log("Loader==>",window.innerWidth / 13)
   }, []);
 
   return (

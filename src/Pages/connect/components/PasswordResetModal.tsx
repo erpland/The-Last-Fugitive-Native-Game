@@ -9,7 +9,7 @@ import {
 } from "@ionic/react";
 import React, { useRef, useState } from "react";
 import { resetPassword } from "../../../Database/database";
-import { TOAST_DURATION } from "../../../utils/Constants";
+import { TOAST_DURATION } from "../../../utils/constants";
 
 type Props = {
   isResetModal:boolean

@@ -5,12 +5,14 @@ import {
   IonSpinner,
   IonTitle,
   IonToolbar,
+  useIonToast,
 } from "@ionic/react";
 import React, { useRef, useState } from "react";
 import { star, lockClosed } from "ionicons/icons";
 import { useUserContext } from "../../context/UserContext";
 import { useLevelContext } from "../../context/LevelContext";
 import { useIonRouter } from "@ionic/react";
+import { TOAST_DURATION } from "../../../utils/constants";
 
 interface Levels {
   code: number;
@@ -65,14 +67,24 @@ const LevelBox = ({
 }: Levels | any): JSX.Element => {
   const router = useIonRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { remainingGames } = useUserContext();
+  const [present] = useIonToast();
   const startLevel = () => {
     if (isOpen) {
-      setIsLoading(true);
-      setTimeout(() => {
-        setIsLoading(false);
-        closeModal();
-        router.push("/game", undefined, undefined, code);
-      }, 2000);
+      if (remainingGames > 0) {
+        setIsLoading(true);
+        setTimeout(() => {
+          setIsLoading(false);
+          closeModal();
+          router.push("/game", undefined, undefined, code);
+        }, 2000);
+      } else {
+        present({
+          duration: TOAST_DURATION,
+          message: "No remaining lives! please wait 3 minutes to charge life",
+        });
+        return;
+      }
     }
   };
   let levelStars = [...Array(stars)].map((s, i) => {

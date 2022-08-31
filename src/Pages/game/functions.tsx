@@ -1,4 +1,4 @@
-import { directionMap } from "./constants/helpers";
+import { directionMap } from "../../utils/helpers";
 import enemyMap1 from './Assets/Enemy/enemyFull1.json'
 import enemyMap2 from './Assets/Enemy/enemyFull2.json'
 import enemyMap3 from './Assets/Enemy/enemyFull3.json'

@@ -12,7 +12,7 @@ import { loginUser } from "../../../Database/database";
 import { useIonRouter } from "@ionic/react";
 import { Preferences } from "@capacitor/preferences";
 import { useLevelContext } from "../../context/LevelContext";
-import { TOAST_DURATION } from "../../../utils/Constants";
+import { TOAST_DURATION } from "../../../utils/constants";
 type Props = {
   setisLoginComponent: React.Dispatch<SetStateAction<boolean>>;
   openLoader: ({}) => void;

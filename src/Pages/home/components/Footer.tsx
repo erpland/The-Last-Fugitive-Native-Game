@@ -7,7 +7,6 @@ type Props = {};
 const Footer = (props: Props) => {
 
   const share = async ()=>{
-    console.log("ojd")
     await Share.share({
       title: 'See cool stuff',
       text: 'Really awesome thing you need to see right meow',

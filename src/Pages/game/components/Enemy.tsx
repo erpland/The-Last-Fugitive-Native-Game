@@ -1,7 +1,7 @@
 import React, { createRef, useRef, useState, useEffect } from "react";
-import { TILE_SIZE } from "../constants/constants";
+import { TILE_SIZE } from "../../../utils/constants";
 import "../styles/player.scss";
-import { directionMap } from "../constants/helpers";
+import { directionMap } from "../../../utils/helpers";
 import {
   changeSpriteDirection,
   getEnemySheetByCode,

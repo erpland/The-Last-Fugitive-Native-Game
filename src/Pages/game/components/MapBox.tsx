@@ -1,6 +1,6 @@
 import React from "react";
-import { TILE_SIZE } from "../constants/constants";
-import { assetsMap } from "../constants/helpers";
+import { TILE_SIZE } from "../../../utils/constants";
+import { assetsMap } from "../../../utils/helpers";
 
 type Props = {
   col: number;
@@ -11,8 +11,6 @@ type Props = {
 const MapBox: React.FC<Props> = ({ col, index, rowIndex }) => {
   let isColider = false;
   let isWinTile = false;
-  console.log("tileSize = ", TILE_SIZE)
-  console.log("width = ", window.innerWidth, "calc = ", window.innerWidth / 13)
   const getTile = (type: any) => {
     switch (type) {
       case -1:
@@ -55,7 +53,7 @@ const MapBox: React.FC<Props> = ({ col, index, rowIndex }) => {
     }
     return (
       <img
-        style={{ width: "100%",height:'100%',border: 'solid 1px green'}}
+        style={{ width: "100%",height:'100%'}}
         src={require(`../Assets/${imgUrl}`)} alt=""/>
     );
   };
@@ -65,7 +63,7 @@ const MapBox: React.FC<Props> = ({ col, index, rowIndex }) => {
         backgroundImage: `url(${require("../Assets/tileset/"+getTile(col)+".png")})`,
         height: TILE_SIZE,
         width: TILE_SIZE,
-        border: 'solid 1px green',
+        // border: 'solid 1px green',
         backgroundSize: "cover",
         position: "relative",
       }}

@@ -21,43 +21,42 @@ import "./theme/variables.css";
 
 import { StatusBar } from "@capacitor/status-bar";
 import Routes from "./Routes";
-import { useEffect, useState } from "react";
+import React,{ useEffect, useState } from "react";
 import { AndroidFullScreen } from "@awesome-cordova-plugins/android-full-screen";
 import Loader from "./Pages/Loader";
 import UserContextProvider from "./Pages/context/UserContext";
 import LevelContextProvider from "./Pages/context/LevelContext";
+
 // import { SplashScreen } from '@capacitor/splash-screen';
 
 setupIonicReact();
 
 const App: React.FC = () => {
   useEffect(() => {
-    const hideStatusBar = async () => {
-      await StatusBar.hide();
-    };
+    // const hideStatusBar = async () => {
+
+    // };
     const fullScreen = async () => {
-      if (await AndroidFullScreen.isImmersiveModeSupported()){
-      await AndroidFullScreen.immersiveMode();
-      }
-      else {
+      if (await AndroidFullScreen.isImmersiveModeSupported()) {
+        await AndroidFullScreen.immersiveMode();
+      } else {
         await AndroidFullScreen.showUnderSystemUI();
       }
+      await StatusBar.hide();
     };
     // const hideSplash = async() => {
     //   await SplashScreen.show();
     // }
     // hideSplash();
     fullScreen();
-    hideStatusBar();
+    // hideStatusBar();
   }, []);
   const [isLoading, setIsLoading] = useState(true);
   return (
     <IonApp>
       <UserContextProvider>
         <LevelContextProvider>
-          {isLoading && 
-          <Loader 
-          finshedLoading={() => setIsLoading(false)} />}
+          {isLoading && <Loader finshedLoading={() => setIsLoading(false)} />}
           {!isLoading && <Routes />}
         </LevelContextProvider>
       </UserContextProvider>

@@ -11,6 +11,7 @@ import FinishModal from "./FinishModal";
 import Enemy from "./Enemy";
 import Player from "./Player";
 import { useLevelContext } from "../../context/LevelContext";
+import { Preferences } from "@capacitor/preferences";
 
 type Props = {
   player: {
@@ -48,7 +49,7 @@ const GamePlay: React.FC<Props> = ({
   const [nextEnemiesPositions, setNextEnemiesPositions] =
     useState<NextEnemiesPositionsType>(enemiesKeys);
   const { playerData, setPlayerData } = usePlayerDataContext();
-  const { currentUser, setCurrentUser, isGuest } = useUserContext();
+  const { currentUser, setCurrentUser, isGuest,remainingGames,setRemainingGames } = useUserContext();
   const { setCurrentLevel, allLevels } = useLevelContext();
   const [counter, setCounter] = useState(0);
   const [isPlayerKilled, setIsPlayerKilled] = useState(false);
@@ -86,6 +87,8 @@ const GamePlay: React.FC<Props> = ({
         (playerPosition[0] - 1 === enemyPosition[i][0] &&
           playerPosition[1] === enemyPosition[i][1])
       ) {
+        
+        updateRemainingGames()
         setIsPlayerKilled(true);
         setTimeout(() => {
           setIsWon(false);
@@ -93,6 +96,11 @@ const GamePlay: React.FC<Props> = ({
         }, 1500);
       }
   }, [playerPosition, enemyPosition]);
+
+  const updateRemainingGames = async () => {
+    (await Preferences.set({ key: "games",value:String(remainingGames-1) }))
+    setRemainingGames(remainingGames-1)
+  }
   const calcStars = () => {
     if (playerData.steps <= steps[0].step) {
       return 3;

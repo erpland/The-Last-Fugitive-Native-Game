@@ -51,7 +51,7 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({
   };
   const { playerData,setPlayerData } = usePlayerDataContext();
   const {setCurrentUser,currentUser,isGuest} = useUserContext()
-  const [levelRating, setLevelRating] = useState(currentUser.level_rank.length===levelCode ?
+  const [levelRating, setLevelRating] = useState(levelCode <= currentUser.level_rank.length ?
    currentUser.level_rank[levelCode-1].popularity! : 0);
 
   const router = useIonRouter();
@@ -71,6 +71,7 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({
   }
   const backToHomePage= ()=>{
     setPlayerData({ steps:0,isPlayerTurn:true })
+    if(isWon){
     const levelRank = currentUser.level_rank
     levelRank[levelCode-1].popularity = levelRating
     setCurrentUser({...currentUser,level_rank:levelRank})
@@ -78,8 +79,10 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({
       level_code:levelCode,
       popularity:levelRating
     },isGuest)
+  }
     router.push('/home')
     modal.current?.dismiss()
+  
   }
   return (
     <IonModal
@@ -105,11 +108,11 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({
           value={playerData.steps}
           color={data.color}
         />
+        { isWon &&
         <RatingBar
         rating = {levelRating}
         setRating = {(val:any)=>setLevelRating(val)}
-        />
-
+        />}
         <div className="finish-modal__button-container">
           <IonButton fill="outline" onClick={()=>handleRefresh()} id={"open-levels-modal"}>
             <IonIcon slot="icon-only" icon={refresh} color="warning" />

@@ -12,11 +12,10 @@ import { useMusicContext } from "../context/MusicContext";
 import { App as app } from "@capacitor/app";
 import {
   addUserPlayDate,
-  updateLevelPopulatiry,
 } from "../../Database/database";
 import { PlayDatesType } from "../../Types/userTypes";
 import { useUserContext } from "../context/UserContext";
-import { PLAY_DATE_TIMER } from "../../utils/Constants";
+import { PLAY_DATE_TIMER } from "../../utils/constants";
 
 type Props = {};
 
@@ -35,7 +34,7 @@ const Home: React.FC = (props: Props) => {
         stopMusic()
         timer.current = setTimeout(() => {
           setNewPlayDate();
-        }, 10000);
+        }, PLAY_DATE_TIMER);
       } else {
         playMusic()
         clearTimeout(timer.current);
@@ -64,7 +63,7 @@ const Home: React.FC = (props: Props) => {
   useEffect(() => {
     playMusic();
   }, []);
-
+  console.count("home")
   return (
     <IonPage>
       <IonContent
