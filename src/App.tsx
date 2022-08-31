@@ -36,8 +36,9 @@ const App: React.FC = () => {
       await StatusBar.hide();
     };
     const fullScreen = async () => {
-      if (await AndroidFullScreen.isImmersiveModeSupported())
-        await AndroidFullScreen.immersiveMode();
+      if (await AndroidFullScreen.isImmersiveModeSupported()){
+      await AndroidFullScreen.immersiveMode();
+      }
       else {
         await AndroidFullScreen.showUnderSystemUI();
       }
@@ -50,8 +51,6 @@ const App: React.FC = () => {
     hideStatusBar();
   }, []);
   const [isLoading, setIsLoading] = useState(true);
-  
-  
   return (
     <IonApp>
       <UserContextProvider>

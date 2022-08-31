@@ -38,8 +38,8 @@ export interface LevelRankType{
 }
 
 export interface PlayDatesType{
-  start_date:Date;
-  end_date:Date;
+  start_date:Date | null;
+  end_date:Date | null;
 }
 export interface AvatarOptionsType{
   code:number

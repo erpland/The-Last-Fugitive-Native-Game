@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IonReactRouter } from "@ionic/react-router";
 import { Redirect, Route } from "react-router-dom";
 import { IonRouterOutlet } from "@ionic/react";
@@ -8,12 +8,17 @@ import MusicContextProvider from "./Pages/context/MusicContext";
 import { useUserContext } from "./Pages/context/UserContext";
 import PlayerDataContextProvider from "./Pages/context/PlayerDataContext";
 import GamePage from "./Pages/game/GamePage";
+
 type Props = {
   // isRegisteredUser:boolean
 };
-
+interface PlayDatesType{
+  start_date:Date
+  end_date:Date | null
+}
 const Routes: React.FC<Props> = () => {
-  const {isRegisteredUser} = useUserContext()
+  const {isRegisteredUser,currentUser,isGuest} = useUserContext()
+  
   return (
     <IonReactRouter>
       <IonRouterOutlet>

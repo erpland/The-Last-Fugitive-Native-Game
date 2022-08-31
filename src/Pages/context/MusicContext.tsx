@@ -23,6 +23,7 @@ const MusicContextProvider:React.FC<React.ReactNode> = ({children}) => {
     console.log("stoping")
     backgroundMusic.pause()
   }
+  
   backgroundMusic.addEventListener('ended',(ev)=>{
     console.log("ended")
     stopMusic()

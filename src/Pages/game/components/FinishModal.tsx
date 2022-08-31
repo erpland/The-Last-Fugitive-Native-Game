@@ -51,7 +51,8 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({
   };
   const { playerData,setPlayerData } = usePlayerDataContext();
   const {setCurrentUser,currentUser,isGuest} = useUserContext()
-  const [levelRating, setLevelRating] = useState(currentUser.level_rank[levelCode-1].popularity || 0);
+  const [levelRating, setLevelRating] = useState(currentUser.level_rank.length===levelCode ?
+   currentUser.level_rank[levelCode-1].popularity! : 0);
 
   const router = useIonRouter();
   const calcStars = () => {
@@ -84,7 +85,7 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({
     <IonModal
       id="finish-modal"
       ref={modal}
-      trigger="open-finish-modal"
+      // trigger="open-finish-modal"
       isOpen={isModalOpen}
       backdropDismiss={false}
       

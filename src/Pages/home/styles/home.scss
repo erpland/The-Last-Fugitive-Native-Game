@@ -19,7 +19,7 @@ $background_modal: #383756;
 .header {
   width: 100%;
   display: grid;
-  grid-template-columns: 3fr 1.5fr;
+  grid-template-columns: 60% 40%;
   justify-content: space-between;
   align-items: center;
 
@@ -43,7 +43,9 @@ $background_modal: #383756;
     .rankbox__container,
     .lifesbox__container {
       display: flex;
-      width: 90%;
+      min-width: 90%;
+      text-align: start;
+      justify-self: flex-end;
       justify-content: space-around;
       align-items: flex-end;
       padding: 1.5vmin;

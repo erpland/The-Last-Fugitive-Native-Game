@@ -1,13 +1,14 @@
 .map-container{
+  border: solid 1px yellow;
   // height: 100%;
   // width: 100%;
 }
-// .map__cells{
 //   display: grid;
 //   grid-template-rows: repeat(6,auto);
 //   grid-template-columns: repeat(9,auto);
 // }
 .map-row{
+  border: solid 1px yellow;
   display: flex;
   justify-content: center;
 }

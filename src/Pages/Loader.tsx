@@ -83,6 +83,7 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
       }
     };
     getAllData();
+    console.log("Loader==>",window.innerWidth / 13)
   }, []);
 
   return (

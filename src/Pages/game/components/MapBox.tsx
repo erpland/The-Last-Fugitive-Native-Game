@@ -1,5 +1,3 @@
-import { image } from "ionicons/icons";
-import { relative } from "path";
 import React from "react";
 import { TILE_SIZE } from "../constants/constants";
 import { assetsMap } from "../constants/helpers";
@@ -13,6 +11,8 @@ type Props = {
 const MapBox: React.FC<Props> = ({ col, index, rowIndex }) => {
   let isColider = false;
   let isWinTile = false;
+  console.log("tileSize = ", TILE_SIZE)
+  console.log("width = ", window.innerWidth, "calc = ", window.innerWidth / 13)
   const getTile = (type: any) => {
     switch (type) {
       case -1:
@@ -38,32 +38,34 @@ const MapBox: React.FC<Props> = ({ col, index, rowIndex }) => {
     let imgUrl;
     switch (col) {
       case 1:
+        // imgUrl = `../Assets/colliders/colider'${randomTile(assetsMap.COLIDERS)}.png`;
         imgUrl = `colliders/colider${randomTile(assetsMap.COLIDERS)}.png`;
         break;
-      case 2:
-        imgUrl = "walls/wall_front.png";
-        break;
-      case 3:
-        imgUrl = "walls/wall_left.png";
-        break;
-      case 4:
-        imgUrl = "walls/wall_right.png";
-        break;
+      // case 2:
+      //   imgUrl = "walls/wall_front.png";
+      //   break;
+      // case 3:
+      //   imgUrl = "walls/wall_left.png";
+      //   break;
+      // case 4:
+      //   imgUrl = "walls/wall_right.png";
+      //   break;
       default:
         break;
     }
     return (
       <img
-        style={{ width: "100%",height:'100%'}}
-        src={`./Assets/game/${imgUrl}`} alt=""/>
+        style={{ width: "100%",height:'100%',border: 'solid 1px green'}}
+        src={require(`../Assets/${imgUrl}`)} alt=""/>
     );
   };
   return (
     <div
       style={{
-        backgroundImage: `url(./Assets/game/tileset/${getTile(col)}.png)`,
+        backgroundImage: `url(${require("../Assets/tileset/"+getTile(col)+".png")})`,
         height: TILE_SIZE,
         width: TILE_SIZE,
+        border: 'solid 1px green',
         backgroundSize: "cover",
         position: "relative",
       }}

@@ -1,5 +1,5 @@
 import { IonContent, IonPage, IonSpinner } from "@ionic/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "./components/Header";
 import Map from "./components/Map";
 import GamePlay from "./components/GamePlay";
@@ -15,7 +15,6 @@ const GamePage: React.FC = () => {
   const levelCode = router.routeInfo.routeOptions;
   const { allLevels } = useLevelContext();
   const currentLevel = allLevels.find((level) => level.code === levelCode);
-  console.log(currentLevel)
   const { map, player, enemies, step_cap, code } = currentLevel!;
   const [isLoaded, setIsLoaded] = useState(false)
   

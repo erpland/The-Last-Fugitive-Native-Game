@@ -312,7 +312,7 @@ export const updateUserNotification = async (
 export const addUserPlayDate = async (
   id: string,
   token: string,
-  playDate: PlayDatesType,
+  playDate: PlayDatesType[],
   isGuset:boolean
 ) => {
   const requestOptions = {

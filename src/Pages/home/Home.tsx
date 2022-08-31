@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IonPage, IonContent } from "@ionic/react";
 import Header from "./components/Header";
 import MainTitle from "./components/MainTitle";
@@ -9,13 +9,58 @@ import LevelsModal from "./components/LevelsModal";
 import ConnectModal from "./components/ConnectModal";
 import SettingsModal from "./components/SettingModal";
 import { useMusicContext } from "../context/MusicContext";
+import { App as app } from "@capacitor/app";
+import {
+  addUserPlayDate,
+  updateLevelPopulatiry,
+} from "../../Database/database";
+import { PlayDatesType } from "../../Types/userTypes";
+import { useUserContext } from "../context/UserContext";
+import { PLAY_DATE_TIMER } from "../../utils/Constants";
 
 type Props = {};
 
 const Home: React.FC = (props: Props) => {
   const [isProfileModal, setIsProfileModal] = useState(false);
-  const [playDate, setPlayDate] = useState({start:new Date(),end:''})
-  const { playMusic } = useMusicContext();
+  const { playMusic,stopMusic } = useMusicContext();
+  const { currentUser, isGuest, setCurrentUser } = useUserContext();
+  const timer = useRef(setTimeout(() => {}, PLAY_DATE_TIMER));
+  let playDate: PlayDatesType | null;
+  let currentDate = new Date();
+
+  useEffect(() => {
+    clearTimeout(timer.current);
+    app.addListener("appStateChange", ({ isActive }) => {
+      if (!isActive) {
+        stopMusic()
+        timer.current = setTimeout(() => {
+          setNewPlayDate();
+        }, 10000);
+      } else {
+        playMusic()
+        clearTimeout(timer.current);
+        if (playDate) {
+          const dates = currentUser.play_dates;
+          dates.push(playDate);
+          setCurrentUser({
+            ...currentUser,
+            play_dates: dates,
+          });
+          addUserPlayDate(currentUser._id, currentUser.token, dates, isGuest);
+          playDate = null;
+          console.log("Updated!");
+        }
+        console.log("CLEAR!");
+      }
+    });
+  }, []);
+
+  const setNewPlayDate = () => {
+    const end_date = new Date();
+    playDate = { start_date: currentDate, end_date };
+    currentDate = new Date();
+  };
+
   useEffect(() => {
     playMusic();
   }, []);
@@ -33,7 +78,6 @@ const Home: React.FC = (props: Props) => {
           setIsProfileModal={setIsProfileModal}
         />
         <LevelsModal />
-
         <div className="container">
           <Header setIsProfileModal={(val: any) => setIsProfileModal(val)} />
           <MainTitle />
