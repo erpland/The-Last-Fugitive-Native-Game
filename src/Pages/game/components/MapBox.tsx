@@ -1,69 +1,53 @@
-import React from "react";
-import { TILE_SIZE } from "../../../utils/constants";
-import { assetsMap } from "../../../utils/helpers";
+import React, { createRef, RefObject, useEffect } from "react";
+import { RefBoxType } from "../../../Types/GameSettingsTypes";
+import { COLLIDERS_IMAGES, TILES_IMAGES } from "../Assets/Assets";
 
 type Props = {
   col: number;
   index: number;
   rowIndex: number;
+  TILE_SIZE: number;
+  boxCount: number;
+  boxesRef: RefObject<RefBoxType>;
 };
+let coliderCount = 0;
+const MapBox: React.FC<Props> = ({ boxesRef, boxCount, col, index, rowIndex, TILE_SIZE }) => {
+  const boxRef = createRef<HTMLDivElement>();
+  useEffect(() => {
+    if (boxRef.current) {
+      const key = `${rowIndex}_${index}`;
+      boxesRef.current![key] = boxRef.current;
+    }
+  }, [boxRef]);
 
-const MapBox: React.FC<Props> = ({ col, index, rowIndex }) => {
   let isColider = false;
   let isWinTile = false;
   const getTile = (type: any) => {
     switch (type) {
-      case -1:
-        isWinTile = true;
-        return `tile${randomTile(assetsMap.TILES)}`;
+      default:
       case 0:
         isColider = false;
-        return `tile${randomTile(assetsMap.TILES)}`;
+        break;
+      case -1:
+        isWinTile = true;
+        break;
       case 1:
-      case 2:
-      case 3:
-      case 4:
         isColider = true;
-        return `tile${randomTile(assetsMap.TILES)}`;
-      default:
         break;
     }
-  };
-  const randomTile = (elements: number) => {
-    return Math.floor(Math.random() * (elements + 1));
+    return `url(${TILES_IMAGES[boxCount % TILES_IMAGES.length]})`;
   };
   const getColider = () => {
-    let imgUrl;
-    switch (col) {
-      case 1:
-        // imgUrl = `../Assets/colliders/colider'${randomTile(assetsMap.COLIDERS)}.png`;
-        imgUrl = `colliders/colider${randomTile(assetsMap.COLIDERS)}.png`;
-        break;
-      // case 2:
-      //   imgUrl = "walls/wall_front.png";
-      //   break;
-      // case 3:
-      //   imgUrl = "walls/wall_left.png";
-      //   break;
-      // case 4:
-      //   imgUrl = "walls/wall_right.png";
-      //   break;
-      default:
-        break;
-    }
-    return (
-      <img
-        style={{ width: "100%",height:'100%'}}
-        src={require(`../Assets/${imgUrl}`)} alt=""/>
-    );
+    return <img src={COLLIDERS_IMAGES[coliderCount++ % COLLIDERS_IMAGES.length]} alt="" />;
   };
+
   return (
     <div
+      ref={boxRef}
       style={{
-        backgroundImage: `url(${require("../Assets/tileset/"+getTile(col)+".png")})`,
+        backgroundImage: getTile(col),
         height: TILE_SIZE,
         width: TILE_SIZE,
-        // border: 'solid 1px green',
         backgroundSize: "cover",
         position: "relative",
       }}
@@ -74,15 +58,13 @@ const MapBox: React.FC<Props> = ({ col, index, rowIndex }) => {
       data-win_tile={isWinTile}
     >
       {col > 0 && (
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
+        <div className="box__collider" style={{}}>
           {getColider()}
+        </div>
+      )}
+      {col === -1 && (
+        <div className="box__exit">
+          <span>Exit</span>
         </div>
       )}
     </div>

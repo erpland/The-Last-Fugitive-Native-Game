@@ -1,31 +1,25 @@
-import {
-  IonButton,
-  IonHeader,
-  IonIcon,
-  IonModal,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
+import { IonButton, IonHeader, IonIcon, IonModal, IonTitle, IonToolbar } from "@ionic/react";
 import { star, refresh, arrowForward } from "ionicons/icons";
 import React, { useRef, useState } from "react";
-import { usePlayerDataContext } from "../../context/PlayerDataContext";
+import { useGameSettingsContext } from "../../context/GameSettingsContext";
 import "../../home/styles/home.scss";
 import { useIonRouter } from "@ionic/react";
 import RatingBar from "./RatingBar";
 import { useUserContext } from "../../context/UserContext";
 import { updateLevelPopulatiry } from "../../../Database/database";
-import { useLevelContext } from "../../context/LevelContext";
+import { useGamePlayContext } from "../../context/GamePlayContext";
+import LoseAnimation from "./LoseAnimation";
 interface stepCapType {
   code: number;
   step: number;
 }
 interface Props {
   FinishModal: {
-    isModalOpen: boolean;
-    isWon: boolean;
+    // isModalOpen: boolean;
+    // isWon: boolean;
     stepCap: stepCapType[];
-    levelCode:number,
-    resetLevel:()=>void;
+    levelCode: number;
+    resetLevel: () => void;
   };
   TextProps: {
     label: string;
@@ -37,87 +31,86 @@ interface Props {
   };
 }
 
-const FinishModal: React.FC<Props["FinishModal"]> = ({
-  isModalOpen,
-  isWon,
-  stepCap,
-  levelCode,
-  resetLevel
-}) => {
+const FinishModal: React.FC<Props["FinishModal"]> = ({ stepCap, levelCode, resetLevel }) => {
+  const { gamePlayState, gamePlayDispatch } = useGamePlayContext();
+  const { gameOver, isModalOpen } = gamePlayState;
   const modal = useRef<HTMLIonModalElement>(null);
   const data = {
-    title: isWon ? "VICOTRY" : "GAME OVER",
-    color: isWon ? "var(--ion-color-success)" : "var(--ion-color-danger)",
+    title: gameOver.isWon ? "VICOTRY" : "GAME OVER",
+    color: gameOver.isWon ? "var(--ion-color-success)" : "var(--ion-color-danger)",
   };
-  const { playerData,setPlayerData } = usePlayerDataContext();
-  const {setCurrentUser,currentUser,isGuest} = useUserContext()
-  const [levelRating, setLevelRating] = useState(levelCode <= currentUser.level_rank.length ?
-   currentUser.level_rank[levelCode-1].popularity! : 0);
+  const { settingsState, settingsDispatch } = useGameSettingsContext();
+  const { steps } = settingsState;
+  const { setCurrentUser, currentUser, isGuest } = useUserContext();
+  const [levelRating, setLevelRating] = useState(
+    levelCode <= currentUser.level_rank.length
+      ? currentUser.level_rank[levelCode - 1].popularity!
+      : 0
+  );
 
   const router = useIonRouter();
   const calcStars = () => {
-    if (playerData.steps <= stepCap[0].step) {
+    if (steps <= stepCap[0].step) {
       return 3;
-    } else if (playerData.steps <= stepCap[1].step) return 2;
+    } else if (steps <= stepCap[1].step) return 2;
     else {
       return 1;
     }
   };
-
-  const handleRefresh=()=>{
-    modal.current?.dismiss()
-    setPlayerData({ steps:0, isPlayerTurn: true });
-    resetLevel()
-  }
-  const backToHomePage= ()=>{
-    setPlayerData({ steps:0,isPlayerTurn:true })
-    if(isWon){
-    const levelRank = currentUser.level_rank
-    levelRank[levelCode-1].popularity = levelRating
-    setCurrentUser({...currentUser,level_rank:levelRank})
-    updateLevelPopulatiry(currentUser._id,currentUser.token, {
-      level_code:levelCode,
-      popularity:levelRating
-    },isGuest)
-  }
-    router.push('/home')
-    modal.current?.dismiss()
-  
-  }
+  const handleRefresh = () => {
+    modal.current?.dismiss();
+    gamePlayDispatch({ type: "RESET" });
+    settingsDispatch({ type: "RESET" });
+    resetLevel();
+  };
+  const backToHomePage = () => {
+    settingsDispatch({ type: "RESET" });
+    if (gameOver.isWon) {
+      const levelRank = currentUser.level_rank;
+      levelRank[levelCode - 1].popularity = levelRating;
+      setCurrentUser({ ...currentUser, level_rank: levelRank });
+      updateLevelPopulatiry(
+        currentUser._id,
+        currentUser.token,
+        {
+          level_code: levelCode,
+          popularity: levelRating,
+        },
+        isGuest
+      );
+    }
+    router.push("/home");
+    modal.current?.dismiss();
+  };
   return (
-    <IonModal
-      id="finish-modal"
-      ref={modal}
-      // trigger="open-finish-modal"
-      isOpen={isModalOpen}
-      backdropDismiss={false}
-      
-      
-    >
+    <IonModal id="finish-modal" ref={modal} isOpen={gameOver.isGameOver} backdropDismiss={false}>
       <IonHeader>
         <IonToolbar>
-          <IonTitle color={isWon ? "success" : "danger"}>{data.title}</IonTitle>
+          <IonTitle color={gameOver.isWon ? "success" : "danger"}>{data.title}</IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <div className="finish-modal__body">
-        <FinishIcons stars={isWon ? calcStars(): 0} />
-        <h2 style={{ color: data.color }}>Level {levelCode}</h2>
-        <ModalText
-          label={"Moves"}
-          value={playerData.steps}
-          color={data.color}
-        />
-        { isWon &&
-        <RatingBar
-        rating = {levelRating}
-        setRating = {(val:any)=>setLevelRating(val)}
-        />}
+        {!gameOver.isWon && (
+          <>
+            <h2 style={{ color: data.color, margin: 0 }}>Level {levelCode}</h2>
+            <LoseAnimation />
+            <span style={{ color: data.color }}>You Lost...</span>
+          </>
+        )}
+        {gameOver.isWon && (
+          <>
+            <FinishIcons stars={gameOver.isWon ? calcStars() : 0} />
+            <h2 style={{ color: data.color }}>Level {levelCode}</h2>
+            <ModalText label={"Moves"} value={steps} color={data.color} />
+            <RatingBar rating={levelRating} setRating={(val: any) => setLevelRating(val)} />
+          </>
+        )}
         <div className="finish-modal__button-container">
-          <IonButton fill="outline" onClick={()=>handleRefresh()} id={"open-levels-modal"}>
+          <IonButton fill="outline" onClick={() => handleRefresh()} id={"open-levels-modal"}>
             <IonIcon slot="icon-only" icon={refresh} color="warning" />
           </IonButton>
-          <IonButton fill="outline" onClick={()=>backToHomePage()}>
+          <IonButton fill="outline" onClick={() => backToHomePage()}>
             <IonIcon slot="icon-only" icon={arrowForward} color="warning" />
           </IonButton>
         </div>

@@ -1,16 +1,19 @@
 import { Preferences } from "@capacitor/preferences";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 // import {HintsTypes, MusicContextType, LevelType} from '../../Types/levelTypes'
 
 export const MusicContext = createContext<any>(null);
 
 const MusicContextProvider: React.FC<React.ReactNode> = ({ children }) => {
+  const [soundVolume, setSoundVolume] = useState(0);
+  const [musicVolume, setMusicVolume] = useState(0);
   const [backgroundMusic, setBackgroundMusic] = useState<HTMLAudioElement>(
     new Audio("/assets/music/music1.mp3")
   );
-
-  const [soundVolume, setSoundVolume] = useState(0);
-  const [musicVolume, setMusicVolume] = useState(0);
+  const [wrongTileSound, setWrongTileSound] = useState<HTMLAudioElement>(
+    new Audio("/assets/sounds/wrong_tile.wav")
+  );
+  // const wrongTileSound = useRef<HTMLAudioElement>(new Audio("/assets/sounds/wrong_tile.wav"));
 
   useEffect(() => {
     const getVolume = async () => {
@@ -18,7 +21,7 @@ const MusicContextProvider: React.FC<React.ReactNode> = ({ children }) => {
       const sound = (await Preferences.get({ key: "sound" })).value;
       setSoundVolume(Number(sound));
       setMusicVolume(Number(music));
-      playMusic(Number(music))
+      playMusic(Number(music));
     };
     getVolume();
   }, []);
@@ -27,11 +30,16 @@ const MusicContextProvider: React.FC<React.ReactNode> = ({ children }) => {
     backgroundMusic.volume = musicVolume;
   }, [musicVolume]);
 
+  useEffect(() => {
+    wrongTileSound.volume = soundVolume;
+  }, [soundVolume]);
+
   const playMusic = async (volume = musicVolume) => {
-    if (backgroundMusic.paused) 
-    backgroundMusic.load();
-    await backgroundMusic.play();
+    if (backgroundMusic.paused) {
+      backgroundMusic.load();
+    }
     backgroundMusic.volume = volume;
+    await backgroundMusic.play();
     console.log("music playing");
   };
   const stopMusic = async () => {
@@ -39,10 +47,19 @@ const MusicContextProvider: React.FC<React.ReactNode> = ({ children }) => {
     backgroundMusic.pause();
   };
 
-  backgroundMusic.addEventListener("ended",  (ev) => {
+  backgroundMusic.addEventListener("ended", (ev) => {
     stopMusic();
     playMusic();
   });
+  wrongTileSound.addEventListener("load", (ev) => {
+    console.log(soundVolume);
+    wrongTileSound.volume = soundVolume;
+  });
+  const playWrongTile = async (volume = soundVolume) => {
+    wrongTileSound.load();
+    await wrongTileSound.play();
+    console.log("playing wrong tile");
+  };
 
   return (
     <MusicContext.Provider
@@ -53,6 +70,7 @@ const MusicContextProvider: React.FC<React.ReactNode> = ({ children }) => {
         setMusicVolume,
         soundVolume,
         setSoundVolume,
+        playWrongTile,
       }}
     >
       {children}
