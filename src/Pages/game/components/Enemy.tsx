@@ -1,249 +1,175 @@
-import React, { createRef, useRef, useState, useEffect } from "react";
-import { TILE_SIZE } from "../../../utils/constants";
-import "../styles/player.scss";
+import React, { createRef, useEffect, useReducer, useRef } from "react";
+import { SpriteFrameType, SpriteSheetType } from "../../../Types/GameTypes";
+import { EnimiesType } from "../../../Types/levelTypes";
+import { DIR_CSS, GAME_SPEED } from "../../../utils/constants";
 import { directionMap } from "../../../utils/helpers";
-import {
-  changeSpriteDirection,
-  getEnemySheetByCode,
-  getSpriteFrameByState,
-  getSpriteImage,
-  getSpriteNextDirection,
-} from "../functions";
-import { SpriteFrameType } from "../../../Types/GameTypes";
-type Props = {
-  enemyCode: number;
-  position: number[];
-  direction: string;
-  playerPosition: number[];
-  setCurrentTile: (pos: any) => void;
-  setIsPlayerMove: (val: boolean) => void;
-  isPlayerMove: boolean;
-  MAP: number[][];
-  nextEnemiesPositions: any;
-  setNextEnemiesPositions: (pos: number[][]) => void;
-  setIsFinished: React.Dispatch<React.SetStateAction<boolean>>;
-  counter: number;
-  isPlayerKilled:boolean
+import { useGamePlayContext } from "../../context/GamePlayContext";
+import { useGameSettingsContext } from "../../context/GameSettingsContext";
+
+interface StateType {
+  enemyState: string;
+  currentFrame: number;
+  currentPosition: number[];
+  currentDirection: string;
+}
+interface ActionType {
+  type: "NEXT_FRAME" | "CHANGE_ENEMY_STATE" | "CHANGE_POSITION";
+  payload?: any;
+}
+const reducer = (state: StateType, action: ActionType) => {
+  const { type, payload } = action;
+  switch (type) {
+    case "NEXT_FRAME":
+      return {
+        ...state,
+        currentFrame: (state.currentFrame + 1) % payload,
+      };
+    case "CHANGE_ENEMY_STATE":
+      return { ...state, enemyState: payload };
+    case "CHANGE_POSITION":
+      let enemyDir = state.currentDirection;
+      if (payload.nextPosition[1] > state.currentPosition[1]) {
+        enemyDir = "RIGHT";
+      } else if (payload.nextPosition[1] < state.currentPosition[1]) {
+        enemyDir = "LEFT";
+      }
+      return { ...state, currentPosition: payload.nextPosition, currentDirection: enemyDir };
+  }
 };
 
-const Enemy: React.FC<Props> = ({
-  enemyCode,
-  position,
-  direction,
-  isPlayerMove,
-  setIsPlayerMove,
-  setCurrentTile,
-  MAP,
-  nextEnemiesPositions,
-  playerPosition,
-  setNextEnemiesPositions,
-  setIsFinished,
-  counter,
-  isPlayerKilled
-}) => {
+type Props = {
+  map: number[][];
+  enemy: EnimiesType;
+  gameFrame: number;
+  enemySheetMap: SpriteSheetType;
+  enemySpriteSheet: any;
+};
+
+const Enemy: React.FC<Props> = ({ map, enemy, gameFrame, enemySheetMap, enemySpriteSheet }) => {
+  const { gamePlayState, gamePlayDispatch, checkForLost } = useGamePlayContext();
+  const { SCREEN_WIDTH, PROBABILITY, enemyGraph, playerGraph, settingsDispatch, settingsState } =
+    useGameSettingsContext();
+  const { isPlayerTurn } = settingsState;
   const canvasRef = createRef<HTMLCanvasElement>();
   const enemyDivRef = useRef<HTMLDivElement>(null);
-  const [currentFrame, setCurrentFrame] = useState(0);
-  const [enemyState, setEnemyState] = useState("idle");
-  const [enemyCurrentPosiotion, setEnemyCurrentPosition] = useState(position);
-  const [enemyCurrentDirection, setEnemyCurrentDirection] = useState(
-    directionMap[direction]
-  );
-  const [spriteSheetMap, setSpriteSheetMap] = useState<any>();
-  const [spriteSheetImg, setSpriteSheetImg] = useState<any>();
-  const enemyFrame = useRef<SpriteFrameType>();
   const enemySprite = useRef<HTMLImageElement | null>(null);
-  // let enemyFrame: any;
-  // let enemySprite: any;
-  // const chooseEnemyType = () => {
-  //   switch (enemyCode) {
-  //     case 0:
-  //       setSpriteSheetMap(spriteSheetMap1)
-  //       enemyFrame = spriteSheetMap1.enemy.idle[currentFrame];
-  //       setSpriteSheetImg(spriteSheetImg1)
-  //       break;
-  //     case 1:
-  //       setSpriteSheetMap(spriteSheetMap2)
-  //       enemyFrame = spriteSheetMap2.enemy.idle[currentFrame];
-  //       setSpriteSheetImg(spriteSheetImg2)
-  //       break;
-  //     case 2:
-  //       setSpriteSheetMap(spriteSheetMap3)
-  //       enemyFrame = spriteSheetMap3.enemy.idle[currentFrame];
-  //       setSpriteSheetImg(spriteSheetImg3)
-  //       break;
-  //     default:
-  //       const randomEnemey:any = randomEnemy()
-  //       setSpriteSheetMap(randomEnemey.json)
-  //       enemyFrame = randomEnemey.json.enemy.idle[currentFrame];;
-  //       setSpriteSheetImg(randomEnemey.img)
-  //       break;
-  //   }
-  // };
-  // const randomEnemy = () => {
-  //   let num = Math.floor(Math.random() * 3);
-  //   switch (num) {
-  //     case 0:
-  //      return{json:spriteSheetMap1,img:spriteSheetImg1};
-  //     case 1:
-  //       return {json:spriteSheetMap2,img:spriteSheetImg2};
-  //     case 2:
-  //       return {json:spriteSheetMap3,img:spriteSheetImg3};
+  const TILE_SIZE = SCREEN_WIDTH / map[0].length;
+  const [state, dispatch] = useReducer(reducer, {
+    enemyState: "idle",
+    currentFrame: 0,
+    currentPosition: enemy.start_position,
+    currentDirection: enemy.startDirection,
+  });
+  const enemyFrame = useRef<SpriteFrameType>(enemySheetMap.idle[state.currentFrame]);
 
-  //   }
-  // };
   useEffect(() => {
-    const { spriteMap, spriteSheet } = getEnemySheetByCode(enemyCode);
-    setSpriteSheetMap(spriteMap);
-    enemyFrame.current = spriteMap.enemy.idle[currentFrame];
-    setSpriteSheetImg(spriteSheet);
+    enemySprite.current = new Image();
+    enemySprite.current.src = enemySpriteSheet;
   }, []);
 
-  // useEffect(()=>{
-  //   if(isPlayerKilled){
-  //     enemyDivRef.current!.ontransitionend = (t) =>{
-  //       if (t.propertyName === "left" || t.propertyName === "top") {
-  //         console.log("attack")
-  //         setEnemyState("attack")
-  //       }      
-  //     }
-  //   }
-  // },[isPlayerKilled])
-  //create new image every 5 frames (for animation)
   useEffect(() => {
-    enemySprite.current = getSpriteImage(spriteSheetImg);
-    enemySprite.current.onload = () => {
+    if (gameFrame % GAME_SPEED === 0) {
       drawEnemy();
-    };
-  }, [counter % 5 === 0]);
-
-  useEffect(() => {
-    if (!isPlayerMove && !isPlayerKilled) {
-      let nextMove: any = getNextMove();
-      const validateTileIsFree = () => {
-        nextEnemiesPositions[enemyCode] = nextMove;
-        for (let i in nextEnemiesPositions) {
-          if (i !== enemyCode.toString()) {
-            if (
-              nextEnemiesPositions[i][0] === nextMove[0] &&
-              nextEnemiesPositions[i][1] === nextMove[1]
-            ) {
-              nextMove = getNextMove();
-              validateTileIsFree();
-            }
-          }
-        }
-      };
-      validateTileIsFree();
-
-      if (nextMove) {
-        let nextDirection = getEnemyNextDirection(nextMove);
-        if (nextDirection !== enemyCurrentDirection) {
-          let direction = getSpriteNextDirection(nextDirection);
-          changeSpriteDirection(enemyDivRef.current!, direction);
-          setEnemyCurrentDirection(nextDirection);
-        }
-      }
-      enemyDivRef.current!.style.left = `${nextMove[0] * TILE_SIZE}px`;
-      enemyDivRef.current!.style.top = `${nextMove[1] * TILE_SIZE}px`;
-      setEnemyState("move");
-      setEnemyCurrentPosition(nextMove);
-      setCurrentTile(nextMove);
-      endTurn();
     }
-  }, [isPlayerMove]);
+  }, [gameFrame]);
 
   useEffect(() => {
-    enemyDivRef.current!.style.left = `${
-      enemyCurrentPosiotion[0] * TILE_SIZE
-    }px`;
-    enemyDivRef.current!.style.top = `${
-      enemyCurrentPosiotion[1] * TILE_SIZE
-    }px`;
-    let direction = getSpriteNextDirection(enemyCurrentDirection);
-    changeSpriteDirection(enemyDivRef.current!, direction);
-  }, []);
+    if (!isPlayerTurn && !gamePlayState.gameOver.isGameOver) {
+      getEnemyMove();
+    }
+  }, [isPlayerTurn]);
 
-  //draw sprite in canvas
+  useEffect(() => {
+    playerGraph.current!.setEnemies(gamePlayState.enemiesPositions);
+    if (gameFrame !== 0) {
+      console.log("move");
+      moveEnemey();
+    }
+  }, [state.currentPosition]);
+
   const drawEnemy = () => {
     if (canvasRef && canvasRef.current) {
       const ctx = canvasRef.current?.getContext("2d")!;
       const draw = () => {
         ctx.clearRect(0, 0, TILE_SIZE, TILE_SIZE);
-        // getEnemyState();
-        enemyFrame.current = getSpriteFrameByState(
-          enemyState,
-          spriteSheetMap.enemy,
-          currentFrame
-        );
-
+        enemyFrame.current = enemySheetMap[state.enemyState]![state.currentFrame];
+        dispatch({ type: "NEXT_FRAME", payload: enemySheetMap.idle.length });
         ctx.drawImage(
           enemySprite.current!,
-          enemyFrame.current!.frame.x,
-          enemyFrame.current!.frame.y,
-          enemyFrame.current!.frame.w,
-          enemyFrame.current!.frame.h,
+          enemyFrame.current.frame.x,
+          enemyFrame.current.frame.y,
+          enemyFrame.current.frame.w,
+          enemyFrame.current.frame.h,
           0,
           0,
           TILE_SIZE,
           TILE_SIZE
         );
-        animate();
       };
-
       draw();
     }
   };
-  // gets the currect image defiend by enemy movment state
-  //*
-  // const getEnemyState = () => {
-  //   enemyFrame.current = getSpriteFrameByState(
-  //     enemyState,
-  //     spriteSheetMap.enemy,
-  //     currentFrame
-  //   );
+  const moveEnemey = () => {
+    const calcTop = state.currentPosition[0] * TILE_SIZE;
+    const calcLeft = state.currentPosition[1] * TILE_SIZE;
 
-  //   switch (enemyState) {
-  //     case "idle":
-  //       enemyFrame = spriteSheetMap.enemy.idle[currentFrame];
-  //       break;
-  //     case "move":
-  //       enemyFrame = spriteSheetMap.enemy.move[currentFrame];
-  //       break;
-  //     case "attack":
-  //       enemyFrame = spriteSheetMap.enemy.attack[currentFrame];
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
-  //sets the current animation frame
-  const animate = () => {
-    if (currentFrame < spriteSheetMap.enemy.idle.length - 1) {
-      setCurrentFrame((f) => f + 1);
-    } else {
-      setCurrentFrame(0);
-    }
+    enemyDivRef.current!.style.transform = DIR_CSS[state.currentDirection];
+    enemyDivRef.current!.style.top = `${calcTop}px`;
+    enemyDivRef.current!.style.left = `${calcLeft}px`;
+    dispatch({ type: "CHANGE_ENEMY_STATE", payload: "move" });
+    enemyDivRef.current!.ontransitionend = (t) => {
+      if (t.propertyName === "left" || t.propertyName === "top") {
+        dispatch({ type: "CHANGE_ENEMY_STATE", payload: "idle" });
+        settingsDispatch({ type: "CHANGE_TURN", payload: true });
+        checkForLost();
+      }
+    };
   };
-  //gets the enemy next valid position
-  const getNextMove = () => {
-    let x = enemyCurrentPosiotion[0];
-    let y = enemyCurrentPosiotion[1];
-    let nextPosition: number[] | Boolean = false;
-    while (!nextPosition) {
+  const getEnemyMove = () => {
+    let nextPosition: number[];
+    let probability = Math.floor(Math.random() * 10);
+    if (probability <= PROBABILITY) {
+      enemyGraph.current!.setStart(`${state.currentPosition[0]}_${state.currentPosition[1]}`);
+      const path = enemyGraph.current!.startAlgorithm().path;
+      nextPosition = [parseInt(path[1][0]), parseInt(path[1][1])];
+    } else {
+      nextPosition = getEnemyRandomPosition();
+    }
+
+    dispatch({
+      type: "CHANGE_POSITION",
+      payload: { nextPosition },
+    });
+    gamePlayDispatch({
+      type: "CHANGE_ENEMIES_POSITION",
+      payload: { nextPosition, idx: enemy.code },
+    });
+  };
+  const getEnemyRandomPosition = () => {
+    const [y, x] = state.currentPosition;
+    let nextPosition: number[] = [];
+    while (!nextPosition.length) {
       let nextDirection = Math.floor(Math.random() * 4);
       switch (nextDirection) {
         case directionMap.UP:
-          nextPosition = isValidMove(y - 1, false, x, y) ? [x, y - 1] : false;
+          if (isValidMove(y - 1, false)) {
+            nextPosition = [y - 1, x];
+          }
           break;
         case directionMap.DOWN:
-          nextPosition = isValidMove(y + 1, false, x, y) ? [x, y + 1] : false;
+          if (isValidMove(y + 1, false)) {
+            nextPosition = [y + 1, x];
+          }
           break;
         case directionMap.LEFT:
-          nextPosition = isValidMove(x - 1, true, x, y) ? [x - 1, y] : false;
+          if (isValidMove(x - 1, true)) {
+            nextPosition = [y, x - 1];
+          }
           break;
         case directionMap.RIGHT:
-          nextPosition = isValidMove(x + 1, true, x, y) ? [x + 1, y] : false;
+          if (isValidMove(x + 1, true)) {
+            nextPosition = [y, x + 1];
+          }
           break;
         default:
           break;
@@ -251,57 +177,16 @@ const Enemy: React.FC<Props> = ({
     }
     return nextPosition;
   };
-  // checks if the next position is valid
-  const isValidMove = (nextPos: number, isX: boolean, x: number, y: number) => {
+  const isValidMove = (nextPos: number, isX: boolean) => {
+    const [y, x] = state.currentPosition;
     if (nextPos < 0) {
       return false;
-    } else if (isX && nextPos >= MAP[0].length) {
+    } else if (isX && (nextPos >= map[0].length || map[y][nextPos] === 1)) {
       return false;
-    } else if (!isX && nextPos >= MAP.length) {
+    } else if (!isX && (nextPos >= map.length || map[nextPos][x] === 1)) {
       return false;
     }
-    return isX ? MAP[y][nextPos] < 1 : MAP[nextPos][x] < 1;
-  };
-  // gets the enemy next direction
-  const getEnemyNextDirection = (nextPosition: any) => {
-    if (nextPosition[0] > enemyCurrentPosiotion[0]) {
-      return directionMap.RIGHT;
-    } else if (nextPosition[0] < enemyCurrentPosiotion[0]) {
-      return directionMap.LEFT;
-    } else if (nextPosition[1] > enemyCurrentPosiotion[1]) {
-      return enemyCurrentDirection
-    } else if (nextPosition[1] < enemyCurrentPosiotion[1]) {
-      return enemyCurrentDirection
-    }
-  };
-  // get the enemy roation degree (if needed)
-  //*
-  // const getEnemyNextDirectionDegree = (askedDirection: number) => {
-  //   return getSpriteNextDirection(askedDirection);
-  //   switch (askedDirection) {
-  //     case directionMap.LEFT:
-  //       return -1
-
-  //     case directionMap.RIGHT:
-  //       return 1
-  //     default:
-  //       break;
-  //   }
-  // };
-  // changes the enemy direction (if needed)
-  //*
-  // const changeDirection = (dir: number) => {
-  //   changeSpriteDirection(enemyDivRef.current!, dir);
-  //   enemyDivRef.current!.style.transform = `scaleX(${dir})`;
-  // };
-  // finishs enemey turn
-  const endTurn = () => {
-    enemyDivRef.current!.ontransitionend = (t) => {
-      if (t.propertyName === "left" || t.propertyName === "top") {
-        setEnemyState("idle");
-        setIsPlayerMove(true);
-      }
-    };
+    return true;
   };
 
   return (
@@ -310,8 +195,12 @@ const Enemy: React.FC<Props> = ({
       data-colider={true}
       data-type={"enemy"}
       className="player"
-      style={{ width: TILE_SIZE, height: TILE_SIZE }}
-      // style={{ transform: "rotate(0deg)" }}
+      style={{
+        width: TILE_SIZE,
+        height: TILE_SIZE,
+        top: state.currentPosition[0] * TILE_SIZE,
+        left: state.currentPosition[1] * TILE_SIZE,
+      }}
     >
       <canvas
         style={{ pointerEvents: "none", zIndex: 100 }}
@@ -319,17 +208,6 @@ const Enemy: React.FC<Props> = ({
         width={TILE_SIZE}
         height={TILE_SIZE}
       />
-      {/* <h1
-        style={{
-          textAlign: "center",
-          border: "1px solid red",
-          transform: "rotate(0deg)",
-          transition: "3s",
-        }}
-      >
-        {" "}
-        {"➜"}
-      </h1> */}
     </div>
   );
 };

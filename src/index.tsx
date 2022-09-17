@@ -5,9 +5,9 @@ import './fonts/BlackOpsOne-Regular.ttf'
 import './fonts/SpecialElite-Regular.ttf'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  // <React.StrictMode>
+    <App />,
+  // </React.StrictMode>,
   document.getElementById('root')
 );
 

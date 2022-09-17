@@ -59,7 +59,6 @@ const Home: React.FC = (props: Props) => {
     currentDate = new Date();
   };
 
-  console.count("home")
   return (
     <IonPage>
       <IonContent
