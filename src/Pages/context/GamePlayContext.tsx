@@ -1,3 +1,4 @@
+import { Preferences } from "@capacitor/preferences";
 import React, { createContext, useContext, useReducer } from "react";
 import {
   GamePlayContextActionType,
@@ -5,6 +6,7 @@ import {
   GamePlayContextType,
 } from "../../Types/GameTypes";
 import { EnimiesType, PlayerType } from "../../Types/levelTypes";
+import { useUserContext } from "./UserContext";
 
 export const GamePlayContext = createContext<GamePlayContextType | null>(null);
 const init = (initialState: any) => {
@@ -46,7 +48,7 @@ const reducer = (state: GamePlayContextStateType, action: GamePlayContextActionT
         gameOver: { ...state.gameOver, isGameOver: true, isWon: false, killedByIdx: payload },
       };
     case "OPEN_MODAL":
-      return {...state,isModalOpen:true}
+      return { ...state, isModalOpen: true };
     case "RESET":
       return state;
   }
@@ -63,6 +65,7 @@ const GamePlayContextProvider: React.FC<ProviderType> = ({
   children,
   endPoint,
 }) => {
+  const { remainingGames, setRemainingGames } = useUserContext();
   const initialState = {
     playerPosition: player.start_position,
     enemiesPositions: enemies.map((e: EnimiesType) => e.start_position),
@@ -84,7 +87,7 @@ const GamePlayContextProvider: React.FC<ProviderType> = ({
       gamePlayDispatch({ type: "WIN" });
     }
   };
-  const checkForLost = () => {
+  const checkForLost = async () => {
     const enemyIndex = gamePlayState.enemiesPositions.findIndex((enemy) => {
       const player = gamePlayState.playerPosition;
       return (
@@ -96,6 +99,8 @@ const GamePlayContextProvider: React.FC<ProviderType> = ({
     });
     if (enemyIndex !== -1) {
       gamePlayDispatch({ type: "LOST", payload: enemyIndex });
+      await Preferences.set({ key: "games", value: String(remainingGames - 1) });
+      setRemainingGames(remainingGames - 1);
     }
   };
   return (

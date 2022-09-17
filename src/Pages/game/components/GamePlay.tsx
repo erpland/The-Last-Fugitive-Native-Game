@@ -10,9 +10,6 @@ type Props = {
   enemies: EnimiesType[];
   endPoint: number[];
 };
-type NextEnemiesPositionsType = {
-  [key: number]: number[];
-};
 
 const GamePlay: React.FC<Props> = ({ map, player, enemies, endPoint }) => {
   const [frame, setFrame] = useState(0);
@@ -48,42 +45,6 @@ const GamePlay: React.FC<Props> = ({ map, player, enemies, endPoint }) => {
   }, []);
 
 
-  //update game data
-  // useEffect(() => {
-  //   let steps = playerData.steps;
-  //   if (!isPlayerMove) {
-  //     steps++;
-  //   }
-  //   setPlayerData({ steps, isPlayerTurn: isPlayerMove });
-  // }, [isPlayerMove]);
-
-  //check if player lost
-  // useEffect(() => {
-  //   for (let i in nextEnemiesPositions)
-  //     if (
-  //       (playerPosition[0] === enemyPosition[i][0] &&
-  //         playerPosition[1] + 1 === enemyPosition[i][1]) ||
-  //       (playerPosition[0] === enemyPosition[i][0] &&
-  //         playerPosition[1] - 1 === enemyPosition[i][1]) ||
-  //       (playerPosition[0] + 1 === enemyPosition[i][0] &&
-  //         playerPosition[1] === enemyPosition[i][1]) ||
-  //       (playerPosition[0] - 1 === enemyPosition[i][0] &&
-  //         playerPosition[1] === enemyPosition[i][1])
-  //     ) {
-        
-  //       updateRemainingGames()
-  //       setIsPlayerKilled(true);
-  //       setTimeout(() => {
-  //         setIsWon(false);
-  //         setIsModalOpen(true);
-  //       }, 1500);
-  //     }
-  // }, [playerPosition, enemyPosition]);
-
-  // const updateRemainingGames = async () => {
-  //   (await Preferences.set({ key: "games",value:String(remainingGames-1) }))
-  //   setRemainingGames(remainingGames-1)
-  // }
   // const calcStars = () => {
   //   if (playerData.steps <= steps[0].step) {
   //     return 3;
@@ -92,7 +53,7 @@ const GamePlay: React.FC<Props> = ({ map, player, enemies, endPoint }) => {
   //     return 1;
   //   }
   // };
-  // console.log(levelCode,currentUser.current_level)
+
   // useEffect(() => {
   //   const updatePlayerData = async () => {
   //     let level = {
@@ -133,36 +94,6 @@ const GamePlay: React.FC<Props> = ({ map, player, enemies, endPoint }) => {
   //   }
   // }, [isWon]);
 
-  //save all enemies postisions
-  // const changeEnemyPositions = (pos: number[], index: number) => {
-  //   const positions = enemyPosition;
-  //   positions[index] = pos;
-  //   setEnemyPosition([...positions]);
-  // };
-
-  // const resetLevel = () => {
-  //   setgameKey(gameKey + 1);
-  //   setIsModalOpen(false);
-  // };
-  //map all enemies to render
-  // const enemiesMap = enemies.map((enemy, index) => (
-  //   <Enemy
-  //     key={index}
-  //     enemyCode={enemy.code}
-  //     position={enemy.start_position}
-  //     direction={enemy.startDirection}
-  //     playerPosition={playerPosition}
-  //     setIsPlayerMove={setIsPlayerMove}
-  //     isPlayerMove={isPlayerMove}
-  //     counter={counter}
-  //     setCurrentTile={(pos) => changeEnemyPositions(pos, index)}
-  //     nextEnemiesPositions={nextEnemiesPositions}
-  //     setNextEnemiesPositions={(pos) => setNextEnemiesPositions(pos)}
-  //     MAP={map}
-  //     setIsFinished={setIsModalOpen}
-  //     isPlayerKilled={isPlayerKilled}
-  //   />
-  // ));
 
   return (
     <div>
