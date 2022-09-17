@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { IonHeader, IonModal, IonToolbar, useIonLoading } from "@ionic/react";
+import { IonHeader, IonModal, IonTitle, IonToolbar, useIonLoading } from "@ionic/react";
 import Login from "./Login";
 import Register from "./Register";
 
@@ -25,7 +25,7 @@ const LoginModal: React.FC<Props> = ({ setIsResetModal,isLoginModal,setIsLoginMo
     onDidDismiss={()=>setIsLoginModal(false)}>
       <IonHeader>
         <IonToolbar>
-          <span>{isLoginComponent ? "Login" : "Register"} </span>
+          <IonTitle>{isLoginComponent ? "Login" : "Register"} </IonTitle>
         </IonToolbar>
       </IonHeader>
 

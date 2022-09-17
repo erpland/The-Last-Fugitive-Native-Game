@@ -39,16 +39,10 @@ const Player: React.FC<Props> = ({
   const [currentFrame, setCurrentFrame] = useState(0);
   const [playerState, setPlayerState] = useState("idle");
   const [playerCurrentPostion, setPlayerCurrentPosition] = useState(position);
-  const [playerAskedPosition, setPlayerAskedPosition] = useState<
-    number[] | null
-  >(null);
-  const [playerCurrentDirection, setCurrentPlayerDirection] = useState(
-    directionMap[direction]
-  );
-  const [isMoving, setIsMoving] = useState(false)
-  const playerFrame = useRef<SpriteFrameType>(
-    spriteSheetMap.player.idle[currentFrame]
-  );
+  const [playerAskedPosition, setPlayerAskedPosition] = useState<number[] | null>(null);
+  const [playerCurrentDirection, setCurrentPlayerDirection] = useState(directionMap[direction]);
+  const [isMoving, setIsMoving] = useState(false);
+  const playerFrame = useRef<SpriteFrameType>(spriteSheetMap.player.idle[currentFrame]);
 
   useEffect(() => {
     changeSpriteDirection(playerDivRef.current!, -1);
@@ -71,10 +65,7 @@ const Player: React.FC<Props> = ({
         setCurrentPlayerDirection(askedDirection);
       }
       setPlayerState("move");
-      setPlayerCurrentPosition([
-        playerAskedPosition[0],
-        playerAskedPosition[1],
-      ]);
+      setPlayerCurrentPosition([playerAskedPosition[0], playerAskedPosition[1]]);
       setCurrentTile([playerAskedPosition[0], playerAskedPosition[1]]);
     } else {
       endTurn();
@@ -102,7 +93,7 @@ const Player: React.FC<Props> = ({
       let isColider = e.target.dataset.colider;
       if (isValidMove(askedPos, isColider)) {
         setPlayerAskedPosition([askedPos.x, askedPos.y]);
-        setIsMoving(true)
+        setIsMoving(true);
       }
       if (e.target.dataset.win_tile === "true") {
         setTimeout(() => {
@@ -116,23 +107,19 @@ const Player: React.FC<Props> = ({
         return false;
       }
       if (
-        (pos.x === playerCurrentPostion[0] + 1 &&
-          pos.y === playerCurrentPostion[1]) ||
-        (pos.x === playerCurrentPostion[0] - 1 &&
-          pos.y === playerCurrentPostion[1])
+        (pos.x === playerCurrentPostion[0] + 1 && pos.y === playerCurrentPostion[1]) ||
+        (pos.x === playerCurrentPostion[0] - 1 && pos.y === playerCurrentPostion[1])
       ) {
         return true;
       }
       if (
-        (pos.x === playerCurrentPostion[0] &&
-          pos.y === playerCurrentPostion[1] + 1) ||
-        (pos.x === playerCurrentPostion[0] &&
-          pos.y === playerCurrentPostion[1] - 1)
+        (pos.x === playerCurrentPostion[0] && pos.y === playerCurrentPostion[1] + 1) ||
+        (pos.x === playerCurrentPostion[0] && pos.y === playerCurrentPostion[1] - 1)
       )
         return true;
       return false;
     };
-  }, [playerCurrentPostion,isMoving]);
+  }, [playerCurrentPostion, isMoving]);
 
   const drawPlayer = () => {
     if (canvasRef && canvasRef.current) {
@@ -166,29 +153,21 @@ const Player: React.FC<Props> = ({
     }
   };
   const setPlayerPosition = () => {
-    playerDivRef.current!.style.left = `${
-      playerCurrentPostion[0] * TILE_SIZE
-    }px`;
-    playerDivRef.current!.style.top = `${
-      playerCurrentPostion[1] * TILE_SIZE
-    }px`;
+    playerDivRef.current!.style.left = `${playerCurrentPostion[0] * TILE_SIZE}px`;
+    playerDivRef.current!.style.top = `${playerCurrentPostion[1] * TILE_SIZE}px`;
   };
   const getPlayerNextDirection = () => {
-    if (playerAskedPosition![0] > playerCurrentPostion[0])
-      return directionMap.RIGHT;
-    else if (playerAskedPosition![0] < playerCurrentPostion[0])
-      return directionMap.LEFT;
-    else if (playerAskedPosition![1] > playerCurrentPostion[1])
-      return playerCurrentDirection;
-    else if (playerAskedPosition![1] < playerCurrentPostion[1])
-      return playerCurrentDirection;
+    if (playerAskedPosition![0] > playerCurrentPostion[0]) return directionMap.RIGHT;
+    else if (playerAskedPosition![0] < playerCurrentPostion[0]) return directionMap.LEFT;
+    else if (playerAskedPosition![1] > playerCurrentPostion[1]) return playerCurrentDirection;
+    else if (playerAskedPosition![1] < playerCurrentPostion[1]) return playerCurrentDirection;
   };
   const endTurn = () => {
     playerDivRef.current!.ontransitionend = (t) => {
       if (t.propertyName === "left" || t.propertyName === "top") {
         setPlayerState("idle");
         setIsPlayerMove(false);
-        setIsMoving(false)
+        setIsMoving(false);
       }
     };
   };
