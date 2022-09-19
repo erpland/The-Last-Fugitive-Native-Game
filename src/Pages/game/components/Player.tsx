@@ -99,6 +99,7 @@ const Player: React.FC<Props> = ({ map, gameFrame }) => {
   }, [isPlayerTurn]);
 
   const handleInvalidPosition = () => {
+    console.log(boxesRef.current)
     const keys = [
       `${gamePlayState.playerPosition[0] + 1}_${gamePlayState.playerPosition[1]}`,
       `${gamePlayState.playerPosition[0] - 1}_${gamePlayState.playerPosition[1]}`,
@@ -106,7 +107,8 @@ const Player: React.FC<Props> = ({ map, gameFrame }) => {
       `${gamePlayState.playerPosition[0]}_${gamePlayState.playerPosition[1] - 1}`,
     ];
     keys.forEach((k) => {
-      if (boxesRef.current![k]) {
+      if (boxesRef.current![k] && boxesRef.current![k].dataset.colider ==='false') {
+        console.log(!boxesRef.current![k].dataset.colider)
         boxesRef.current![k].classList.add("box_heighlight");
         boxesRef.current![k].onanimationend = (a) => {
           boxesRef.current![k].classList.remove("box_heighlight");

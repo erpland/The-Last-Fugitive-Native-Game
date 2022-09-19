@@ -38,7 +38,7 @@ const Header:React.FC<Props> = ({setIsProfileModal}) => {
         <div className="lifesbox__container">
           <IonIcon icon={heart} className="upperbox__icon" color={"danger"} />
           <span>{remainingGames} / 5</span>
-          <IonIcon icon={add} className="upperbox__icon" color={"success"} />
+          {/* <IonIcon icon={add} className="upperbox__icon" color={"success"} /> */}
         </div>
       </div>
     </div>
