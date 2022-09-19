@@ -62,6 +62,14 @@ const ProfileModal: React.FC<Props> = ({isProfileModal,setIsProfileModal}) => {
       setIsBtnDisabled(false)
       return;
     }
+    if (!/^[A-Za-z\d$&+,:;=?@#|'<>.^*()%!-]{3,15}$/.test(nickname)) {
+      present({
+        duration: TOAST_DURATION,
+        message: "Nickname Can Contain English Letters, Numbers,Special Characters Between 3-15",
+      });
+      setIsBtnDisabled(false)
+      return;
+    }
     if (
       nickname === currentUser.nickname &&
       avatar.code === currentUser.avatarCode

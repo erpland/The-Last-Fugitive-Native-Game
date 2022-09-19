@@ -71,7 +71,7 @@ const Register: React.FC<Props> = (props) => {
       });
       return;
     }
-    if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(user.password)) {
+    if (!/^(?=.*[A-Za-z])(?=.*\d)[ֿ\w\d]{6,}$/.test(user.password)) {
       present({
         duration: TOAST_DURATION,
         message:
@@ -83,10 +83,10 @@ const Register: React.FC<Props> = (props) => {
       present({ duration: TOAST_DURATION, message: "Wrong email format" });
       return;
     }
-    if (user.nickname.length > 15) {
+    if (!/^[A-Za-z\d$&+,:;=?@#|'<>.^*()%!-]{3,15}$/.test(user.nickname)) {
       present({
         duration: TOAST_DURATION,
-        message: "Nickname cannot be more then 15 characters",
+        message: "Nickname Can Contain English Letters, Numbers,Special Characters Between 3-15",
       });
       return;
     }
