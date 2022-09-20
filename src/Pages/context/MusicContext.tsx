@@ -1,6 +1,5 @@
 import { Preferences } from "@capacitor/preferences";
-import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
-// import {HintsTypes, MusicContextType, LevelType} from '../../Types/levelTypes'
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 export const MusicContext = createContext<any>(null);
 
@@ -13,7 +12,6 @@ const MusicContextProvider: React.FC<React.ReactNode> = ({ children }) => {
   const [wrongTileSound, setWrongTileSound] = useState<HTMLAudioElement>(
     new Audio("/assets/sounds/wrong_tile.wav")
   );
-  // const wrongTileSound = useRef<HTMLAudioElement>(new Audio("/assets/sounds/wrong_tile.wav"));
 
   useEffect(() => {
     const getVolume = async () => {
@@ -40,7 +38,6 @@ const MusicContextProvider: React.FC<React.ReactNode> = ({ children }) => {
     }
     backgroundMusic.volume = volume;
     await backgroundMusic.play();
-    console.log("music playing");
   };
   const stopMusic = async () => {
     console.log("music stoped");
@@ -52,13 +49,11 @@ const MusicContextProvider: React.FC<React.ReactNode> = ({ children }) => {
     playMusic();
   });
   wrongTileSound.addEventListener("load", (ev) => {
-    console.log(soundVolume);
     wrongTileSound.volume = soundVolume;
   });
   const playWrongTile = async (volume = soundVolume) => {
     wrongTileSound.load();
     await wrongTileSound.play();
-    console.log("playing wrong tile");
   };
 
   return (
