@@ -40,7 +40,6 @@ const SettingsModal: React.FC = (props: Props) => {
     await Preferences.set({ key: "music", value: String(musicVolume) });
     await Preferences.set({ key: "sound", value: String(soundVolume) });
   };
-  console.log(musicVolume,soundVolume)
   return (
     <IonModal
       id="settings-modal"

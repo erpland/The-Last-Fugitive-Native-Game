@@ -1,11 +1,14 @@
 import { Preferences } from "@capacitor/preferences";
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
+import { addLevelRank, updateLevelRank, updateUserCurrentLevel } from "../../Database/database";
 import {
   GamePlayContextActionType,
   GamePlayContextStateType,
   GamePlayContextType,
 } from "../../Types/GameTypes";
-import { EnimiesType, PlayerType } from "../../Types/levelTypes";
+import { EnimiesType, PlayerType, StepCapType } from "../../Types/levelTypes";
+import { useGameSettingsContext } from "./GameSettingsContext";
+import { LevelContext, useLevelContext } from "./LevelContext";
 import { useUserContext } from "./UserContext";
 
 export const GamePlayContext = createContext<GamePlayContextType | null>(null);
@@ -58,14 +61,23 @@ type ProviderType = {
   player: PlayerType;
   enemies: EnimiesType[];
   endPoint: number[];
+  stepCap: StepCapType[];
+  levelCode: number;
 };
 const GamePlayContextProvider: React.FC<ProviderType> = ({
   player,
   enemies,
   children,
   endPoint,
+  stepCap,
+  levelCode,
 }) => {
-  const { remainingGames, setRemainingGames } = useUserContext();
+  const { remainingGames, setRemainingGames, currentUser, setCurrentUser, isGuest } =
+    useUserContext();
+  const { setCurrentLevel } = useLevelContext();
+  const { settingsState } = useGameSettingsContext();
+  const { steps } = settingsState;
+
   const initialState = {
     playerPosition: player.start_position,
     enemiesPositions: enemies.map((e: EnimiesType) => e.start_position),
@@ -84,6 +96,7 @@ const GamePlayContextProvider: React.FC<ProviderType> = ({
       gamePlayState.playerPosition[0] === endPoint[0] &&
       gamePlayState.playerPosition[1] === endPoint[1]
     ) {
+      updatePlayerData();
       gamePlayDispatch({ type: "WIN" });
     }
   };
@@ -99,8 +112,40 @@ const GamePlayContextProvider: React.FC<ProviderType> = ({
     });
     if (enemyIndex !== -1) {
       gamePlayDispatch({ type: "LOST", payload: enemyIndex });
-      await Preferences.set({ key: "games", value: String(remainingGames - 1) });
-      setRemainingGames(remainingGames - 1);
+      await Preferences.set({ key: "games", value: String(remainingGames!.current - 1) });
+      setRemainingGames({ ...remainingGames!, current: remainingGames!.current - 1 });
+    }
+  };
+
+  const calcStars = () => {
+    if (steps < stepCap[0].step) {
+      return 3;
+    } else if (steps < stepCap[1].step) return 2;
+    else {
+      return 1;
+    }
+  };
+  const updatePlayerData = async () => {
+    let level = {
+      level_code: levelCode,
+      rank: calcStars(),
+      popularity: 0,
+    };
+    if (currentUser.current_level === levelCode) {
+      let nextLevel = levelCode + 1;
+      addLevelRank(currentUser._id, currentUser.token, level, isGuest);
+      updateUserCurrentLevel(currentUser._id, currentUser.token, nextLevel, isGuest);
+      const ranks = currentUser.level_rank;
+      ranks.push(level);
+      setCurrentUser({
+        ...currentUser,
+        level_rank: ranks,
+        current_level: nextLevel,
+      });
+      setCurrentLevel(nextLevel);
+    } else {
+      updateLevelRank(currentUser._id, currentUser.token, level, isGuest);
+      currentUser.level_rank[levelCode - 1].rank = calcStars();
     }
   };
   return (

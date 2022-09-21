@@ -82,7 +82,6 @@ const Enemy: React.FC<Props> = ({ map, enemy, gameFrame, enemySheetMap, enemySpr
   useEffect(() => {
     playerGraph.current!.setEnemies(gamePlayState.enemiesPositions);
     if (gameFrame !== 0) {
-      console.log("move");
       moveEnemey();
     }
   }, [state.currentPosition]);

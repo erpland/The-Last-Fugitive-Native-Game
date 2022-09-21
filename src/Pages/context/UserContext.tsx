@@ -1,12 +1,12 @@
 import { Preferences } from "@capacitor/preferences";
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { UserType, UserContextType, AvatarsType } from "../../Types/userTypes";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import {
+  UserType,
+  AvatarsType,
+  RemainingGamesType,
+  LifesObjectType,
+  UserContextType,
+} from "../../Types/userTypes";
 import { REMAINING_GAMES_TIMER } from "../../utils/constants";
 
 export const UserContext = createContext<UserContextType | null>(null);
@@ -32,6 +32,7 @@ const UserContextProvider: React.FC<React.ReactNode> = ({ children }) => {
     time_of_register: new Date(),
     play_dates: [],
     token: "",
+    isActive:true
   });
   const [avatars, setAvatars] = useState<AvatarsType[]>([
     {
@@ -45,17 +46,18 @@ const UserContextProvider: React.FC<React.ReactNode> = ({ children }) => {
       ],
     },
   ]);
+  const [lifesObject, setLifesObject] = useState<LifesObjectType>({ user: 5, guest: 3 });
   const [isRegisteredUser, setIsRegisteredUser] = useState(false);
   const [isGuest, setIsGuest] = useState(false);
-  const [remainingGames, setRemainingGames] = useState(5);
+  const [remainingGames, setRemainingGames] = useState<RemainingGamesType>();
   const interval = useRef(setInterval(() => {}, REMAINING_GAMES_TIMER));
 
   useEffect(() => {
     clearInterval(interval.current);
-    if (remainingGames < 5) {
+    if (remainingGames && remainingGames.current < remainingGames.max) {
       console.log("added remaing games interval");
       interval.current = setInterval(() => {
-        console.log("added 1 life")
+        console.log("added 1 life");
         updateRemainingGames();
       }, REMAINING_GAMES_TIMER);
     }
@@ -64,8 +66,8 @@ const UserContextProvider: React.FC<React.ReactNode> = ({ children }) => {
     };
   }, [remainingGames]);
   const updateRemainingGames = async () => {
-    setRemainingGames(remainingGames + 1);
-    await Preferences.set({ key: "games", value: String(remainingGames + 1) });
+    setRemainingGames({ ...remainingGames!, current: remainingGames!.current + 1 });
+    await Preferences.set({ key: "games", value: String(remainingGames!.current + 1) });
   };
   return (
     <UserContext.Provider
@@ -80,6 +82,8 @@ const UserContextProvider: React.FC<React.ReactNode> = ({ children }) => {
         setIsGuest,
         remainingGames,
         setRemainingGames,
+        lifesObject,
+        setLifesObject,
       }}
     >
       {children}

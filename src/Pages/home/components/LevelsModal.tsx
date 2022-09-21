@@ -59,19 +59,14 @@ const LevelsModal: React.FC = (props: Props) => {
 
 export default LevelsModal;
 
-const LevelBox = ({
-  code,
-  stars,
-  isOpen,
-  closeModal,
-}: Levels | any): JSX.Element => {
+const LevelBox = ({ code, stars, isOpen, closeModal }: Levels | any): JSX.Element => {
   const router = useIonRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { remainingGames } = useUserContext();
   const [present] = useIonToast();
   const startLevel = () => {
     if (isOpen) {
-      if (remainingGames > 0) {
+      if (remainingGames!.current > 0) {
         setIsLoading(true);
         setTimeout(() => {
           setIsLoading(false);
@@ -94,18 +89,11 @@ const LevelBox = ({
   return (
     <div className="level-box">
       {isLoading && (
-        <IonSpinner
-          color={"warning"}
-          name="bubbles"
-          style={{ position: "absolute" }}
-        />
+        <IonSpinner color={"warning"} name="bubbles" style={{ position: "absolute" }} />
       )}
       <div className="level-box__stars">{levelStars}</div>
       <div className="level-box__box" onClick={startLevel}>
-        <span>
-          {!isLoading &&
-            (isOpen ? code : <IonIcon icon={lockClosed} color="warning" />)}
-        </span>
+        <span>{!isLoading && (isOpen ? code : <IonIcon icon={lockClosed} color="warning" />)}</span>
       </div>
     </div>
   );

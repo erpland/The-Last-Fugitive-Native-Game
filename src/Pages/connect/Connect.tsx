@@ -77,10 +77,6 @@ const Connect: React.FC = (props: Props) => {
           </div>
           <div className="connect__buttons">
             <IonButton onClick={()=>setIsLoginModal(true)}>Sign In With Email</IonButton>
-            {/* <IonButton fill="outline">
-              <IonIcon slot="start" icon={logoFacebook} />
-              Sign In With Facebook
-            </IonButton> */}
             <span onClick={() => playAsGuest()}>Play as Guest</span>
           </div>
         </div>

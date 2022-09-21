@@ -1,11 +1,5 @@
 import React, { SetStateAction, useState, useRef } from "react";
-import {
-  IonAlert,
-  IonButton,
-  IonInput,
-  IonItem,
-  useIonToast,
-} from "@ionic/react";
+import { IonAlert, IonButton, IonInput, IonItem, useIonToast } from "@ionic/react";
 import { UserLoginType } from "../../../Types/userTypes";
 import { useUserContext } from "../../context/UserContext";
 import { loginUser } from "../../../Database/database";
@@ -30,7 +24,14 @@ const Login: React.FC<Props> = (props) => {
   });
   const formRef = useRef<HTMLIonItemElement>(null);
 
-  const { setCurrentUser, setIsRegisteredUser, setIsGuest } = useUserContext();
+  const {
+    setCurrentUser,
+    setIsRegisteredUser,
+    setIsGuest,
+    remainingGames,
+    setRemainingGames,
+    lifesObject,
+  } = useUserContext();
   const { setCurrentLevel } = useLevelContext();
   const [present] = useIonToast();
   const [showAlert, setShowAlert] = useState({
@@ -57,7 +58,7 @@ const Login: React.FC<Props> = (props) => {
 
   const openResetModal = () => {
     props.setIsResetModal(true);
-    props.setIsLoginModal(false)
+    props.setIsLoginModal(false);
   };
 
   const login = async (e: React.FormEvent) => {
@@ -75,13 +76,24 @@ const Login: React.FC<Props> = (props) => {
     let loggedUser;
     try {
       loggedUser = await loginUser(user);
+      console.log(loggedUser);
     } catch {
       setShowAlert({ ...showAlert, isOpen: true });
       return;
     } finally {
       props.closeLoader();
     }
-    if (loggedUser) {
+    if (loggedUser.status === 400) {
+      present({
+        duration: TOAST_DURATION,
+        message: "Wrong Email Or Password",
+      });
+    } else if (loggedUser.status === 403) {
+      present({
+        duration: TOAST_DURATION,
+        message: "Your User Has Been Banned, Connect Support For More Information...",
+      });
+    } else {
       setCurrentUser(loggedUser);
       setCurrentLevel(loggedUser.current_level);
       await Preferences.set({
@@ -92,11 +104,6 @@ const Login: React.FC<Props> = (props) => {
       setIsGuest(false);
       props.closeModal();
       router.push("/home");
-    } else {
-      present({
-        duration: TOAST_DURATION,
-        message: "Wrong Email Or Password",
-      });
     }
   };
   return (
@@ -140,9 +147,7 @@ const Login: React.FC<Props> = (props) => {
         <IonButton strong={true} color="primary" type="submit">
           Login
         </IonButton>
-        <p onClick={() => props.setisLoginComponent(false)}>
-          Dont Have an Account?
-        </p>
+        <p onClick={() => props.setisLoginComponent(false)}>Dont Have an Account?</p>
       </div>
     </form>
   );

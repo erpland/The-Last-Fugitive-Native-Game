@@ -15,7 +15,7 @@ const GameSettings: React.FC<Props> = ({ currentLevel }) => {
     setgameKey(gameKey + 1);
   };
   return (
-    <GamePlayContextProvider player={player} enemies={enemies} endPoint={end_point}>
+    <GamePlayContextProvider player={player} enemies={enemies} endPoint={end_point} stepCap={step_cap} levelCode={code}>
       <FinishModal stepCap={step_cap} levelCode={code} resetLevel={resetLevel} />
       <GamePlay map={map} player={player} enemies={enemies} endPoint={end_point} />
     </GamePlayContextProvider>

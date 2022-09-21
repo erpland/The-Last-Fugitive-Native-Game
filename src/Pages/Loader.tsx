@@ -1,22 +1,16 @@
 import { Preferences } from "@capacitor/preferences";
-import {
-  IonAlert,
-  IonButton,
-  IonContent,
-  IonPage,
-  IonProgressBar,
-  IonText,
-} from "@ionic/react";
+import { IonAlert, IonButton, IonContent, IonPage, IonProgressBar, IonText } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import {
   getAllLevels,
   getAllHints,
   getAllAvatars,
   fetchUserByid,
+  getLifeData,
 } from "../Database/database";
 import { useLevelContext } from "./context/LevelContext";
 import { useUserContext } from "./context/UserContext";
-import './LoaderStyles.scss'
+import "./LoaderStyles.scss";
 type Props = {
   finshedLoading: () => void;
 };
@@ -26,10 +20,17 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
     progress: 0,
     text: "loading content...",
     progressColor: "success",
-    textColor:"light",
-    isDone:false
+    textColor: "light",
+    isDone: false,
   });
-  const { setCurrentUser, setAvatars, setIsRegisteredUser,setRemainingGames } = useUserContext();
+  const {
+    setCurrentUser,
+    setAvatars,
+    setIsRegisteredUser,
+    setRemainingGames,
+    setLifesObject,
+    remainingGames,
+  } = useUserContext();
   const { setAllLevels, setCurrentLevel, setHints } = useLevelContext();
 
   const [showAlert, setShowAlert] = useState({
@@ -38,15 +39,14 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
     subHeader: "",
     message:
       "We had some trouble getting game data.\n Please check you internet connection or try again later",
-    buttons: [
-      { text: "CANCEL" },
-      { text: "TRY AGAIN", handler: () => window.location.reload() },
-    ],
+    buttons: [{ text: "CANCEL" }, { text: "TRY AGAIN", handler: () => window.location.reload() }],
   });
   useEffect(() => {
     const getAllData = async () => {
       // await Preferences.remove({key:"isLoggedIn"})
       try {
+        const lifes = await getLifeData();
+        setLifesObject(lifes);
         const allLevels = await getAllLevels();
         setLoading({ ...loading, progress: 0.3 });
         const allHints = await getAllHints();
@@ -58,31 +58,36 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
         setAvatars(allAvatars);
 
         const userId = (await Preferences.get({ key: "isLoggedIn" })).value;
-        let remainingGames=(await Preferences.get({ key: "games" })).value;
-        if(!remainingGames){
-          (await Preferences.set({ key: "games",value:"5" }))
-          remainingGames = "5"
+        let gamesLeft = (await Preferences.get({ key: "games" })).value;
+        if (gamesLeft && userId) {
+          setRemainingGames({ max: lifes.user, current: parseInt(gamesLeft) });
         }
-        setRemainingGames(parseInt(remainingGames!))
+        // let amountOfLifes = userId ? String(lifes.user) : String(lifes.guest);
+        // if (!remainingGames) {
+        // await Preferences.set({ key: "games", value: amountOfLifes });
+        // remainingGames = amountOfLifes;
+        // }
+        // setRemainingGames({ max: parseInt(amountOfLifes), current: parseInt(remainingGames!) });
         let musicVolume = (await Preferences.get({ key: "music" })).value;
         let soundVolume = (await Preferences.get({ key: "sound" })).value;
 
-        if(!musicVolume){
-          (await Preferences.set({ key:"music",value:"0.9" }))
+        if (!musicVolume) {
+          await Preferences.set({ key: "music", value: "0.9" });
         }
-        if(!soundVolume){
-          (await Preferences.set({ key:"sound",value:"0.9" }))
+        if (!soundVolume) {
+          await Preferences.set({ key: "sound", value: "0.9" });
         }
         if (userId) {
           const loggedUser = await fetchUserByid(userId);
-          setCurrentUser(loggedUser);
-          setCurrentLevel(loggedUser.current_level);
-          setIsRegisteredUser(true);
+          if (loggedUser.isActive) {
+            setCurrentUser(loggedUser);
+            setCurrentLevel(loggedUser.current_level);
+            setIsRegisteredUser(true);
+          }
         } else {
           setIsRegisteredUser(false);
         }
-        setLoading({ ...loading, progress: 1,isDone:true });
-        
+        setLoading({ ...loading, progress: 1, isDone: true });
       } catch {
         setShowAlert({
           ...showAlert,
@@ -92,8 +97,8 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
           progress: 1,
           text: "Error",
           progressColor: "danger",
-          textColor:'danger',
-          isDone:false
+          textColor: "danger",
+          isDone: false,
         });
       }
     };
@@ -102,40 +107,40 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
 
   return (
     <IonPage>
-    <IonContent>
-      <IonAlert
-        isOpen={showAlert.isOpen}
-        onDidDismiss={() => setShowAlert({ ...showAlert, isOpen: false })}
-        header={showAlert.header}
-        subHeader={showAlert.subHeader}
-        message={showAlert.message}
-        buttons={showAlert.buttons}
-      />
-      <div className="loader-container">
-        <div className="content-wrapper">
-
-        <h1>The Last Fugitive</h1>
-        <IonProgressBar
-          color={loading.progressColor}
-          className="progress"
-          value={loading.progress}
-          ></IonProgressBar>
-        <IonText color={loading.textColor}>
-          <h5>{loading.text}</h5>
-        </IonText>
+      <IonContent>
+        <IonAlert
+          isOpen={showAlert.isOpen}
+          onDidDismiss={() => setShowAlert({ ...showAlert, isOpen: false })}
+          header={showAlert.header}
+          subHeader={showAlert.subHeader}
+          message={showAlert.message}
+          buttons={showAlert.buttons}
+        />
+        <div className="loader-container">
+          <div className="content-wrapper">
+            <h1>The Last Fugitive</h1>
+            <IonProgressBar
+              color={loading.progressColor}
+              className="progress"
+              value={loading.progress}
+            ></IonProgressBar>
+            <IonText color={loading.textColor}>
+              <h5>{loading.text}</h5>
+            </IonText>
           </div>
-        {loading.isDone &&
-        <div className="button-wrapper">
-          <IonButton className="button-53" onClick={()=>finshedLoading()}>Continue</IonButton>
-        </div>}
-      </div>
-    </IonContent>
+          {loading.isDone && (
+            <div className="button-wrapper">
+              <IonButton className="button-53" onClick={() => finshedLoading()}>
+                Continue
+              </IonButton>
+            </div>
+          )}
+        </div>
+      </IonContent>
     </IonPage>
   );
 };
 
 export default Loader;
 
-const styles = {
-  
-};
+const styles = {};

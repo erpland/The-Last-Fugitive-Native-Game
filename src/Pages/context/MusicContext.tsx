@@ -40,7 +40,6 @@ const MusicContextProvider: React.FC<React.ReactNode> = ({ children }) => {
     await backgroundMusic.play();
   };
   const stopMusic = async () => {
-    console.log("music stoped");
     backgroundMusic.pause();
   };
 

@@ -9,6 +9,7 @@ import { useUserContext } from "../../context/UserContext";
 import { updateLevelPopulatiry } from "../../../Database/database";
 import { useGamePlayContext } from "../../context/GamePlayContext";
 import LoseAnimation from "./LoseAnimation";
+
 interface stepCapType {
   code: number;
   step: number;
@@ -33,7 +34,7 @@ interface Props {
 
 const FinishModal: React.FC<Props["FinishModal"]> = ({ stepCap, levelCode, resetLevel }) => {
   const { gamePlayState, gamePlayDispatch } = useGamePlayContext();
-  const { gameOver, isModalOpen } = gamePlayState;
+  const { gameOver } = gamePlayState;
   const modal = useRef<HTMLIonModalElement>(null);
   const data = {
     title: gameOver.isWon ? "VICOTRY" : "GAME OVER",
@@ -47,7 +48,6 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({ stepCap, levelCode, reset
       ? currentUser.level_rank[levelCode - 1].popularity!
       : 0
   );
-
   const router = useIonRouter();
   const calcStars = () => {
     if (steps <= stepCap[0].step) {
@@ -82,6 +82,7 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({ stepCap, levelCode, reset
     router.push("/home");
     modal.current?.dismiss();
   };
+
   return (
     <IonModal id="finish-modal" ref={modal} isOpen={gameOver.isGameOver} backdropDismiss={false}>
       <IonHeader>

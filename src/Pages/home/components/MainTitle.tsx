@@ -12,9 +12,6 @@ const MainTitle = (props: Props) => {
     if(isRegisteredUser){
       await Preferences.remove({key:"isLoggedIn"})
     }
-    else{
-      console.log("logout")
-    }
     router.push("/connect");
   }
 

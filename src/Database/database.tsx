@@ -4,7 +4,7 @@ import {
   PlayDatesType,
   LevelRankType,
 } from "../Types/userTypes";
-const SERVER = "https://the-last-fugitive.herokuapp.com/api/";
+const SERVER = process.env.REACT_APP_API;
 
 //gets
 export const fetchUserByid = async (id: string) => {
@@ -14,6 +14,23 @@ export const fetchUserByid = async (id: string) => {
   };
   try {
     const data = await fetch(SERVER + "users/" + id, requestOptions);
+    if (data.ok) {
+      const json = await data.json();
+      return json;
+    }
+    return new Error("Error while fetch life data ");
+  } catch {
+    throw new Error("Network Error!");
+  }
+};
+
+export const getLifeData = async () => {
+  const requestOptions = {
+    method: "get",
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  };
+  try {
+    const data = await fetch(SERVER + "life/client" , requestOptions);
     if (data.ok) {
       const json = await data.json();
       return json;
@@ -187,7 +204,7 @@ export const loginUser = async (user: UserLoginType) => {
       console.log(json);
       return json;
     }
-    return null;
+    return {status:data.status};
   } catch {
     throw new Error("Error while fetching data in login");
   }
@@ -429,6 +446,8 @@ export const updateLevelRank = async (
     throw new Error("Error while fetching data in register");
   }
 };
+
+
 
 
 
