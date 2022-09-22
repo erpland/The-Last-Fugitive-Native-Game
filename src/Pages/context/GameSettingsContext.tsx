@@ -62,7 +62,6 @@ const GameSettingsContextProvider: React.FC<GameSettingsProvider> = ({
       `${currentLevel.end_point[0]}_${currentLevel.end_point[1]}`
     )
   );
-  console.log(playerGraph.current.startAlgorithm());
 
   const getHint = () => {
     // פונקציה להחזרת רמז לצעד הבא הכי טוב לשחקן

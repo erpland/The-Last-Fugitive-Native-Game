@@ -59,10 +59,9 @@ const FinishModal: React.FC<Props["FinishModal"]> = ({ stepCap, levelCode, reset
   };
   const handleRefresh = () => {
     modal.current?.dismiss();
-    gamePlayDispatch({ type: "RESET" });
-    settingsDispatch({ type: "RESET" });
     resetLevel();
   };
+
   const backToHomePage = () => {
     settingsDispatch({ type: "RESET" });
     if (gameOver.isWon) {

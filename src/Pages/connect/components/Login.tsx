@@ -76,7 +76,6 @@ const Login: React.FC<Props> = (props) => {
     let loggedUser;
     try {
       loggedUser = await loginUser(user);
-      console.log(loggedUser);
     } catch {
       setShowAlert({ ...showAlert, isOpen: true });
       return;
