@@ -64,6 +64,8 @@ const GameSettingsContextProvider: React.FC<GameSettingsProvider> = ({
   );
 
   const getHint = () => {
+    // פונקציה להחזרת רמז לצעד הבא הכי טוב לשחקן
+    // משתמשת באלגוריתם חיפוש הדרך הקצרה ביותר ליציאה
     const path = playerGraph.current!.startAlgorithm().path;
     let askedHint = "No Clue For You";
     if (path.length) {

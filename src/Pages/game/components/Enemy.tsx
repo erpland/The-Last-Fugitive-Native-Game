@@ -125,6 +125,9 @@ const Enemy: React.FC<Props> = ({ map, enemy, gameFrame, enemySheetMap, enemySpr
     };
   };
   const getEnemyMove = () => {
+    // קבלת הצעד הבא של האוייב הנוכחי לפי הסתברות התלויה ברמת קושי השלב
+    //א. תנועה חכמה משתמשת באלגוריתם לציאת המסלול הקצר
+    // ב.תנועה רנדומלית
     let nextPosition: number[];
     let probability = Math.floor(Math.random() * 10);
     if (probability <= PROBABILITY) {
@@ -144,6 +147,7 @@ const Enemy: React.FC<Props> = ({ map, enemy, gameFrame, enemySheetMap, enemySpr
       payload: { nextPosition, idx: enemy.code },
     });
   };
+  
   const getEnemyRandomPosition = () => {
     const [y, x] = state.currentPosition;
     let nextPosition: number[] = [];
