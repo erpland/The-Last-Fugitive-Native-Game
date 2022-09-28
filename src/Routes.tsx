@@ -1,3 +1,4 @@
+//דף הניווטים של המשחק
 import React from "react";
 import { IonReactRouter } from "@ionic/react-router";
 import { Redirect, Route } from "react-router-dom";
@@ -8,19 +9,18 @@ import MusicContextProvider from "./Pages/context/MusicContext";
 import { useUserContext } from "./Pages/context/UserContext";
 import GamePage from "./Pages/game/GamePage";
 
-type Props = {
-  // isRegisteredUser:boolean
-};
-interface PlayDatesType {
-  start_date: Date;
-  end_date: Date | null;
-}
+type Props = {};
+
 const Routes: React.FC<Props> = () => {
-  const { isRegisteredUser, currentUser, isGuest } = useUserContext();
+  //משיכה של סטייט בוליאני-האם משתמש רשום
+  //משמש אותנו להעביר לדף התחברות/דף ראשי
+  const { isRegisteredUser } = useUserContext();
 
   return (
     <IonReactRouter>
+   
       <IonRouterOutlet>
+       
         <MusicContextProvider>
           <Route path="/connect" component={Connect} />
           {!isRegisteredUser && <Redirect exact from="/" to="/connect" />}

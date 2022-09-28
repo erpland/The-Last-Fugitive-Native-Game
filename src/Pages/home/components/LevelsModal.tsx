@@ -12,7 +12,7 @@ import { star, lockClosed } from "ionicons/icons";
 import { useUserContext } from "../../context/UserContext";
 import { useLevelContext } from "../../context/LevelContext";
 import { useIonRouter } from "@ionic/react";
-import { TOAST_DURATION } from "../../../utils/constants";
+import { TOAST_DURATION } from "../../../utils/Constants";
 
 interface Levels {
   code: number;

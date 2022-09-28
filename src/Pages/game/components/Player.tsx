@@ -1,6 +1,6 @@
 import React, { createRef, useEffect, useReducer, useRef } from "react";
 import { PlayerActionType, PlayerStateType, SpriteFrameType } from "../../../Types/GameTypes";
-import { DIR_CSS, GAME_SPEED } from "../../../utils/constants";
+import { DIR_CSS, GAME_SPEED } from "../../../utils/Constants";
 import { useGamePlayContext } from "../../context/GamePlayContext";
 import { useGameSettingsContext } from "../../context/GameSettingsContext";
 import { useMusicContext } from "../../context/MusicContext";

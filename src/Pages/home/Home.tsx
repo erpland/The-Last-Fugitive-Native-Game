@@ -6,14 +6,13 @@ import Footer from "./components/Footer";
 import ProfileModal from "./components/ProfileModal";
 import "./styles/home.scss";
 import LevelsModal from "./components/LevelsModal";
-import ConnectModal from "./components/ConnectModal";
 import SettingsModal from "./components/SettingModal";
 import { useMusicContext } from "../context/MusicContext";
 import { App as app } from "@capacitor/app";
 import { addUserPlayDate } from "../../Database/database";
 import { PlayDatesType } from "../../Types/userTypes";
 import { useUserContext } from "../context/UserContext";
-import { PLAY_DATE_TIMER } from "../../utils/constants";
+import { PLAY_DATE_TIMER } from "../../utils/Constants";
 import { Preferences } from "@capacitor/preferences";
 
 type Props = {};
@@ -77,7 +76,7 @@ const Home: React.FC = (props: Props) => {
     <IonPage>
       <IonContent class="ion-padding-start ion-padding-end" className="main__content">
         <SettingsModal />
-        <ConnectModal />
+        
         <ProfileModal isProfileModal={isProfileModal} setIsProfileModal={setIsProfileModal} />
         <LevelsModal />
         <div className="container">

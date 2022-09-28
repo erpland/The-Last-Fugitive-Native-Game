@@ -11,11 +11,12 @@ import {
 import { UserSignupType } from "../../../Types/userTypes";
 import React, { SetStateAction, useState } from "react";
 import { registerUser, signGuestAsUser } from "../../../Database/database";
+//דף הרשמה
 import { useUserContext } from "../../context/UserContext";
 import { useIonRouter } from "@ionic/react";
 import { useLevelContext } from "../../context/LevelContext";
 import { Preferences } from "@capacitor/preferences";
-import { TOAST_DURATION } from "../../../utils/constants";
+import { TOAST_DURATION } from "../../../utils/Constants";
 type Props = {
   setisLoginComponent: React.Dispatch<SetStateAction<boolean>>;
   openLoader: ({}) => void;

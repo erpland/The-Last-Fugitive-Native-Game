@@ -15,7 +15,7 @@ import {
   updateUserAvatar,
   updateUserNickname,
 } from "../../../Database/database";
-import { TOAST_DURATION } from "../../../utils/constants";
+import { TOAST_DURATION } from "../../../utils/Constants";
 import { useUserContext } from "../../context/UserContext";
 
 type Props = {

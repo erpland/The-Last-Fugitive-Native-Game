@@ -27,7 +27,7 @@ const MainTitle = (props: Props) => {
         START
       </IonButton>
       <IonButton
-        // id="open-connect-modal"
+       
         onClick={connectButtonHandler}
         style={{ width: "70%", color: "white" }}
         size="large"

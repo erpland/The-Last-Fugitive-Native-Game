@@ -50,7 +50,7 @@ const MusicContextProvider: React.FC<React.ReactNode> = ({ children }) => {
   wrongTileSound.addEventListener("load", (ev) => {
     wrongTileSound.volume = soundVolume;
   });
-  const playWrongTile = async (volume = soundVolume) => {
+  const playWrongTile = async () => {
     wrongTileSound.load();
     await wrongTileSound.play();
   };

@@ -22,7 +22,6 @@ const SettingsModal: React.FC = (props: Props) => {
   const { currentUser, setCurrentUser, isGuest } = useUserContext();
   const { musicVolume, setMusicVolume, soundVolume, setSoundVolume } =
     useMusicContext();
-  // const [first, setfirst] = useState(second)
   const [isChecked, setIsChecked] = useState(currentUser.is_notification);
   const saveUserSettings = async () => {
     if (currentUser.is_notification !== isChecked) {

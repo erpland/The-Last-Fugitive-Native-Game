@@ -1,7 +1,7 @@
 import React, { createRef, useEffect, useReducer, useRef } from "react";
 import { SpriteFrameType, SpriteSheetType } from "../../../Types/GameTypes";
 import { EnimiesType } from "../../../Types/levelTypes";
-import { DIR_CSS, GAME_SPEED } from "../../../utils/constants";
+import { DIR_CSS, GAME_SPEED } from "../../../utils/Constants";
 import { directionMap } from "../../../utils/helpers";
 import { useGamePlayContext } from "../../context/GamePlayContext";
 import { useGameSettingsContext } from "../../context/GameSettingsContext";

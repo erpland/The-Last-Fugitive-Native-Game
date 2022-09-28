@@ -1,3 +1,4 @@
+//מודל עוטף לדף איפוס סיסמא
 import {
   IonButton,
   IonHeader,
@@ -9,7 +10,7 @@ import {
 } from "@ionic/react";
 import React, { useRef, useState } from "react";
 import { resetPassword } from "../../../Database/database";
-import { TOAST_DURATION } from "../../../utils/constants";
+import { TOAST_DURATION } from "../../../utils/Constants";
 
 type Props = {
   isResetModal:boolean

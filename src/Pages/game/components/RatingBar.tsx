@@ -1,3 +1,4 @@
+//קומפוננטה אשר עולה במודל הניצחון כאשר ניצחנו-דירוג מ1-5 של פופולריות שלב
 import { IonIcon } from "@ionic/react";
 import { star } from "ionicons/icons";
 import React, { SetStateAction, useState } from "react";
@@ -40,11 +41,6 @@ const RatingBar: React.FC<Props> = ({rating,setRating}) => {
           );
         })}
       </div>
-      {/* {rating !== 0 && (
-        <small style={{ color: "white" }} onClick={() => setRating(0)}>
-          Reset
-        </small>
-      )} */}
     </div>
   );
 };

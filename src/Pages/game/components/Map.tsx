@@ -1,3 +1,4 @@
+//קומפוננטה להדפסת המפה(גריד) יחד עם המכשולים
 import React, { RefObject, useMemo } from "react";
 import { RefBoxType } from "../../../Types/GameSettingsTypes";
 import { useGameSettingsContext } from "../../context/GameSettingsContext";
@@ -10,7 +11,7 @@ const Map: React.FC<{ map: number[][] }> = ({ map }) => {
   boxCount = 0;
   const { mapRef, SCREEN_WIDTH, boxesRef } = useGameSettingsContext();
   const TILE_SIZE = SCREEN_WIDTH / map[0].length;
-
+//משתמשים לטובת חסכון ברנדור כלל הקומפוננטה מחדש במידה ולא השתנה משהו ספציפי במפה
   const levelMap = useMemo(() => {
     return map.map((row, index) => {
       return (
@@ -32,7 +33,7 @@ const Map: React.FC<{ map: number[][] }> = ({ map }) => {
 };
 
 export default Map;
-
+//הדפסת שורות של המפה
 type Props = {
   row: number[];
   rowIndex: number;

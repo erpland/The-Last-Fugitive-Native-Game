@@ -32,10 +32,10 @@ import LevelContextProvider from "./Pages/context/LevelContext";
 setupIonicReact();
 
 const App: React.FC = () => {
+  //פונקצייה מתוך IONIC
+  //משמשת לפרוש את המסך לגודל מלא בצורה רספונסיבית 
   useEffect(() => {
-    // const hideStatusBar = async () => {
-
-    // };
+   
     const fullScreen = async () => {
       if (await AndroidFullScreen.isImmersiveModeSupported()) {
         await AndroidFullScreen.immersiveMode();
@@ -44,13 +44,11 @@ const App: React.FC = () => {
       }
       await StatusBar.hide();
     };
-    // const hideSplash = async() => {
-    //   await SplashScreen.show();
-    // }
-    // hideSplash();
+   
     fullScreen();
-    // hideStatusBar();
+  
   }, []);
+//סטייט אשר משמש לשליטה בקומפוננטת הטעינה-כאשר כלל המשיכות יסתיימו נקבל כפתור להמשך לדף ראשי
   const [isLoading, setIsLoading] = useState(true);
   return (
     <IonApp>

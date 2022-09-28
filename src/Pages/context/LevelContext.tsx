@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react'
 import {HintsTypes, LevelContextType, LevelType} from '../../Types/levelTypes'
-import { useUserContext } from './UserContext';
+
 
 export const LevelContext = createContext<LevelContextType | null>(null);
 

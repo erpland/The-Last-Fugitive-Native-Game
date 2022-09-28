@@ -1,3 +1,4 @@
+//קומפוננטה לייצוג חלק עליון של המסך-הצגת נתונים על צעדים, תור,הצגת רמז על ידי חישוב מתאים
 import { IonButton, IonIcon, useIonRouter } from "@ionic/react";
 import { arrowForward } from "ionicons/icons";
 import React from "react";

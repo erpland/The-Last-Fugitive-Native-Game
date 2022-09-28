@@ -9,7 +9,7 @@ import {
   PROBABILITY_DIFFICULTY_EASY,
   PROBABILITY_DIFFICULTY_HARD,
   PROBABILITY_DIFFICULTY_MEDIUM,
-} from "../../utils/constants";
+} from "../../utils/Constants";
 import Graph from "../game/components/PathSearch";
 
 export const GameSettingsContext = createContext<GameSettingsContextType | null>(null);

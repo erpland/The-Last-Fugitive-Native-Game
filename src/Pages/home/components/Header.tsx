@@ -3,7 +3,7 @@ import { IonImg, useIonToast } from "@ionic/react";
 import { IonIcon } from "@ionic/react";
 import { star, heart } from "ionicons/icons";
 import { useUserContext } from "../../context/UserContext";
-import { TOAST_DURATION } from "../../../utils/constants";
+import { TOAST_DURATION } from "../../../utils/Constants";
 
 type Props = {
   setIsProfileModal: React.Dispatch<SetStateAction<boolean>>;
@@ -41,7 +41,7 @@ const Header: React.FC<Props> = ({ setIsProfileModal }) => {
           <span>
             {remainingGames?.current} / {remainingGames?.max}
           </span>
-          {/* <IonIcon icon={add} className="upperbox__icon" color={"success"} /> */}
+          
         </div>
       </div>
     </div>
