@@ -8,7 +8,7 @@ import {
 } from "../../Types/GameTypes";
 import { EnimiesType, PlayerType, StepCapType } from "../../Types/levelTypes";
 import { useGameSettingsContext } from "./GameSettingsContext";
-import { LevelContext, useLevelContext } from "./LevelContext";
+import { useLevelContext } from "./LevelContext";
 import { useUserContext } from "./UserContext";
 
 export const GamePlayContext = createContext<GamePlayContextType | null>(null);

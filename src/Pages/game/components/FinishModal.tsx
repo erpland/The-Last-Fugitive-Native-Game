@@ -16,8 +16,6 @@ interface stepCapType {
 }
 interface Props {
   FinishModal: {
-    // isModalOpen: boolean;
-    // isWon: boolean;
     stepCap: stepCapType[];
     levelCode: number;
     resetLevel: () => void;

@@ -13,7 +13,7 @@ type Props = {
 
 const GamePlay: React.FC<Props> = ({ map, player, enemies, endPoint }) => {
   const [frame, setFrame] = useState(0);
-  //game loop
+  //לולאת המשחק-משחרר כל פעם פריים לאנימציה
   useLayoutEffect(() => {
     let timerId: number;
     const animate = () => {
@@ -24,7 +24,7 @@ const GamePlay: React.FC<Props> = ({ map, player, enemies, endPoint }) => {
 
     return () => cancelAnimationFrame(timerId);
   }, []);
-
+//הדפסה של אוייבים ושחקן על המפה
   return (
     <div>
       <Player map={map} gameFrame={frame} />
