@@ -1,33 +1,21 @@
-import { Preferences } from "@capacitor/preferences";
-import { IonButton, useIonRouter } from "@ionic/react";
+import { IonButton } from "@ionic/react";
 import { useUserContext } from "../../context/UserContext";
 
-type Props = {};
+type Props = {
+  connectButtonHandler: () => void;
+};
 
-const MainTitle = (props: Props) => {
-  const {isRegisteredUser} = useUserContext()
-  const router = useIonRouter();
+const MainTitle: React.FC<Props> = ({ connectButtonHandler }) => {
+  const { isRegisteredUser } = useUserContext();
 
-  const connectButtonHandler=async()=>{
-    if(isRegisteredUser){
-      await Preferences.remove({key:"isLoggedIn"})
-    }
-    router.push("/connect");
-  }
 
   return (
     <div className="main__title">
       <h1>The Last Fugitive</h1>
-      <IonButton
-        id="open-levels-modal"
-        color="primary"
-        style={{ width: "70%" }}
-        size="large"
-      >
+      <IonButton id="open-levels-modal" color="primary" style={{ width: "70%" }} size="large">
         START
       </IonButton>
       <IonButton
-       
         onClick={connectButtonHandler}
         style={{ width: "70%", color: "white" }}
         size="large"

@@ -1,5 +1,4 @@
 import { IonApp, setupIonicReact } from "@ionic/react";
-
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 
@@ -21,7 +20,7 @@ import "./theme/variables.css";
 
 import { StatusBar } from "@capacitor/status-bar";
 import Routes from "./Routes";
-import React,{ useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AndroidFullScreen } from "@awesome-cordova-plugins/android-full-screen";
 import Loader from "./Pages/Loader";
 import UserContextProvider from "./Pages/context/UserContext";
@@ -29,13 +28,16 @@ import LevelContextProvider from "./Pages/context/LevelContext";
 import { App as app } from "@capacitor/app";
 // import { SplashScreen } from '@capacitor/splash-screen';
 
-setupIonicReact();
+// setupIonicReact({
+//   swipeBackEnabled: false,// also prevent swiping back on either platform
+// 	hardwareBackButton: false// this is what you need (android only)
+// });
 
 const App: React.FC = () => {
   //פונקצייה מתוך IONIC
-  //משמשת לפרוש את המסך לגודל מלא בצורה רספונסיבית 
+  //משמשת לפרוש את המסך לגודל מלא בצורה רספונסיבית
+
   useEffect(() => {
-   
     const fullScreen = async () => {
       if (await AndroidFullScreen.isImmersiveModeSupported()) {
         await AndroidFullScreen.immersiveMode();
@@ -44,12 +46,11 @@ const App: React.FC = () => {
       }
       await StatusBar.hide();
     };
-   
+
     fullScreen();
-  
   }, []);
 
-//סטייט אשר משמש לשליטה בקומפוננטת הטעינה-כאשר כלל המשיכות יסתיימו נקבל כפתור להמשך לדף ראשי
+  //סטייט אשר משמש לשליטה בקומפוננטת הטעינה-כאשר כלל המשיכות יסתיימו נקבל כפתור להמשך לדף ראשי
   const [isLoading, setIsLoading] = useState(true);
   return (
     <IonApp>

@@ -8,7 +8,7 @@ import "./styles/home.scss";
 import LevelsModal from "./components/LevelsModal";
 import SettingsModal from "./components/SettingModal";
 import { useMusicContext } from "../context/MusicContext";
-import { App as app } from "@capacitor/app";
+import { App, App as app } from "@capacitor/app";
 import { addUserPlayDate } from "../../Database/database";
 import { PlayDatesType } from "../../Types/userTypes";
 import { useUserContext } from "../context/UserContext";
@@ -20,17 +20,45 @@ type Props = {};
 const Home: React.FC = (props: Props) => {
   const [isProfileModal, setIsProfileModal] = useState(false);
   const { playMusic, stopMusic } = useMusicContext();
-  const { currentUser, isGuest, setCurrentUser, setRemainingGames, remainingGames, lifesObject } =
-    useUserContext();
+  const {
+    currentUser,
+    isRegisteredUser,
+    isGuest,
+    setCurrentUser,
+    setRemainingGames,
+    remainingGames,
+    lifesObject,
+  } = useUserContext();
   const timer = useRef(setTimeout(() => {}, PLAY_DATE_TIMER));
   let playDate: PlayDatesType | null;
   let currentDate = new Date();
 
-  app.addListener('backButton',(e)=>{
-    app.exitApp()
-  })
+  const router = useIonRouter();
 
   useEffect(() => {
+    App.addListener("backButton", async ({ canGoBack }) => {
+      if (canGoBack) {
+        console.log("I AM HERE!");
+        switch (router.routeInfo.pathname) {
+          case "/home":
+            console.log("HOME");
+            await LogoutHandler();
+            break;
+          case "/game":
+            console.log("GAME BACK");
+            router.goBack();
+            break;
+          case "/connect":
+            await App.exitApp();
+            break;
+          default:
+            console.log("DEFAULT");
+            break;
+        }
+      } else {
+        await App.exitApp();
+      }
+    });
     const setGameLeft = async () => {
       if (!remainingGames) {
         let games;
@@ -77,6 +105,12 @@ const Home: React.FC = (props: Props) => {
     playDate = { start_date: currentDate, end_date };
     currentDate = new Date();
   };
+  const LogoutHandler = async () => {
+    if (isRegisteredUser) {
+      await Preferences.remove({ key: "isLoggedIn" });
+    }
+    router.push("/connect");
+  };
 
   return (
     <IonPage>
@@ -87,7 +121,7 @@ const Home: React.FC = (props: Props) => {
         <LevelsModal />
         <div className="container">
           <Header setIsProfileModal={(val: any) => setIsProfileModal(val)} />
-          <MainTitle />
+          <MainTitle connectButtonHandler={LogoutHandler} />
           <Footer />
         </div>
       </IonContent>
