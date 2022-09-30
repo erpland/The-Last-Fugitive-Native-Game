@@ -9,16 +9,16 @@ import MusicContextProvider from "./Pages/context/MusicContext";
 import { useUserContext } from "./Pages/context/UserContext";
 import GamePage from "./Pages/game/GamePage";
 
+
 type Props = {};
 
 const Routes: React.FC<Props> = () => {
   //משיכה של סטייט בוליאני-האם משתמש רשום
   //משמש אותנו להעביר לדף התחברות/דף ראשי
   const { isRegisteredUser } = useUserContext();
-
+  
   return (
     <IonReactRouter>
-   
       <IonRouterOutlet>
        
         <MusicContextProvider>

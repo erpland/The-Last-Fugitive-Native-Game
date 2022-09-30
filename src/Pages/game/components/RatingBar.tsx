@@ -1,7 +1,7 @@
 //קומפוננטה אשר עולה במודל הניצחון כאשר ניצחנו-דירוג מ1-5 של פופולריות שלב
 import { IonIcon } from "@ionic/react";
 import { star } from "ionicons/icons";
-import React, { SetStateAction, useState } from "react";
+import React, { SetStateAction } from "react";
 
 type Props = {
   rating:number

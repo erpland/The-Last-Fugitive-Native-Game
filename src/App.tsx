@@ -26,7 +26,7 @@ import { AndroidFullScreen } from "@awesome-cordova-plugins/android-full-screen"
 import Loader from "./Pages/Loader";
 import UserContextProvider from "./Pages/context/UserContext";
 import LevelContextProvider from "./Pages/context/LevelContext";
-
+import { App as app } from "@capacitor/app";
 // import { SplashScreen } from '@capacitor/splash-screen';
 
 setupIonicReact();
@@ -48,6 +48,7 @@ const App: React.FC = () => {
     fullScreen();
   
   }, []);
+
 //סטייט אשר משמש לשליטה בקומפוננטת הטעינה-כאשר כלל המשיכות יסתיימו נקבל כפתור להמשך לדף ראשי
   const [isLoading, setIsLoading] = useState(true);
   return (

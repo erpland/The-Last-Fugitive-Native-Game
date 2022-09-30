@@ -41,6 +41,13 @@
   justify-content: space-evenly;
   animation: exitBox 0.7s ease-in-out alternate infinite;
   text-shadow: 1px 1px black;
+  span{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 @keyframes exitBox {
   from {

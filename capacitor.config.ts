@@ -2,14 +2,14 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
-  appName: '00_ionic_tests',
+  appName: 'The Last Fugitive',
   webDir: 'build',
   bundledWebRuntime: false,
 
-  "server": {
-    "url": "http://192.168.1.180:3000",
-    "cleartext": true
-  },
+  // "server": {
+  //   "url": "http://192.168.1.181:3000",
+  //   "cleartext": true
+  // }, 
   plugins: {
     SplashScreen: {
       launchShowDuration: 3000,
@@ -17,14 +17,11 @@ const config: CapacitorConfig = {
       backgroundColor: "#ffffffff",
       androidSplashResourceName: "splash",
       androidScaleType: "CENTER_CROP",
-      showSpinner: true,
-      androidSpinnerStyle: "large",
-      iosSpinnerStyle: "small",
-      spinnerColor: "#999999",
+      showSpinner:false,
       splashFullScreen: true,
       splashImmersive: true,
       layoutName: "launch_screen",
-      useDialog: true,
+      useDialog: false,
     },
   },
   

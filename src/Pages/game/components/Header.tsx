@@ -26,7 +26,7 @@ const Header: React.FC<Props> = () => {
         </div>
       )}
       <div className="header__buttons">
-        <IonButton fill="outline" onClick={handleHint}>
+        <IonButton fill="outline"  onClick={handleHint}>
           Hint
         </IonButton>
         <IonButton fill="outline" onClick={() => router.push("/home")}>

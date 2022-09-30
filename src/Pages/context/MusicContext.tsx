@@ -39,13 +39,16 @@ const MusicContextProvider: React.FC<React.ReactNode> = ({ children }) => {
     backgroundMusic.volume = volume;
     await backgroundMusic.play();
   };
-  const stopMusic = async () => {
+
+  const stopMusic = () => {
     backgroundMusic.pause();
   };
 
   backgroundMusic.addEventListener("ended", (ev) => {
-    stopMusic();
     playMusic();
+  });
+  backgroundMusic.addEventListener("load", (ev) => {
+    backgroundMusic.volume = musicVolume;
   });
   wrongTileSound.addEventListener("load", (ev) => {
     wrongTileSound.volume = soundVolume;

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { IonPage, IonContent } from "@ionic/react";
+import { IonPage, IonContent, useIonRouter } from "@ionic/react";
 import Header from "./components/Header";
 import MainTitle from "./components/MainTitle";
 import Footer from "./components/Footer";
@@ -25,6 +25,11 @@ const Home: React.FC = (props: Props) => {
   const timer = useRef(setTimeout(() => {}, PLAY_DATE_TIMER));
   let playDate: PlayDatesType | null;
   let currentDate = new Date();
+
+  app.addListener('backButton',(e)=>{
+    app.exitApp()
+  })
+
   useEffect(() => {
     const setGameLeft = async () => {
       if (!remainingGames) {
@@ -40,6 +45,7 @@ const Home: React.FC = (props: Props) => {
     };
     setGameLeft();
   }, []);
+
   useEffect(() => {
     clearTimeout(timer.current);
     app.addListener("appStateChange", ({ isActive }) => {
@@ -76,7 +82,7 @@ const Home: React.FC = (props: Props) => {
     <IonPage>
       <IonContent class="ion-padding-start ion-padding-end" className="main__content">
         <SettingsModal />
-        
+
         <ProfileModal isProfileModal={isProfileModal} setIsProfileModal={setIsProfileModal} />
         <LevelsModal />
         <div className="container">
