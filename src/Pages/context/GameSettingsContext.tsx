@@ -11,16 +11,10 @@ import {
   PROBABILITY_DIFFICULTY_MEDIUM,
 } from "../../utils/Constants";
 import Graph from "../game/components/PathSearch";
+import { useLevelContext } from "./LevelContext";
 
 export const GameSettingsContext = createContext<GameSettingsContextType | null>(null);
 
-///DELETE!
-const HINTS = [
-  { name: "UP", description: "Go Up" },
-  { name: "RIGHT", description: "Go Right" },
-  { name: "DOWN", description: "Go Down" },
-  { name: "LEFT", description: "Go Left" },
-];
 
 const reducer = (state: GameSettingsStateType, action: GameSettingsActionType) => {
   const { type, payload } = action;
@@ -51,6 +45,7 @@ const GameSettingsContextProvider: React.FC<GameSettingsProvider> = ({
   children,
 }) => {
   const [settingsState, settingsDispatch] = useReducer(reducer, initialState, init);
+  const {hints} = useLevelContext()
   const mapRef = useRef(null);
   const SCREEN_WIDTH = window.innerWidth;
   const boxesRef = useRef({});
@@ -75,13 +70,13 @@ const GameSettingsContextProvider: React.FC<GameSettingsProvider> = ({
       const playerY = parseInt(pos[0]);
       const playerX = parseInt(pos[1]);
       if (nextMoveY < playerY) {
-        askedHint = HINTS[0].description;
+        askedHint = hints[0].description;
       } else if (nextMoveX > playerX) {
-        askedHint = HINTS[1].description;
+        askedHint = hints[1].description;
       } else if (nextMoveY > playerY) {
-        askedHint = HINTS[2].description;
+        askedHint = hints[2].description;
       } else if (nextMoveX < playerX) {
-        askedHint = HINTS[3].description;
+        askedHint = hints[3].description;
       }
     }
     settingsDispatch({ type: "SET_HINT", payload: askedHint });

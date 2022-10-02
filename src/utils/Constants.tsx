@@ -6,7 +6,7 @@ export const TILE_SIZE = CLIENT_WIDTH / 13;
 export const TOAST_DURATION = 3000;
 //קבוע אשר מבצע חישוב,בכל פעימה של MILI SEC 
 //ישמר תאריך משחק חדש-משמש כאשר ממזערים את המשחק וחוזרים אליו
-export const PLAY_DATE_TIMER = 1800 * 1000;
+export const PLAY_DATE_TIMER = 60000;
 //קבוע אשר בכל פעימה יעלה את כמות החיים באחד
 export const REMAINING_GAMES_TIMER = 180000;
 //הסתברויות לחישוב קושי השלב-רנדומלי או חכם עפ"י דרגת קושי שלב

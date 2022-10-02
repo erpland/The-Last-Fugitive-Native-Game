@@ -79,7 +79,9 @@ const Home: React.FC = (props: Props) => {
     app.addListener("appStateChange", ({ isActive }) => {
       if (!isActive) {
         stopMusic();
+        console.log("Timer Start",new Date());
         timer.current = setTimeout(() => {
+          console.log("new date added", new Date())
           setNewPlayDate();
         }, PLAY_DATE_TIMER);
       } else {

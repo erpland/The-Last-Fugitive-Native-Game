@@ -2,13 +2,12 @@
 import React from "react";
 import { IonReactRouter } from "@ionic/react-router";
 import { Redirect, Route } from "react-router-dom";
-import { IonRouterOutlet, useIonRouter } from "@ionic/react";
+import { IonRouterOutlet } from "@ionic/react";
 import Home from "./Pages/home/Home";
 import Connect from "./Pages/connect/Connect";
 import MusicContextProvider from "./Pages/context/MusicContext";
 import { useUserContext } from "./Pages/context/UserContext";
 import GamePage from "./Pages/game/GamePage";
-import { App } from "@capacitor/app";
 
 
 type Props = {};

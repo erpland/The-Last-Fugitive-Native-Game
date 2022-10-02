@@ -31,7 +31,7 @@ interface Props {
 }
 
 const FinishModal: React.FC<Props["FinishModal"]> = ({ stepCap, levelCode, resetLevel }) => {
-  const { gamePlayState, gamePlayDispatch } = useGamePlayContext();
+  const { gamePlayState } = useGamePlayContext();
   const { gameOver } = gamePlayState;
   const modal = useRef<HTMLIonModalElement>(null);
   const data = {

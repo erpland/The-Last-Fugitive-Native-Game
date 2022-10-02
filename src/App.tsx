@@ -1,4 +1,4 @@
-import { IonApp, setupIonicReact } from "@ionic/react";
+import { IonApp } from "@ionic/react";
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 
@@ -25,7 +25,7 @@ import { AndroidFullScreen } from "@awesome-cordova-plugins/android-full-screen"
 import Loader from "./Pages/Loader";
 import UserContextProvider from "./Pages/context/UserContext";
 import LevelContextProvider from "./Pages/context/LevelContext";
-import { App as app } from "@capacitor/app";
+
 // import { SplashScreen } from '@capacitor/splash-screen';
 
 // setupIonicReact({

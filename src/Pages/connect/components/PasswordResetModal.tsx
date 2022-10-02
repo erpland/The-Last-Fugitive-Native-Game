@@ -5,6 +5,7 @@ import {
   IonInput,
   IonItem,
   IonModal,
+  IonSpinner,
   IonToolbar,
   useIonToast,
 } from "@ionic/react";
@@ -13,16 +14,18 @@ import { resetPassword } from "../../../Database/database";
 import { TOAST_DURATION } from "../../../utils/Constants";
 
 type Props = {
-  isResetModal:boolean
-  setIsResetModal:React.Dispatch<React.SetStateAction<boolean>>
+  isResetModal: boolean;
+  setIsResetModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const PasswordResetModal: React.FC<Props> = ({isResetModal,setIsResetModal}) => {
+const PasswordResetModal: React.FC<Props> = ({ isResetModal, setIsResetModal }) => {
   const [present] = useIonToast();
   const modal = useRef<HTMLIonModalElement>(null);
   const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const resetPasswordHandler = async (e: any) => {
     e.preventDefault();
+    setIsLoading(true);
     if (!email) {
       present({ duration: TOAST_DURATION, message: "Email cannot be empty" });
       return;
@@ -43,14 +46,15 @@ const PasswordResetModal: React.FC<Props> = ({isResetModal,setIsResetModal}) => 
     } catch {
       present({ duration: TOAST_DURATION, message: "An error occurd, try again later..." });
     }
-    setIsResetModal(false)
+    setIsLoading(false);
+    setIsResetModal(false);
   };
   return (
     <IonModal
       isOpen={isResetModal}
       id="reset-password-modal"
       ref={modal}
-      onDidDismiss={()=>setIsResetModal(false)}
+      onDidDismiss={() => setIsResetModal(false)}
       // trigger="open-reset-password-modal"
     >
       <IonHeader>
@@ -69,7 +73,10 @@ const PasswordResetModal: React.FC<Props> = ({isResetModal,setIsResetModal}) => 
               type="email"
             ></IonInput>
           </IonItem>
-          <IonButton strong={true} color="primary" type="submit">
+          <IonButton strong={true} color="primary" type="submit" disabled={isLoading}>
+            {isLoading && (
+              <IonSpinner color={"warning"} name="bubbles" style={{ position: "absolute" }} />
+            )}
             Reset Password
           </IonButton>
         </form>

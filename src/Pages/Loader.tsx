@@ -29,7 +29,6 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
     setIsRegisteredUser,
     setRemainingGames,
     setLifesObject,
-    remainingGames,
   } = useUserContext();
   const { setAllLevels, setCurrentLevel, setHints } = useLevelContext();
 
@@ -62,12 +61,6 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
         if (gamesLeft && userId) {
           setRemainingGames({ max: lifes.user, current: parseInt(gamesLeft) });
         }
-        // let amountOfLifes = userId ? String(lifes.user) : String(lifes.guest);
-        // if (!remainingGames) {
-        // await Preferences.set({ key: "games", value: amountOfLifes });
-        // remainingGames = amountOfLifes;
-        // }
-        // setRemainingGames({ max: parseInt(amountOfLifes), current: parseInt(remainingGames!) });
         let musicVolume = (await Preferences.get({ key: "music" })).value;
         let soundVolume = (await Preferences.get({ key: "sound" })).value;
 
@@ -143,4 +136,4 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
 
 export default Loader;
 
-const styles = {};
+

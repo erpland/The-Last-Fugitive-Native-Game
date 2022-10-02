@@ -5,4 +5,14 @@
   transform: rotate(0) translate(10%, -25%);
   // border: 3px solid pink;
 }
+.player__highlight{
+  animation: highlight 0.5s alternate 10;
+}
+@keyframes highlight {
+  from{
+    filter: hue-rotate(0) saturate(0);
+  }to{
+    filter: hue-rotate(90deg) saturate(10);
+  }
+}
 

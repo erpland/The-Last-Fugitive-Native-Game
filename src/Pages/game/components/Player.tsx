@@ -193,7 +193,7 @@ const Player: React.FC<Props> = ({ map, gameFrame }) => {
       ref={playerDivRef}
       data-colider={true}
       data-type={"player"}
-      className="player"
+      className="player player__highlight"
       style={
         (DIR_CSS[gamePlayState.playerDirection],
         {

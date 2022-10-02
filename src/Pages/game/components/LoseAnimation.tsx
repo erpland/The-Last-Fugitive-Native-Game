@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { SpriteFrameType } from "../../../Types/GameTypes";
 import spriteSheetMap from "../Assets/Player/playerFull.json";
 import spriteSheetImg from "../Assets/Player/playerFull.png";

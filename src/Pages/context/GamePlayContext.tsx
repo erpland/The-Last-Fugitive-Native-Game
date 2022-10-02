@@ -1,5 +1,5 @@
 import { Preferences } from "@capacitor/preferences";
-import React, { createContext, useContext, useEffect, useReducer } from "react";
+import React, { createContext, useContext, useReducer } from "react";
 import { addLevelRank, updateLevelRank, updateUserCurrentLevel } from "../../Database/database";
 import {
   GamePlayContextActionType,
