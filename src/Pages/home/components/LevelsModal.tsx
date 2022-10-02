@@ -71,7 +71,7 @@ const LevelBox = ({ code, stars, isOpen, closeModal }: Levels | any): JSX.Elemen
         setTimeout(() => {
           setIsLoading(false);
           closeModal();
-          router.push("/game", undefined, undefined, code);
+          router.push("/game", "forward", "push", code);
         }, 2000);
       } else {
         present({
