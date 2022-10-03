@@ -1,14 +1,14 @@
 import { Preferences } from "@capacitor/preferences";
 import React, { createContext, useContext, useEffect, useState } from "react";
-
+import { NativeAudio } from "@awesome-cordova-plugins/native-audio";
 export const MusicContext = createContext<any>(null);
 
 const MusicContextProvider: React.FC<React.ReactNode> = ({ children }) => {
   const [soundVolume, setSoundVolume] = useState(0);
   const [musicVolume, setMusicVolume] = useState(0);
-  const [backgroundMusic, setBackgroundMusic] = useState<HTMLAudioElement>(
-    new Audio("/assets/music/music1.mp3")
-  );
+  // const [backgroundMusic, setBackgroundMusic] = useState<HTMLAudioElement>(
+  //   new Audio("/assets/music/music1.mp3")
+  // );
   const [wrongTileSound, setWrongTileSound] = useState<HTMLAudioElement>(
     new Audio("/assets/sounds/wrong_tile.wav")
   );
@@ -19,13 +19,16 @@ const MusicContextProvider: React.FC<React.ReactNode> = ({ children }) => {
       const sound = (await Preferences.get({ key: "sound" })).value;
       setSoundVolume(Number(sound));
       setMusicVolume(Number(music));
-      playMusic(Number(music));
+      await NativeAudio.preloadComplex("music", "assets/music/music1.mp3", Number(music), 1, 0);
+      await NativeAudio.loop("music");
+      // playMusic(Number(music));
     };
     getVolume();
   }, []);
 
   useEffect(() => {
-    backgroundMusic.volume = musicVolume;
+    // backgroundMusic.volume = musicVolume;
+    NativeAudio.setVolumeForComplexAsset("music", musicVolume);
   }, [musicVolume]);
 
   useEffect(() => {
@@ -33,23 +36,25 @@ const MusicContextProvider: React.FC<React.ReactNode> = ({ children }) => {
   }, [soundVolume]);
 
   const playMusic = async (volume = musicVolume) => {
-    if (backgroundMusic.paused) {
-      backgroundMusic.load();
-    }
-    backgroundMusic.volume = volume;
-    await backgroundMusic.play();
+    // if (backgroundMusic.paused) {
+    //   backgroundMusic.load();
+    // }
+    // backgroundMusic.volume = volume;
+    // await backgroundMusic.play();
+    await NativeAudio.play('music')
   };
 
-  const stopMusic = () => {
-    backgroundMusic.pause();
+  const stopMusic = async () => {
+    await NativeAudio.stop('music')
+    // backgroundMusic.pause();
   };
 
-  backgroundMusic.addEventListener("ended", (ev) => {
-    playMusic();
-  });
-  backgroundMusic.addEventListener("load", (ev) => {
-    backgroundMusic.volume = musicVolume;
-  });
+  // backgroundMusic.addEventListener("ended", (ev) => {
+  //   playMusic();
+  // });
+  // backgroundMusic.addEventListener("load", (ev) => {
+  //   backgroundMusic.volume = musicVolume;
+  // });
   wrongTileSound.addEventListener("load", (ev) => {
     wrongTileSound.volume = soundVolume;
   });
