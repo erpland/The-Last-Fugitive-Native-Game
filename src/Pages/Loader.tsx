@@ -23,13 +23,8 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
     textColor: "light",
     isDone: false,
   });
-  const {
-    setCurrentUser,
-    setAvatars,
-    setIsRegisteredUser,
-    setRemainingGames,
-    setLifesObject,
-  } = useUserContext();
+  const { setCurrentUser, setAvatars, setIsRegisteredUser, setRemainingGames, setLifesObject } =
+    useUserContext();
   const { setAllLevels, setCurrentLevel, setHints } = useLevelContext();
 
   const [showAlert, setShowAlert] = useState({
@@ -117,9 +112,12 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
               className="progress"
               value={loading.progress}
             ></IonProgressBar>
-            <IonText color={loading.textColor}>
-              <h5>{loading.text}</h5>
-            </IonText>
+            
+              
+              <IonText color={loading.textColor}>
+                <h5>{!loading.isDone ? loading.text : "Content Successfully Loaded"}</h5>
+              </IonText>
+            
           </div>
           {loading.isDone && (
             <div className="button-wrapper">
@@ -135,5 +133,3 @@ const Loader: React.FC<Props> = ({ finshedLoading }) => {
 };
 
 export default Loader;
-
-
