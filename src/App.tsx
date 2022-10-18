@@ -25,6 +25,7 @@ import { AndroidFullScreen } from "@awesome-cordova-plugins/android-full-screen"
 import Loader from "./Pages/Loader";
 import UserContextProvider from "./Pages/context/UserContext";
 import LevelContextProvider from "./Pages/context/LevelContext";
+import Tutorial from "./Pages/home/components/Tutorial";
 
 // import { SplashScreen } from '@capacitor/splash-screen';
 

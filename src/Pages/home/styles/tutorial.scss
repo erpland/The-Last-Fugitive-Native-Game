@@ -1,0 +1,28 @@
+.slide__container{
+  padding: 50;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 100%;
+
+  img{
+    width: 30%;
+  }
+}
+.slide__body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-direction: column;
+}
+.slide__last{
+  display: grid;
+  grid-template-rows: 50% 50%;
+  height: 100%;
+  ion-text{
+    align-self: flex-end;
+  }
+  ion-button{
+    align-self: center;
+  }
+}

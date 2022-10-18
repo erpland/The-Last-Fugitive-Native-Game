@@ -14,6 +14,7 @@ import { PlayDatesType } from "../../Types/userTypes";
 import { useUserContext } from "../context/UserContext";
 import { PLAY_DATE_TIMER } from "../../utils/Constants";
 import { Preferences } from "@capacitor/preferences";
+import Tutorial from "./components/Tutorial";
 
 type Props = {};
 
@@ -79,9 +80,9 @@ const Home: React.FC = (props: Props) => {
     app.addListener("appStateChange", ({ isActive }) => {
       if (!isActive) {
         stopMusic();
-        console.log("Timer Start",new Date());
+        console.log("Timer Start", new Date());
         timer.current = setTimeout(() => {
-          console.log("new date added", new Date())
+          console.log("new date added", new Date());
           setNewPlayDate();
         }, PLAY_DATE_TIMER);
       } else {
@@ -121,6 +122,7 @@ const Home: React.FC = (props: Props) => {
 
         <ProfileModal isProfileModal={isProfileModal} setIsProfileModal={setIsProfileModal} />
         <LevelsModal />
+        <Tutorial />
         <div className="container">
           <Header setIsProfileModal={(val: any) => setIsProfileModal(val)} />
           <MainTitle connectButtonHandler={LogoutHandler} />

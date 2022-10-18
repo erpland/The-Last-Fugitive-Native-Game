@@ -20,17 +20,11 @@ type Props = {};
 const SettingsModal: React.FC = (props: Props) => {
   const modal = useRef<HTMLIonModalElement>(null);
   const { currentUser, setCurrentUser, isGuest } = useUserContext();
-  const { musicVolume, setMusicVolume, soundVolume, setSoundVolume } =
-    useMusicContext();
+  const { musicVolume, setMusicVolume, soundVolume, setSoundVolume } = useMusicContext();
   const [isChecked, setIsChecked] = useState(currentUser.is_notification);
   const saveUserSettings = async () => {
     if (currentUser.is_notification !== isChecked) {
-       updateUserNotification(
-        currentUser._id,
-        currentUser.token,
-        isChecked,
-        isGuest
-      );
+      updateUserNotification(currentUser._id, currentUser.token, isChecked, isGuest);
       setCurrentUser({ ...currentUser, is_notification: isChecked });
     }
     modal.current?.dismiss();
@@ -65,8 +59,8 @@ const SettingsModal: React.FC = (props: Props) => {
               setSoundVolume(detail.value);
             }}
           >
-            <IonIcon slot="start" icon={volumeMute}></IonIcon>
-            <IonIcon slot="end" icon={volumeHigh}></IonIcon>
+            {/* <IonIcon slot="start" icon={volumeMute}></IonIcon> */}
+            <IonIcon slot="end" icon={soundVolume !== 0 ? volumeHigh : volumeMute}></IonIcon>
           </IonRange>
         </div>
         <div className="settings-modal__range">
@@ -81,17 +75,13 @@ const SettingsModal: React.FC = (props: Props) => {
               setMusicVolume(detail.value);
             }}
           >
-            <IonIcon slot="start" icon={volumeMute}></IonIcon>
-            <IonIcon slot="end" icon={volumeHigh}></IonIcon>
+            <IonIcon slot="end" icon={musicVolume !== 0 ? volumeHigh : volumeMute}></IonIcon>
           </IonRange>
         </div>
 
         <div className="settings-modal__toggle">
           <span>Notifications</span>
-          <IonToggle
-            checked={isChecked}
-            onIonChange={() => setIsChecked(!isChecked)}
-          />
+          <IonToggle checked={isChecked} onIonChange={() => setIsChecked(!isChecked)} />
         </div>
 
         <div className="settings-modal__buttons">
