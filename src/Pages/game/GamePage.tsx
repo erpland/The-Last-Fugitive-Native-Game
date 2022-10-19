@@ -16,7 +16,6 @@ const GamePage: React.FC = () => {
   const currentLevel = allLevels.find((level) => level.code === levelCode);
 
   const resetLevel = () => {
-    console.log(gameKey);
     setgameKey(gameKey + 1);
   };
 

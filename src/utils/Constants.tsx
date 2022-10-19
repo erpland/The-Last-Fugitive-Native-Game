@@ -17,6 +17,6 @@ export const PROBABILITY_DIFFICULTY_HARD = 7;
 export const GAME_SPEED = 4;
 //קבוע לשליטה בסיבוב דמויות
 export const DIR_CSS: { [key: string]: string } = {
-  RIGHT: "scaleX(1) translate(10%,-25%)",
-  LEFT: "scaleX(-1) translate(15%,-25%)",
+  RIGHT: "scaleX(1) translate(10%,0)",
+  LEFT: "scaleX(-1) translate(15%,0)",
 };
