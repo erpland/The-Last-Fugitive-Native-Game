@@ -1,7 +1,10 @@
 # The Last Fugitive Game
 
-
 Your goal is to cross the labyrinth,while avoiding from smart enemies,and obstacle on the road.
+
+
+https://user-images.githubusercontent.com/56600839/214427640-1899bd42-f500-4f54-925f-ce435eb62725.mp4
+
 
 ## In order to play, identify within 2 options:
 1) Sign up as a user,provide email and password,unique nickname, gender (save all your progress,ability to edit profile,extra strikes benefit).
